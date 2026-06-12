@@ -1,0 +1,16 @@
+# Claude Code — personnel par machine
+.claude/settings.local.json
+.claude/agent-memory/
+
+# Sessions de génération
+claude-sessions/
+
+# Flutter / Dart
+build/
+.dart_tool/
+*.g.dart
+
+# Signature release — jamais commitée
+android/key.properties
+*.jks
+*.keystore
