@@ -159,11 +159,11 @@ USB connection is only needed for development (`flutter run`, hot reload).
 
 ## Generator family
 
-| Generator                                                                                | Stack                           | Target          |
-| ---------------------------------------------------------------------------------------- | ------------------------------- | --------------- |
-| [claude-python-app-generator](https://github.com/TiercelinQ/claude-python-app-generator) | Python · PyQt6 · QSS            | Windows desktop |
-| [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator)           | Node.js · Electron · React · TS | Windows desktop |
-| [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator)             | Flutter · Dart · Riverpod       | Android         |
+| Generator                                                                         | Stack                           | Target          |
+| --------------------------------------------------------------------------------- | ------------------------------- | --------------- |
+| [claude-python-app-generator](https://github.com/TiercelinQ/python-app-generator) | Python · PyQt6 · QSS            | Windows desktop |
+| [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator)    | Node.js · Electron · React · TS | Windows desktop |
+| [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator)      | Flutter · Dart · Riverpod       | Android         |
 
 ---
 
