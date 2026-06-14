@@ -1,9 +1,6 @@
 # Claude Code — personnel par machine
 .claude/settings.local.json
 
-# Sessions de génération
-claude-sessions/
-
 # Plan de travail local
 tasks/
 

@@ -13,14 +13,14 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 A structured prompt system that generates complete, production-ready Flutter/Android applications through a 5-phase cycle, then maintains them:
 
 1. **Scoping** — 7 questions (objective, DB, rich text, i18n, icon, orientation, tests) + primary color
-2. **Requirements** — structured feature sheet, explicit out-of-scope, locked sizing
-3. **Layout** — NavigationBar destinations, secondary panel, list actions, pull-to-refresh
-4. **Architecture contract** — full file tree, providers table, SQLite schema, tokens→theme table — locked before any code is written
-5. **Development** — auto-chained batch delivery
+2. **Featuring** — structured feature sheet, explicit out-of-scope, locked sizing
+3. **Designing** — NavigationBar destinations, secondary panel, list actions, pull-to-refresh
+4. **Architect** — full file tree, providers table, SQLite schema, tokens→theme table — locked before any code is written
+5. **Development** — auto-chained batch delivery, seed script if a DB is used
 
-Each phase writes a French spec to `docs/specs/` (`01-cadrage` … `04-contrat`); the contract is the source of truth.
+Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/implement` (add a feature, contract-compliant), `/analyze` (trace behavior), `/fix` (root-cause debugging with a decision tree), `/refactor` (validated, behavior-preserving), `/test` (executable verification). Plus `/charger-projet` and `/generate-readme` to load/document existing apps.
+**Maintenance commands**: `/feature-add` (add a feature, contract-compliant), `/analyze` (trace behavior), `/fix` (root-cause debugging with a decision tree), `/refactor` (validated, behavior-preserving), `/test` (executable verification). Plus `/charger-projet` and `/generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system and strict layered architecture.
 
@@ -77,12 +77,12 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/flutter-app`          | Start menu (4 entry points incl. maintenance)      |
-| `/phase1-cadrage`       | Scoping — 6 questions + primary color              |
-| `/phase2-analyse`       | Requirements sheet + locked sizing                 |
-| `/phase3-layout`        | Layout proposal + customization                    |
-| `/phase4-contrat`       | Locked architecture contract (providers, SQLite)   |
-| `/phase5-developpement` | Auto-chained batch delivery                        |
-| `/implement`            | Add a feature to a shipped app                     |
+| `/p1-scoping`       | Scoping — 7 questions + primary color              |
+| `/p2-featuring`       | Featuring — requirements sheet + locked sizing     |
+| `/p3-designing`        | Designing — layout proposal + customization        |
+| `/p4-architect`       | Architect — locked contract (providers, SQLite)    |
+| `/p5-development` | Auto-chained batch delivery                        |
+| `/feature-add`            | Add a feature to a shipped app                     |
 | `/analyze`              | Trace a feature across the layers                  |
 | `/fix`                  | Fix a bug — decision tree, root cause              |
 | `/refactor`             | Refactor under explicit validation only            |
@@ -104,7 +104,7 @@ my_app/
 ├── README.md
 ├── CLAUDE.md                      # Project identity (origin, business context, deviations)
 ├── .claude/settings.json          # Guardrails + verification hook (self-enforced app)
-├── docs/specs/                    # Generation specs (FR): 01-cadrage … 04-contrat
+├── docs/specs/                    # Generation specs (FR): 01-scoping … 04-architect
 ├── android/                       # minSdk 24, release signing
 └── lib/
     ├── main.dart                  # ProviderScope, MaterialApp, themeMode, root ToastOverlay
@@ -126,7 +126,7 @@ All generated apps share the same visual system, defined in `design-system.md`:
 - **Flat design** — `borderRadius: 0`, `elevation: 0`, zero shadow, zero gradient
 - **Token-driven theme** — every color, size, duration lives in `tokens.dart`; light/dark are two complete `ThemeData` built from tokens, toggled via `themeMode`
 - **Roboto** typography (Android native)
-- **Slate Blue** primary color by default — 4 token values to change the entire app color
+- **Slate Blue** primary color recommended by default (+ 4 contextual proposals) — 4 token values to change the entire app color
 - **Custom overlay toasts only** — no native `SnackBar`, no raw `AlertDialog`, no inline banner
 
 ---

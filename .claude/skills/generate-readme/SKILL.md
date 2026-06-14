@@ -19,7 +19,7 @@ Write a README that reflects what was actually built.
 
 Prerequisite: invoked from the target project root.
 
-1. **Sources, in priority**: `docs/specs/*` (especially `04-contrat.md`) for the intended structure, then the real code — `pubspec.yaml`, `lib/core/`, `lib/data/` (exceptions, database, models, repositories), `lib/application/`, `lib/presentation/`, `l10n.yaml`. When specs and code disagree, the code is what shipped — describe the code and note the divergence.
+1. **Sources, in priority**: `docs/specs/*` (especially `04-architect.md`) for the intended structure, then the real code — `pubspec.yaml`, `lib/core/`, `lib/data/` (exceptions, database, models, repositories), `lib/application/`, `lib/presentation/`, `l10n.yaml`. When specs and code disagree, the code is what shipped — describe the code and note the divergence.
 2. Generate `README.md` at the root:
 
 ```markdown

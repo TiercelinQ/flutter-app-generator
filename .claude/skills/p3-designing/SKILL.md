@@ -1,10 +1,10 @@
 ---
-name: phase3-layout
+name: p3-designing
 description: Phase 3 of the Flutter/Android app generation cycle — layout proposal based on layout.md, grouped customization questions, validated synthesis written to the layout spec before Phase 4.
 model: sonnet
 ---
 
-# /phase3-layout — Layout proposal
+# /p3-designing — Layout proposal
 
 ## Role
 UI designer — map the validated features onto the binding layout system.
@@ -13,7 +13,7 @@ UI designer — map the validated features onto the binding layout system.
 Define the concrete screen layout (destinations, secondary panel, recurring components) within `layout.md` constraints.
 
 ## Deliverable
-`docs/specs/03-layout.md` (written in French) + on-screen synthesis.
+`docs/specs/03-designing.md` (written in French) + on-screen synthesis.
 
 ---
 
@@ -21,13 +21,15 @@ Define the concrete screen layout (destinations, secondary panel, recurring comp
 
 **Read `design-system.md` and `layout.md` first** (no longer auto-imported).
 
-Based on the project description (`docs/specs/02-analyse.md`), propose a layout among the structures defined in `layout.md`:
+Based on the project description (`docs/specs/02-featuring.md`), propose a layout among the structures defined in `layout.md`:
 
 1. Describe the chosen structure (NavigationBar destinations, optional secondary panel, recurring components).
 2. Justify the choice against the features.
 3. List the navigation destinations and their content (2 to 5 — or a single screen with no NavigationBar).
 
 ## 2. Customization — questions grouped in a single block
+
+For each question offering a choice, mark the option you recommend with `(recommandé)`, chosen from the validated feature context.
 
 Ask in French:
 
@@ -49,6 +51,6 @@ Produce a complete synthesis of the validated layout (shell, destinations, panel
 
 ## 4. Write the spec
 
-Once validated, write the synthesis to `docs/specs/03-layout.md` (in French).
+Once validated, write the synthesis to `docs/specs/03-designing.md` (in French).
 
-→ Chain to `/phase4-contrat` after validation.
+→ Chain to `/p4-architect` after validation.

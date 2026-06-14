@@ -21,11 +21,11 @@ claude-flutter-framework/
 │   └── verification.md       # Vérification EXÉCUTABLE centralisée + intégrité statique
 ├── skills/
 │   ├── flutter-app/          # Menu démarrage / reprise / maintenance (4 options)
-│   ├── phase1-cadrage/       # Cadrage — 6 questions + couleur → docs/specs/01-cadrage.md
-│   ├── phase2-analyse/       # Fiche besoins → docs/specs/02-analyse.md
-│   ├── phase3-layout/        # Proposition layout → docs/specs/03-layout.md
-│   ├── phase4-contrat/       # Contrat architectural verrouillé → docs/specs/04-contrat.md
-│   ├── phase5-developpement/ # Livraison par lots (enchaînement auto)
+│   ├── p1-scoping/       # Scoping — 7 questions + couleur → docs/specs/01-scoping.md
+│   ├── p2-featuring/       # Fiche besoins → docs/specs/02-featuring.md
+│   ├── p3-designing/        # Proposition layout → docs/specs/03-designing.md
+│   ├── p4-architect/       # Contrat architectural verrouillé → docs/specs/04-architect.md
+│   ├── p5-development/ # Livraison par lots (enchaînement auto)
 │   ├── implement/            # Ajouter une feature à une app livrée (respect contrat + couches)
 │   ├── analyze/              # Tracer une fonctionnalité presentation→application→data
 │   ├── fix/                  # Corriger un bug — arbre de décision, cause racine
@@ -51,8 +51,8 @@ claude-flutter-framework/
 | Apport                        | Détail                                                                          |
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
-| **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-cadrage.md` … `04-contrat.md` (en français). |
-| **Contrat = source de vérité**| `docs/specs/04-contrat.md` relu par `/charger-projet`, `/contrat`, `/implement`, `/refactor`. |
+| **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (en français). |
+| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/charger-projet`, `/contrat`, `/feature-add`, `/refactor`. |
 | **Skills de maintenance**     | `analyze`, `implement`, `fix`, `refactor`, `test` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : analyze, custom_lint, build_runner, tests — échec bloquant. |
 | **Mémoire native**            | `/memoriser` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
@@ -87,39 +87,39 @@ flutter --version     # Flutter stable · Dart 3 (pour générer/exécuter les a
 /flutter-app → 1
 ```
 
-### Phase 1 — Cadrage
+### Phase 1 — Scoping
 
-7 questions en un seul bloc : objectif · base de données (SQLite sqflite / JSON local / aucune) · édition de texte riche (flutter_quill) · i18n FR/EN · icône PNG 1024×1024 · orientation (portrait / portrait+paysage) · tests (flutter_test + mocktail). Puis choix de couleur primaire (3 propositions + Slate Blue par défaut). Calibrage annoncé.
+7 questions en un seul bloc : objectif · base de données (SQLite sqflite / JSON local / aucune) · édition de texte riche (flutter_quill) · i18n FR/EN · icône PNG 1024×1024 · orientation (portrait / portrait+paysage) · tests (flutter_test + mocktail). Puis choix de couleur primaire (Slate Blue recommandé par défaut + 4 propositions adaptées au contexte). Calibrage annoncé.
 
 | Taille        | Lots (sans tests) | Lots (avec tests) |
 | ------------- | ----------------- | ----------------- |
 | Petit         | 3                 | 4                 |
 | Moyen / Grand | 4                 | 5                 |
 
-Écrit `docs/specs/01-cadrage.md`.
+Écrit `docs/specs/01-scoping.md`.
 
-### Phase 2 — Analyse des besoins
+### Phase 2 — Featuring
 
-Fiche structurée + calibrage figé. Validation bloquante avant Phase 3. Écrit `docs/specs/02-analyse.md`.
+Fiche structurée + calibrage figé. Validation bloquante avant Phase 3. Écrit `docs/specs/02-featuring.md`.
 
-### Phase 3 — Layout
+### Phase 3 — Designing
 
-Proposition issue de `layout.md` + personnalisation (destinations NavigationBar, panneau secondaire endDrawer/BottomSheet, actions sur listes, pull-to-refresh). Validation bloquante. Écrit `docs/specs/03-layout.md`.
+Proposition issue de `layout.md` + personnalisation (destinations NavigationBar, panneau secondaire endDrawer/BottomSheet, actions sur listes, pull-to-refresh). Validation bloquante. Écrit `docs/specs/03-designing.md`.
 
-### Phase 4 — Contrat architectural
+### Phase 4 — Architect
 
-Arborescence + rôle de chaque fichier + **tableau des providers** (provider → controller → repository → écrans) + schéma SQLite + tableau tokens → thème. **Verrouillé après validation.** Écrit `docs/specs/04-contrat.md` (source de vérité).
+Arborescence + rôle de chaque fichier + **tableau des providers** (provider → controller → repository → écrans) + schéma SQLite + tableau tokens → thème. **Verrouillé après validation.** Écrit `docs/specs/04-architect.md` (source de vérité).
 
-### Phase 5 — Développement par lots
+### Phase 5 — Development
 
-Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]`. Enchaînement automatique. Dernier lot : instructions (build_runner, custom_lint, build APK), `README.md`. Vérification exécutable appliquée. Les fichiers `.g.dart` ne sont jamais livrés (générés par build_runner).
+Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]`. Enchaînement automatique. Dernier lot : instructions (build_runner, custom_lint, build APK), `README.md` + `tool/seed.dart` (jeu de données cohérent si une base est présente). Vérification exécutable appliquée. Les fichiers `.g.dart` ne sont jamais livrés (générés par build_runner).
 
 ---
 
 ## Reprendre une session
 
 ```
-/session            # sauvegarder en fin de session (claude-sessions/)
+/session            # sauvegarder en fin de session (docs/sessions/)
 /flutter-app → 2    # reprendre : fournir le chemin du fichier SESSION
 ```
 
@@ -131,13 +131,13 @@ Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]
 /flutter-app → 3      # ou directement /charger-projet depuis la racine du projet
 ```
 
-Claude lit `docs/specs/04-contrat.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/generate-readme`.
+Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/generate-readme`.
 
 ### Maintenance (`/flutter-app → 4`)
 
 | Besoin                          | Commande      |
 | ------------------------------- | ------------- |
-| Ajouter une fonctionnalité      | `/implement`   |
+| Ajouter une fonctionnalité      | `/feature-add`   |
 | Comprendre / tracer le code     | `/analyze`     |
 | Corriger un bug                 | `/fix`         |
 | Restructurer (sous validation)  | `/refactor`    |
@@ -164,7 +164,7 @@ flutter build apk --release  # APK final (dernier lot)
 
 ## Architecture en couches
 
-`rules/architecture.md` impose des imports unidirectionnels stricts : `presentation` (`ref.watch`/`ref.read`) → `application` (Notifiers Riverpod) → `data` (repositories → SQLite). `data` n'importe jamais Flutter UI ni Riverpod ; `presentation` n'accède jamais aux repositories directement. Riverpod 3 avec génération de code (`@riverpod` + build_runner). `/fix`, `/implement` et `/refactor` y renvoient.
+`rules/architecture.md` impose des imports unidirectionnels stricts : `presentation` (`ref.watch`/`ref.read`) → `application` (Notifiers Riverpod) → `data` (repositories → SQLite). `data` n'importe jamais Flutter UI ni Riverpod ; `presentation` n'accède jamais aux repositories directement. Riverpod 3 avec génération de code (`@riverpod` + build_runner). `/fix`, `/feature-add` et `/refactor` y renvoient.
 
 ---
 
@@ -179,12 +179,12 @@ Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage puis
 | Commande                | Modèle | Action                                               |
 | ----------------------- | ------ | ---------------------------------------------------- |
 | `/flutter-app`          | Haiku  | Menu démarrage / reprise / maintenance               |
-| `/phase1-cadrage`       | Sonnet | Cadrage — 6 questions + couleur                      |
-| `/phase2-analyse`       | Sonnet | Fiche besoins                                        |
-| `/phase3-layout`        | Sonnet | Proposition layout + personnalisation                |
-| `/phase4-contrat`       | Sonnet | Contrat architectural verrouillé (providers, SQLite) |
-| `/phase5-developpement` | Sonnet | Livraison par lots — enchaînement automatique        |
-| `/implement`            | Sonnet | Ajouter une feature à une app livrée                 |
+| `/p1-scoping`       | Sonnet | Scoping — 7 questions + couleur                      |
+| `/p2-featuring`       | Sonnet | Fiche besoins                                        |
+| `/p3-designing`        | Sonnet | Proposition layout + personnalisation                |
+| `/p4-architect`       | Sonnet | Contrat architectural verrouillé (providers, SQLite) |
+| `/p5-development` | Sonnet | Livraison par lots — enchaînement automatique        |
+| `/feature-add`            | Sonnet | Ajouter une feature à une app livrée                 |
 | `/analyze`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
 | `/fix`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/refactor`             | Sonnet | Restructurer sous validation                         |
@@ -228,6 +228,6 @@ mon_app/
 - Couches strictes : `presentation` n'importe jamais `data` ; `data` n'importe jamais Flutter UI ni Riverpod.
 - Toute requête SQL est paramétrée (`?` + `whereArgs`) — zéro interpolation.
 - Les fichiers `.g.dart` ne sont jamais livrés — générés par `dart run build_runner build`.
-- Le contrat (`docs/specs/04-contrat.md`) est verrouillé. Tout changement structurel passe par `/implement` ou le protocole de déclaration d'écart.
-- `/charger-projet`, `/generate-readme`, `/implement`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
+- Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/feature-add` ou le protocole de déclaration d'écart.
+- `/charger-projet`, `/generate-readme`, `/feature-add`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
 - Livrable : APK release signé (sideload) — AAB Play Store sur demande.
