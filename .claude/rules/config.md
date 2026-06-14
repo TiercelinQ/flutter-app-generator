@@ -1,99 +1,116 @@
-# Règles config, dépendances, i18n, icône, logging, packaging
+# Config, dependencies, i18n, icon, logging, packaging rules
 
-## Structure `lib/core/config.dart`
+## `lib/core/config.dart` structure
 
-Structure minimale obligatoire dans tout projet :
+Mandatory minimum structure in every project:
 
 ```dart
 // Application
-const String appName = 'NomApp';
+const String appName = 'AppName';
 const String appVersion = '1.0.0';
 
-// Base de données (si applicable)
-const String dbFilename = 'nom_app.db';
+// Database (if applicable)
+const String dbFilename = 'app_name.db';
 const int dbVersion = 1;
 
-// Internationalisation (si activée)
+// Internationalization (if enabled)
 const String defaultLocale = 'fr';
 const List<String> supportedLocales = ['fr', 'en'];
 ```
 
-- Toute constante réutilisée dans plus d'un fichier va dans `core/config.dart`.
-- Chemin de la base : résolu à l'exécution (`getDatabasesPath()`) dans `app_database.dart` — jamais en dur.
-- Zéro couleur ni dimension dans `config.dart` — tout le visuel vit dans `tokens.dart` (rules/theme.md).
+- Any constant reused in more than one file goes into `core/config.dart`.
+- Database path: resolved at runtime (`getDatabasesPath()`) in `app_database.dart` — never hardcoded.
+- Zero color or dimension in `config.dart` — all visuals live in `tokens.dart` (rules/theme.md).
 
-## `pubspec.yaml` — dépendances de référence
+## `pubspec.yaml` — reference dependencies
 
-Versions caret (`^`), fixées à la version mineure validée en Phase 1. `pubspec.lock` commité.
+Caret versions (`^`), pinned to the minor version validated in Phase 1. `pubspec.lock` committed.
 
 ```yaml
 environment:
-  sdk: ^3.4.0
+  sdk: ^3.8.0                  # Riverpod 3 / flutter_lints 6 floor — raise to ^3.12.0 if flutter_quill enabled
 
 dependencies:
   flutter: { sdk: flutter }
-  flutter_riverpod: ^2.5.0
-  riverpod_annotation: ^2.3.0
-  sqflite: ^2.3.0              # si DB SQLite
-  path: ^1.9.0                 # si DB SQLite
-  shared_preferences: ^2.2.0   # si préférences
-  font_awesome_flutter: ^10.7.0
-  flutter_quill: ^9.0.0        # si édition riche activée Phase 1
-  flutter_localizations: { sdk: flutter }   # si i18n
-  intl: any                                  # si i18n
+  flutter_riverpod: ^3.1.0     # NB: ^3.3.0 ne résout pas avec riverpod_lint ^3.1.0 + custom_lint ^0.8.0 — garder ^3.1.0
+  riverpod_annotation: ^4.0.0
+  sqflite: ^2.4.0              # if SQLite DB
+  path: ^1.9.0                 # if SQLite DB
+  shared_preferences: ^2.5.0   # if preferences
+  font_awesome_flutter: ^11.0.0
+  flutter_quill: ^11.5.0       # if rich editing enabled in Phase 1 — requires sdk ^3.12.0 / Flutter ≥ 3.44
+  flutter_localizations: { sdk: flutter }   # if i18n
+  intl: any                                  # if i18n — `any` imposed by flutter_localizations (the only tolerated exception to the caret rule above)
 
 dev_dependencies:
-  flutter_lints: ^4.0.0
-  build_runner: ^2.4.0
-  riverpod_generator: ^2.4.0
+  flutter_lints: ^6.0.0
+  build_runner: ^2.15.0
+  riverpod_generator: ^4.0.0
+  riverpod_lint: ^3.1.0             # Riverpod-specific lints (via custom_lint)
+  custom_lint: ^0.8.0              # engine for riverpod_lint
+  flutter_launcher_icons: ^0.14.4   # launcher icon — validated by default
+  mocktail: ^1.0.0                  # tests only (Phase 1 Q7 = Yes) — see @rules/tests.md
+  # sqflite_common_ffi: ^2.3.0      # tests only, if DB — in-memory SQLite
+
+flutter:
+  uses-material-design: true
+  generate: true              # gen-l10n — required as soon as i18n is enabled (otherwise remove)
 ```
+
+> `flutter_quill` + `flutter_localizations` combination: historical friction on the `intl` constraint. Check resolution (`flutter pub get`) as soon as both are enabled; `flutter_quill` ships its own localization (`FlutterQuillLocalizations`) to declare in `MaterialApp`.
+
+> **Version maintenance**: this table reflects the versions validated at the time of writing. Before pinning in a new project, confirm the current minor versions (`flutter pub outdated` / pub.dev) and the SDK floor — these versions age. The caret rule and the structure stay; the numbers are refreshed per project in Phase 1.
 
 ## `analysis_options.yaml`
 
 ```yaml
 include: package:flutter_lints/flutter.yaml
 analyzer:
+  plugins:
+    - custom_lint              # enables riverpod_lint
   language:
     strict-casts: true
     strict-inference: true
     strict-raw-types: true
 ```
 
-`dynamic` interdit sauf justification en commentaire. DartDoc (`///`) sur classes exportées et méthodes publiques.
+`riverpod_lint` runs via `dart run custom_lint` (not covered by `flutter analyze` alone) — command included in the last batch instructions.
 
-## Génération de code (Riverpod)
+`dynamic` forbidden unless justified with a comment. DartDoc (`///`) on exported classes and public methods.
 
-- Les fichiers `.g.dart` ne sont jamais livrés — générés par l'utilisateur :
+## Code generation (Riverpod)
+
+- `.g.dart` files are never delivered — generated by the user:
   `dart run build_runner build --delete-conflicting-outputs`
-- Commande incluse dans les instructions du dernier lot, avant `flutter run`.
+- Command included in the last batch instructions, before `flutter run`.
 
-## Internationalisation (si activée en Phase 1)
+## Internationalization (if enabled in Phase 1)
 
-- `flutter_localizations` + `gen-l10n` : `l10n.yaml` à la racine, ressources `lib/l10n/app_fr.arb` et `app_en.arb`.
-- Toutes les chaînes visibles passent par `AppLocalizations.of(context)` (alias `t` via extension).
-- Clés en camelCase par entité : `recordSaved`, `navSettings`.
-- Langue chargée au démarrage depuis les préférences, FR par défaut. Changement à chaud via provider `localeControllerProvider`, persisté.
-- Zéro chaîne visible en dur dans les trois couches. Si i18n non activée : chaînes FR centralisées dans `core/strings.dart`.
+- `flutter_localizations` + `gen-l10n`: `l10n.yaml` at the root, resources `lib/l10n/app_fr.arb` and `app_en.arb`.
+- All visible strings go through `AppLocalizations.of(context)` (alias `t` via extension).
+- camelCase keys per entity: `recordSaved`, `navSettings`.
+- Language loaded at startup from preferences, FR by default. Hot change via `localeControllerProvider`, persisted.
+- Zero visible hardcoded string in the three layers. If i18n not enabled: centralized FR strings in `core/strings.dart`.
 
-## Icône applicative (launcher)
+## Launcher icon
 
-- Source : `assets/icon/icon.png` — 1024×1024, fond plein (pas de transparence pour l'icône adaptative).
-- Outil : `flutter_launcher_icons` (dev dependency, validée d'office) :
+- Source: `assets/icon/icon.png` — 1024×1024, solid background (no transparency for the adaptive icon).
+- Tool: `flutter_launcher_icons` (dev dependency, validated by default):
 
 ```yaml
 flutter_launcher_icons:
   android: true
   image_path: assets/icon/icon.png
-  adaptive_icon_background: "#FFFFFF"   # token : bg
+  adaptive_icon_background: "#FFFFFF"   # token: bg
   adaptive_icon_foreground: assets/icon/icon.png
 ```
 
-- Commande : `dart run flutter_launcher_icons` — incluse dans les instructions du dernier lot.
-- Si l'utilisateur ne fournit pas d'icône en Phase 1 : icône Flutter par défaut, signalé dans le README généré.
+- Command: `dart run flutter_launcher_icons` — included in the last batch instructions.
+- If the user provides no icon in Phase 1: default Flutter icon, noted in the generated README.
 
-## Logging (sur demande uniquement)
+## Logging (on request only)
 
-Si activé pour un projet : package `logging` (équipe Dart) — à valider en Phase 1.
+If enabled for a project: `logging` package (Dart team) — to validate in Phase 1.
 
 ```dart
 // main.dart
@@ -101,40 +118,41 @@ Logger.root.level = Level.INFO;
 Logger.root.onRecord.listen((r) => debugPrint('${r.time} — ${r.level.name} — ${r.message}'));
 ```
 
-Sortie fichier sur Android : ajout d'un handler écrivant dans `getApplicationDocumentsDirectory()` (package `path_provider`, à valider).
+File output on Android: add a handler writing to `getApplicationDocumentsDirectory()` (`path_provider` package, to validate).
 
-## Sécurité données
+## Data security
 
-- Requêtes SQL : 100% paramétrées (`?` + `whereArgs`) — règle absolue.
-- Aucun secret en dur. Secrets utilisateur (si besoin) : `flutter_secure_storage` (à valider Phase 1).
-- Base et préférences : stockage privé de l'app (sandbox Android) — aucun fichier en stockage partagé sans demande explicite + permission.
-- Keystore de signature release : local, gitignoré (`android/key.properties`, `*.jks`).
+- SQL queries: 100% parameterized (`?` + `whereArgs`) — absolute rule.
+- No hardcoded secret. User secrets (if needed): `flutter_secure_storage` (to validate in Phase 1).
+- Database and preferences: app private storage (Android sandbox) — no file in shared storage without explicit request + permission.
+- Release signing keystore: local, gitignored (`android/key.properties`, `*.jks`).
 
-## Build & installation Android
+## Android build & installation
 
-### Signature release (une fois par projet)
+### Release signing (once per project)
 
 ```
 keytool -genkey -v -keystore android/app/release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias release
 ```
 
-`android/key.properties` (gitignoré) + bloc `signingConfigs` dans `android/app/build.gradle` — livrés commentés dans le dernier lot.
+`android/key.properties` (gitignored) + `signingConfigs` block in `android/app/build.gradle` — delivered commented in the last batch.
 
-### Commandes
+### Commands
 
 ```
 flutter pub get
 dart run build_runner build --delete-conflicting-outputs
-flutter run                       # dev — téléphone branché USB (une fois) ou émulateur
-flutter build apk --release       # APK signé : build/app/outputs/flutter-apk/app-release.apk
+dart run custom_lint              # Riverpod lints (riverpod_lint)
+flutter run                       # dev — phone plugged via USB (once) or emulator
+flutter build apk --release       # signed APK: build/app/outputs/flutter-apk/app-release.apk
 ```
 
-### Installation sans PC (sideload — usage personnel)
+### Installation without a PC (sideload — personal use)
 
-1. Copier `app-release.apk` sur le téléphone (Drive, mail, câble).
-2. Ouvrir le fichier → autoriser "Installer des applications inconnues" pour la source.
-3. Installer. L'application reste installée, indépendante du PC.
+1. Copy `app-release.apk` to the phone (Drive, email, cable).
+2. Open the file → allow "Install unknown apps" for the source.
+3. Install. The app stays installed, independent of the PC.
 
-### Play Store (sur demande explicite)
+### Play Store (on explicit request)
 
-`flutter build appbundle --release` → AAB + instructions Play Console, livrés uniquement si demandé.
+`flutter build appbundle --release` → AAB + Play Console instructions, delivered only on request.

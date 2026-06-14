@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter:*)",
+      "Bash(dart:*)",
+      "Bash(keytool:*)",
+      "Read",
+      "Write",
+      "Edit"
+    ],
+    "deny": [
+      "Read(**/.env)",
+      "Write(**/.env)",
+      "Write(**/.env.*)",
+      "Edit(**/.env)",
+      "Edit(**/.env.*)",
+      "Write(**/secrets/**)",
+      "Write(**/*.g.dart)",
+      "Write(**/.dart_tool/**)",
+      "Write(**/build/**)"
+    ]
+  }
+}

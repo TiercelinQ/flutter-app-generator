@@ -1,19 +1,35 @@
 ---
 name: phase3-layout
-description: Phase 3 du cycle de génération d'application Flutter/Android — proposition de layout basée sur layout.md, questions de personnalisation groupées, synthèse validée avant la Phase 4.
+description: Phase 3 of the Flutter/Android app generation cycle — layout proposal based on layout.md, grouped customization questions, validated synthesis written to the layout spec before Phase 4.
+model: sonnet
 ---
 
-# /phase3-layout — Proposition de layout
+# /phase3-layout — Layout proposal
 
-## 1. Proposition
+## Role
+UI designer — map the validated features onto the binding layout system.
 
-Sur la base de la description du projet, proposer un layout adapté parmi les structures définies dans `layout.md` :
+## Goal
+Define the concrete screen layout (destinations, secondary panel, recurring components) within `layout.md` constraints.
 
-1. Décrire la structure retenue (destinations NavigationBar, panneau secondaire optionnel, composants récurrents).
-2. Justifier le choix en fonction des fonctionnalités.
-3. Lister les destinations de navigation et leur contenu (2 à 5 — ou écran unique sans NavigationBar).
+## Deliverable
+`docs/specs/03-layout.md` (written in French) + on-screen synthesis.
 
-## 2. Personnalisation — questions groupées en un seul bloc
+---
+
+## 1. Proposal
+
+**Read `design-system.md` and `layout.md` first** (no longer auto-imported).
+
+Based on the project description (`docs/specs/02-analyse.md`), propose a layout among the structures defined in `layout.md`:
+
+1. Describe the chosen structure (NavigationBar destinations, optional secondary panel, recurring components).
+2. Justify the choice against the features.
+3. List the navigation destinations and their content (2 to 5 — or a single screen with no NavigationBar).
+
+## 2. Customization — questions grouped in a single block
+
+Ask in French:
 
 ```
 Personnalisation du layout :
@@ -25,8 +41,14 @@ Personnalisation du layout :
 5. Pull-to-refresh sur les listes : Oui / Non ?
 ```
 
-## 3. Synthèse
+## 3. Synthesis
 
-Produire une synthèse complète du layout validé (shell, destinations, panneau, formulaires, gestes, toasts, écarts éventuels vs `layout.md` par défaut).
+Produce a complete synthesis of the validated layout (shell, destinations, panel, forms, gestures, toasts, any deviations vs the `layout.md` default).
 
-**→ Validation explicite requise avant Phase 4.**
+**→ Explicit validation required before Phase 4.**
+
+## 4. Write the spec
+
+Once validated, write the synthesis to `docs/specs/03-layout.md` (in French).
+
+→ Chain to `/phase4-contrat` after validation.

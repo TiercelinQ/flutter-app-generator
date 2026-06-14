@@ -1,156 +1,162 @@
-# Règles d'architecture — data / application / presentation
+# Architecture rules — data / application / presentation
 
-## Mapping MVC → couches Flutter/Riverpod
+## MVC → Flutter/Riverpod layer mapping
 
-| Couche MVC | Couche Flutter           | Contenu                                        |
+| MVC layer  | Flutter layer            | Content                                         |
 | ---------- | ------------------------ | ----------------------------------------------- |
-| Model      | `lib/data/`              | Modèles immuables, repositories, accès SQLite   |
-| Controller | `lib/application/`       | Notifiers Riverpod — état + orchestration       |
-| View       | `lib/presentation/`      | Widgets, écrans, thème — UI uniquement          |
+| Model      | `lib/data/`              | Immutable models, repositories, SQLite access   |
+| Controller | `lib/application/`       | Riverpod notifiers — state + orchestration      |
+| View       | `lib/presentation/`      | Widgets, screens, theme — UI only               |
 
-## Responsabilités
+## Responsibilities
 
 ### Data — `lib/data/`
-- `models/` : classes immuables (`final` + `const` constructeurs), `fromMap`/`toMap` pour SQLite. Zéro logique d'affichage.
-- `repositories/` : un repository par entité — seul point d'accès à SQLite/`shared_preferences`. Lèvent des exceptions métier nommées (`data/exceptions.dart`).
-- `database/app_database.dart` : ouverture, `onCreate`/`onUpgrade` (migrations versionnées), schéma SQL.
-- **Interdit** : import de `flutter/material.dart`, de Riverpod, ou de `presentation/`/`application/`.
-- **Toute requête SQL est paramétrée** (`?` + `whereArgs`) — zéro interpolation de valeurs.
+- `models/`: immutable classes (`final` + `const` constructors), `fromMap`/`toMap` for SQLite. Zero display logic.
+- `repositories/`: one repository per entity — sole access point to SQLite/`shared_preferences`. Raise named business exceptions (`data/exceptions.dart`).
+- `database/app_database.dart`: opening, `onCreate`/`onUpgrade` (versioned migrations), SQL schema.
+- **Forbidden**: importing `flutter/material.dart`, Riverpod, or `presentation/`/`application/`.
+- **Every SQL query is parameterized** (`?` + `whereArgs`) — zero value interpolation.
 
 ### Application — `lib/application/`
-- Un fichier par entité : `[entite]_controller.dart` — `@riverpod` Notifier/AsyncNotifier (codegen).
-- Orchestrent : appellent les repositories, exposent l'état (`AsyncValue<T>` pour l'asynchrone), interceptent les exceptions métier et déclenchent les toasts (`rules/errors.md`).
-- **Interdit** : import de widgets, `BuildContext`, accès SQLite direct.
+- One file per entity: `[entity]_controller.dart` — `@riverpod` Notifier/AsyncNotifier (codegen).
+- Orchestrate: call the repositories, expose state (`AsyncValue<T>` for async), intercept business exceptions and trigger toasts (`rules/errors.md`).
+- **Forbidden**: importing widgets, `BuildContext`, direct SQLite access.
 
 ### Presentation — `lib/presentation/`
-- `screens/` : un écran par destination + `app_shell.dart`. `ConsumerWidget`/`ConsumerStatefulWidget`.
-- `widgets/` : composants réutilisables (AppButton, AppDialog, ToastOverlay, items de liste…).
-- `theme/` : `tokens.dart` + `app_theme.dart` — voir `rules/theme.md`.
-- Consomment uniquement les providers (`ref.watch`/`ref.read`) — **jamais les repositories directement**.
-- Aucune logique métier. Aucune gestion d'erreur métier (toasts pilotés par `application`).
+- `screens/`: one screen per destination + `app_shell.dart`. `ConsumerWidget`/`ConsumerStatefulWidget`.
+- `widgets/`: reusable components (AppButton, AppDialog, ToastOverlay, list items…).
+- `theme/`: `tokens.dart` + `app_theme.dart` — see `rules/theme.md`.
+- Consume only providers (`ref.watch`/`ref.read`) — **never the repositories directly**.
+- No business logic. No business error handling (toasts driven by `application`).
 
-## Imports unidirectionnels
+## Unidirectional imports
 
 ```
 presentation ──ref.watch/read──▶ application ──▶ data
       │                               │
-      └────── core/ (config, utils purs) ◀───────┘   importable par toutes les couches
+      └────── core/ (config, pure utils) ◀───────┘   importable by all layers
 ```
 
-- `lib/core/config.dart` : constantes applicatives. `lib/core/utils/helpers.dart` : fonctions pures (formatage, validation) — zéro Flutter, zéro Riverpod, zéro accès données.
-- Une entité = un model + un repository + un controller + un écran/widgets. Constantes partagées dans `core/config.dart`.
+- `lib/core/config.dart`: application constants. `lib/core/utils/helpers.dart`: pure functions (formatting, validation) — zero Flutter, zero Riverpod, zero data access.
+- One entity = one model + one repository + one controller + one screen/widgets. Shared constants in `core/config.dart`.
 
 ## Riverpod — conventions
 
-- Génération de code obligatoire : annotations `@riverpod`, fichiers `.g.dart` via `build_runner`. Zéro provider manuel.
-- État asynchrone : `AsyncValue` — les écrans gèrent les trois cas via `.when(data/loading/error)`.
-- `ref.read` réservé aux callbacks ; `ref.watch` dans `build`.
-- Zéro logique dans les providers de simple exposition ; logique d'orchestration dans les Notifiers uniquement.
+- Code generation mandatory: `@riverpod` annotations, `.g.dart` files via `build_runner`. Zero manual provider.
+- Async state: `AsyncValue` — screens handle the three cases via `.when(data/loading/error)`.
+- `ref.read` reserved for callbacks; `ref.watch` inside `build`.
+- Zero logic in plain-exposure providers; orchestration logic in the Notifiers only.
 
-## Arborescence type générée
+## Generated reference tree
 
 ```
-mon_app/
+my_app/
 ├── pubspec.yaml
-├── analysis_options.yaml          # flutter_lints + règles strictes
-├── l10n.yaml                      # si i18n activée
+├── analysis_options.yaml          # flutter_lints + strict rules
+├── l10n.yaml                      # if i18n enabled
 ├── README.md
-├── android/                       # généré par flutter create — minSdk 24, signature release
+├── docs/
+│   └── specs/                     # generation specs (French): 01-cadrage … 04-contrat
+├── android/                       # generated by flutter create — minSdk 24, release signing
 └── lib/
-    ├── main.dart                  # ProviderScope, MaterialApp, themeMode, ToastOverlay racine
+    ├── main.dart                  # ProviderScope, MaterialApp, themeMode, root ToastOverlay
     ├── core/
-    │   ├── config.dart            # Constantes applicatives
-    │   └── utils/helpers.dart     # Fonctions pures
+    │   ├── config.dart            # Application constants
+    │   ├── strings.dart           # Centralized FR strings (only if i18n disabled)
+    │   └── utils/helpers.dart     # Pure functions
     ├── data/
-    │   ├── exceptions.dart        # Exceptions métier nommées
+    │   ├── exceptions.dart        # Named business exceptions
     │   ├── database/app_database.dart
-    │   ├── models/[entite].dart
+    │   ├── models/[entity].dart
     │   └── repositories/
     │       ├── preferences_repository.dart
-    │       └── [entite]_repository.dart
+    │       └── [entity]_repository.dart
     ├── application/
-    │   ├── theme_controller.dart  # ThemeMode + persistance
-    │   ├── toast_controller.dart  # File de toasts
-    │   └── [entite]_controller.dart
+    │   ├── theme_controller.dart  # ThemeMode + persistence
+    │   ├── toast_controller.dart  # Toast queue
+    │   └── [entity]_controller.dart
     └── presentation/
         ├── theme/
-        │   ├── tokens.dart        # Tous les tokens design-system
-        │   └── app_theme.dart     # ThemeData light/dark + ThemeExtension AppColors
+        │   ├── tokens.dart        # All design-system tokens
+        │   └── app_theme.dart     # light/dark ThemeData + AppColors ThemeExtension
         ├── screens/
         │   ├── app_shell.dart     # Scaffold, AppBar, NavigationBar, IndexedStack
-        │   └── [entite]_screen.dart
+        │   └── [entity]_screen.dart
         └── widgets/
+            ├── app_app_bar.dart   # custom AppBar (screen title + actions + theme toggle)
             ├── toast_overlay.dart
             ├── app_dialog.dart
             ├── app_button.dart
-            └── [entite]_…​.dart
+            └── [entity]_…​.dart
 ```
 
-(+ `lib/l10n/app_fr.arb`, `app_en.arb` si i18n — voir `rules/config.md`.)
+(+ `l10n.yaml` + `lib/l10n/app_fr.arb`, `app_en.arb` if i18n — see `rules/config.md`. If i18n disabled: `core/strings.dart` instead of the ARB files.)
 
-## Livraison par lots
+## Batch delivery
 
-**Petit projet (3 lots) :**
+> `l10n.yaml` + ARB (or `core/strings.dart` if i18n off) are delivered in **batch 1**: the `application` and `presentation` layers reference `AppLocalizations` (`t`) — the analyzer can only be clean once the localizations are available.
 
-| Lot | Contenu                                                                                  |
-| --- | ----------------------------------------------------------------------------------------- |
-| 1   | `core/` + `data/` (exceptions, database, models, repositories)                           |
-| 2   | `application/` + `presentation/` (theme, screens, widgets)                               |
-| 3   | `main.dart` + `pubspec.yaml` + `analysis_options.yaml` + l10n + README + instructions    |
+**Small project (3 batches):**
 
-**Moyen / Grand projet (4 lots) :**
+| Batch | Content                                                                                  |
+| ----- | ----------------------------------------------------------------------------------------- |
+| 1     | `core/` + `data/` (exceptions, database, models, repositories) + l10n (`l10n.yaml` + ARB) or `core/strings.dart` |
+| 2     | `application/` + `presentation/` (theme, screens, widgets)                               |
+| 3     | `main.dart` + `pubspec.yaml` + `analysis_options.yaml` + README + instructions          |
 
-| Lot | Contenu                                                                                  |
-| --- | ----------------------------------------------------------------------------------------- |
-| 1   | `core/` + `data/`                                                                        |
-| 2   | `presentation/` (theme, screens, widgets)                                                |
-| 3   | `application/` (controllers)                                                             |
-| 4   | `main.dart` + `pubspec.yaml` + `analysis_options.yaml` + l10n + README + instructions    |
+**Medium / Large project (4 batches):**
 
-### Format de livraison
-- Annonce : `📦 Lot N/[total] — [contenu]`
-- Fichiers écrits directement sur le disque, blocs complets et autonomes (hors `.g.dart` — générés par build_runner).
-- Enchaînement automatique entre les lots sans confirmation.
-- Dernier lot : instructions (`flutter pub get`, `dart run build_runner build --delete-conflicting-outputs`, `flutter run`, `flutter build apk --release`, sideload) + `README.md` à la racine.
+| Batch | Content                                                                                  |
+| ----- | ----------------------------------------------------------------------------------------- |
+| 1     | `core/` + `data/` + l10n (`l10n.yaml` + ARB) or `core/strings.dart`                      |
+| 2     | `presentation/` (theme, screens, widgets)                                                |
+| 3     | `application/` (controllers)                                                             |
+| 4     | `main.dart` + `pubspec.yaml` + `analysis_options.yaml` + README + instructions          |
 
-## Vérification d'intégrité (silencieuse — signalée uniquement si écart)
+### Tests batch (only if Phase 1 Q7 = Yes)
+Add a final dedicated batch — `test/` (mirroring `lib/`) + the `mocktail` (and `sqflite_common_ffi` if DB) dev dependencies in `pubspec.yaml`. → Small 4 batches / Medium-Large 5 batches. Patterns and coverage: `@rules/tests.md`.
 
-**Chaque lot :**
-1. Dart valide, analyzer clean (mental ou `flutter analyze` si environnement dispo).
-2. Imports : tous utilisés, aucun manquant, sens unidirectionnel respecté.
-3. Responsabilités des couches respectées (zéro UI en data/application, zéro accès données en presentation).
-4. Zéro `// TODO`, zéro implémentation vide injustifiée, zéro `dynamic` injustifié.
-5. Dart 3 · API Flutter stable · zéro API dépréciée.
-6. Conformité `design-system.md` et `layout.md` — zéro valeur visuelle en dur dans les widgets.
-7. SQL : 100% paramétré.
+### Delivery format
+- Announcement: `Lot N/[total] — [content]`
+- Files written directly to disk, complete and self-contained blocks (except `.g.dart` — generated by build_runner).
+- Automatic chaining between batches without confirmation.
+- Last batch: instructions (`flutter pub get`, `dart run build_runner build --delete-conflicting-outputs`, `flutter run`, `flutter build apk --release`, sideload) + `README.md` at the root.
 
-**Dernier lot uniquement — cross-fichiers :**
-8. Tous providers référencés existent ; annotations `@riverpod` cohérentes avec les usages (`.g.dart` à générer listés).
-9. Schéma SQLite ↔ `fromMap`/`toMap` ↔ repositories alignés ; version de schéma et migrations cohérentes.
-10. Contrat architectural respecté.
-11. Clés i18n : toutes utilisées, aucune manquante (si activée).
+## Integrity verification
 
-## Ajustements post-livraison
+Per-batch and cross-file integrity checks (layers, unidirectional imports, parameterized SQL, tokens, providers, SQLite schema, i18n keys) live in **`rules/verification.md`** — the single source of truth for verification. Run them silently every batch; report only on a discrepancy. Cross-file checks run on the last batch.
 
-Demandés par l'utilisateur après exécution. Correction isolée sur le fichier concerné + ses dépendances directes. Livraison du fichier complet corrigé.
+## Anti-patterns — what NOT to do (layers)
 
-## Résolution d'anomalie — protocole nettoyage
+- **Do not** call a repository from `presentation` (a widget/screen). Presentation goes through a provider; the provider's notifier (`application`) calls the repository.
+- **Do not** put business logic in a widget (validation that decides a business outcome, SQL building, branching on domain rules). It belongs in `application`.
+- **Do not** import `flutter/material.dart`, Riverpod, `application/`, or `presentation/` from a `data/` file. `data` is framework-free.
+- **Do not** access `BuildContext`, `Navigator`, or a widget from `application/`. Controllers expose state and trigger toasts via the provider, nothing UI-bound.
+- **Do not** create a manual `Provider`/`StateNotifierProvider` by hand — always `@riverpod` codegen.
+- **Do not** spread one entity across more files than `model + repository + controller + screen/widgets`. If it grows, that is a contract change → declare the discrepancy (Phase 4 protocol).
+- **Do not** put a shared constant in only one of two files that need it — promote it to `core/config.dart`.
 
-Quand une anomalie nécessite plusieurs tentatives avant d'être résolue, dès que la solution définitive est identifiée et livrée, produire obligatoirement :
+## Post-delivery adjustments
+
+Requested by the user after execution. Isolated fix on the affected file + its direct dependencies. Deliver the complete fixed file.
+
+## Anomaly resolution — cleanup protocol
+
+When an anomaly requires several attempts before being resolved, as soon as the definitive solution is identified and delivered, produce a mandatory cleanup report:
 
 ```
 Anomalie résolue. Éléments à retirer des tentatives précédentes :
 
 Fichier [nom] :
-- [ligne / bloc / import / provider / token / clé i18n à supprimer]
+- [line / block / import / provider / token / i18n key to delete]
 - ...
 ```
 
-- Lister uniquement les éléments ajoutés lors des tentatives infructueuses qui ne sont plus nécessaires.
-- Couvrir tous les fichiers impactés : Dart, pubspec, ARB, tokens.
-- Livrer les fichiers nettoyés complets si l'utilisateur confirme.
-- Puis proposer : "Veux-tu mémoriser ce point ? `/memoriser`"
+- List only the elements added during the failed attempts that are no longer needed.
+- Cover all affected files: Dart, pubspec, ARB, tokens.
+- Deliver the complete cleaned files if the user confirms.
+- Then offer: "Veux-tu mémoriser ce point ? `/memoriser`"
 
-## Suppressions
+## Deletions
 
-Suppression totale dans tous les fichiers : code, imports, providers, modèles, colonnes SQL (+ migration), tokens, clés ARB. Interdit : code commenté, implémentations vides, résidus. Livraison des fichiers modifiés complets.
+Total deletion across all files: code, imports, providers, models, SQL columns (+ migration), tokens, ARB keys. Forbidden: commented-out code, empty implementations, residue. Deliver the complete modified files.

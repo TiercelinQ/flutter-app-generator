@@ -1,21 +1,21 @@
-# Layout Système — v2.0 (Flutter / Android)
+# Layout System — v1.0 (Flutter / Android)
 
-> Référence contraignante pour toutes les applications Flutter/Dart Android.
-> Construit sur `design-system.md v1.0 (Flutter)`. Les deux fichiers sont indissociables.
-> Transposition mobile validée du layout desktop : AppBar ↔ topbar, NavigationBar ↔ onglets, toasts overlay custom conservés, statusbar supprimée.
+> Binding reference for all Flutter/Dart Android applications.
+> Built on `design-system.md v1.0 (Flutter)`. The two files are inseparable.
+> Validated mobile transposition of the desktop layout: AppBar ↔ topbar, NavigationBar ↔ tabs, custom overlay toasts kept, status bar removed.
 
 ---
 
-## 1. STRUCTURE GLOBALE
+## 1. GLOBAL STRUCTURE
 
 ```
 ┌─────────────────────────────────────┐
 │           APPBAR (56dp)             │
-│  [ Titre ]            [ Thème ]     │
+│  [ Title ]            [ Theme ]     │
 ├─────────────────────────────────────┤
 │                                     │
-│         CONTENU PRINCIPAL           │
-│         (zone scrollable)           │
+│           MAIN CONTENT              │
+│         (scrollable area)           │
 │                                     │
 ├─────────────────────────────────────┤
 │       NAVIGATIONBAR (80dp)          │
@@ -23,322 +23,322 @@
 └─────────────────────────────────────┘
 ```
 
-Squelette imposé (`AppShell` — `lib/presentation/screens/app_shell.dart`) :
+Mandatory skeleton (`AppShell` — `lib/presentation/screens/app_shell.dart`):
 
 ```
 Scaffold
-├── appBar: AppAppBar            # titre écran courant + actions + toggle thème
-├── body: IndexedStack           # un écran par destination, état conservé
-└── bottomNavigationBar: NavigationBar (M3) — si ≥ 2 destinations
-Overlay racine : ToastOverlay    # toasts superposés, indépendants du Scaffold
+├── appBar: AppAppBar            # current screen title + actions + theme toggle
+├── body: IndexedStack           # one screen per destination, state preserved
+└── bottomNavigationBar: NavigationBar (M3) — if ≥ 2 destinations
+Root overlay: ToastOverlay       # stacked toasts, independent of the Scaffold
 ```
 
-- 1 seule destination → pas de NavigationBar (AppBar + body uniquement).
-- 2 à 5 destinations → NavigationBar. Au-delà de 5 → 4 destinations + « Plus » (écran liste).
+- 1 destination only → no NavigationBar (AppBar + body only).
+- 2 to 5 destinations → NavigationBar. Beyond 5 → 4 destinations + "More" (list screen).
 
-**Toast** (superposé, haut de l'écran) :
+**Toast** (overlaid, top of screen):
 
 ```
 ┌─────────────────────────────────────┐
 │           APPBAR                    │
 │  ┌───────────────────────────────┐  │
-│  │ [icône] Message           [×] │  │
+│  │ [icon] Message            [×] │  │
 │  └───────────────────────────────┘  │
-│         CONTENU PRINCIPAL           │
+│           MAIN CONTENT              │
 ├─────────────────────────────────────┤
 │         NAVIGATIONBAR               │
 └─────────────────────────────────────┘
 ```
 
-**Panneau secondaire** (optionnel — choisi en Phase 3) : `endDrawer` (latéral droit) ou `BottomSheet` modal.
+**Secondary panel** (optional — chosen in Phase 3): `endDrawer` (right side) or modal `BottomSheet`.
 
 ---
 
 ## 2. APPLICATION
 
-| Token / option        | Valeur                                                       |
+| Token / option        | Value                                                       |
 | --------------------- | ------------------------------------------------------------ |
-| orientation           | portrait uniquement (défaut) — paysage sur demande Phase 1    |
-| thème au lancement    | suit le thème OS (`ThemeMode.system`) si aucune préférence    |
-| thème par défaut OS   | clair                                                         |
-| barre système Android | couleur `bg` du thème courant (`SystemUiOverlayStyle`)        |
-| bouton retour Android | géré par `PopScope` — ferme sheet/dialog/drawer avant de quitter |
-| splash                | natif Android, fond `bg` clair, logo centré (flutter_native_splash si validé Phase 1) |
+| orientation           | portrait only (default) — landscape on Phase 1 request        |
+| theme on launch       | follows the OS theme (`ThemeMode.system`) if no preference    |
+| OS default theme      | light                                                         |
+| Android system bar    | current theme `bg` color (`SystemUiOverlayStyle`)             |
+| Android back button   | handled by `PopScope` — closes sheet/dialog/drawer before exiting |
+| splash                | native Android, light `bg` background, centered logo (flutter_native_splash if validated in Phase 1) |
 
 ---
 
 ## 3. APPBAR
 
-| Token              | Valeur                  |
+| Token              | Value                  |
 | ------------------ | ----------------------- |
-| hauteur            | `appbarHeight` = 56     |
-| fond clair/sombre  | `bg`                    |
-| bordure bas        | 1 `border` (pas d'ombre — `elevation: 0`) |
-| padding horizontal | `spacing4` = 16         |
+| height             | `appbarHeight` = 56     |
+| light/dark bg      | `bg`                    |
+| bottom border      | 1 `border` (no shadow — `elevation: 0`) |
+| horizontal padding | `spacing4` = 16         |
 
-### Zones (gauche → droite)
+### Zones (left → right)
 
 ```
-[ Titre écran courant ]   ···   [ Actions contextuelles ]  [ Thème ]
+[ Current screen title ]   ···   [ Contextual actions ]  [ Theme ]
 ```
 
-| Zone   | Contenu                                                        |
+| Zone   | Content                                                        |
 | ------ | --------------------------------------------------------------- |
-| Gauche | Titre de l'écran actif — `weightSemibold` `fontBase`, `text`. Pas de logo (mobile). |
-| Droite | 0–2 actions contextuelles (icônes `iconLg`) + sélecteur de thème |
+| Left   | Active screen title — `weightSemibold` `fontBase`, `text`. No logo (mobile). |
+| Right  | 0–2 contextual actions (`iconLg` icons) + theme selector       |
 
-### Sélecteur de thème
+### Theme selector
 
-- Icône seule (fa-sun / fa-moon), `iconLg` = 24, zone tactile `touchTarget` = 48.
-- `tooltip` obligatoire : "Passer en mode sombre" / "Passer en mode clair".
-- Toggle instantané — `themeMode` du `MaterialApp` (provider Riverpod) — persisté via `shared_preferences`.
+- Icon only (fa-sun / fa-moon), `iconLg` = 24, touch zone `touchTarget` = 48.
+- Mandatory `tooltip`: "Passer en mode sombre" / "Passer en mode clair".
+- Instant toggle — `MaterialApp` `themeMode` (Riverpod provider) — persisted via `shared_preferences`.
 
 ---
 
 ## 4. NAVIGATIONBAR (Material 3)
 
-| Token               | Valeur                          |
+| Token               | Value                          |
 | ------------------- | ------------------------------- |
-| hauteur             | `navbarHeight` = 80             |
-| fond                | `bg`                            |
-| bordure haut        | 1 `border` — `elevation: 0`     |
-| destinations        | 2 à 5 max                       |
-| indicateur actif    | fond `primaryBg` (indicator), icône + label `primary` |
-| destination inactive| icône + label `textSubtle`      |
-| label               | `weightMedium` `fontXs`, toujours visible |
-| icônes              | `iconLg` = 24, FontAwesome      |
+| height              | `navbarHeight` = 80             |
+| bg                  | `bg`                            |
+| top border          | 1 `border` — `elevation: 0`     |
+| destinations        | 2 to 5 max                      |
+| active indicator    | `primaryBg` background (indicator), `primary` icon + label |
+| inactive destination| `textSubtle` icon + label       |
+| label               | `weightMedium` `fontXs`, always visible |
+| icons               | `iconLg` = 24, FontAwesome      |
 
-- Navigation par état (`IndexedStack` + provider `activeDestination`) — l'état de chaque écran est conservé au changement d'onglet.
-- Splash/ripple : désactivé (flat) — highlight `bgMuted`.
+- State-based navigation (`IndexedStack` + `activeDestination` provider) — each screen's state is preserved on tab change.
+- Splash/ripple: disabled (flat) — `bgMuted` highlight.
 
 ---
 
-## 5. ZONE DE CONTENU PRINCIPAL
+## 5. MAIN CONTENT AREA
 
-| Token             | Valeur                                  |
+| Token             | Value                                  |
 | ----------------- | ---------------------------------------- |
-| fond              | `bg`                                     |
-| padding intérieur | `spacing4` = 16 (mobile — pleine largeur) |
+| bg                | `bg`                                     |
+| inner padding     | `spacing4` = 16 (mobile — full width)    |
 | scroll            | vertical — `ListView` / `SingleChildScrollView` |
 
-### En-tête de section
+### Section header
 
 ```
-[ Titre de la section ]
-[ Sous-titre / description courte ]
+[ Section title ]
+[ Subtitle / short description ]
 ```
 
-- Titre : `weightBold` `font2xl` (24), `text`.
-- Sous-titre : `weightNormal` `fontSm` (14), `textSubtle`.
-- Margin bas : `spacing6` = 24 avant le contenu.
-- Si le titre d'écran est déjà dans l'AppBar : pas de doublon — en-tête de section réservé aux sous-sections.
+- Title: `weightBold` `font2xl` (24), `text`.
+- Subtitle: `weightNormal` `fontSm` (14), `textSubtle`.
+- Bottom margin: `spacing6` = 24 before the content.
+- If the screen title is already in the AppBar: no duplicate — the section header is reserved for sub-sections.
 
 ---
 
 ## 6. TOAST
 
-Remplace intégralement `SnackBar` et bandeau inline. Aucun des deux dans les applications.
-Composant : `presentation/widgets/toast_overlay.dart` + controller Riverpod `toastControllerProvider` (file d'attente).
+Fully replaces `SnackBar` and inline banner. Neither is used in the applications.
+Component: `presentation/widgets/toast_overlay.dart` + Riverpod controller `toastControllerProvider` (queue).
 
-| Token                  | Valeur                                              |
+| Token                  | Value                                               |
 | ---------------------- | --------------------------------------------------- |
-| position               | Haut de l'écran, sous la zone système (SafeArea), superposé |
-| largeur                | largeur écran − 2×`spacing4`                         |
-| margin haut            | `spacing4` = 16 (sous l'AppBar)                      |
-| espacement entre toasts| `spacing2` = 8                                       |
-| empilement             | Vertical, file d'attente, sans chevauchement         |
-| animation entrée       | Glissement depuis le haut, `transitionSlow` = 250ms  |
-| animation sortie       | Fondu + glissement haut, `transitionSlow` = 250ms    |
-| geste                  | Swipe vers le haut = fermeture (types fermables)     |
+| position               | Top of screen, below the system area (SafeArea), overlaid |
+| width                  | screen width − 2×`spacing4`                          |
+| top margin             | `spacing4` = 16 (below the AppBar)                   |
+| spacing between toasts | `spacing2` = 8                                       |
+| stacking               | Vertical, queue, no overlap                          |
+| enter animation        | Slide from top, `transitionSlow` = 250ms             |
+| exit animation         | Fade + slide up, `transitionSlow` = 250ms            |
+| gesture                | Swipe up = dismiss (dismissible types)               |
 
-### Durées d'affichage
+### Display durations
 
-| Type      | Durée      | Fermeture manuelle  |
+| Type      | Duration   | Manual dismiss      |
 | --------- | ---------- | ------------------- |
-| `success` | 4s         | Non                 |
-| `info`    | 4s         | Non                 |
-| `warning` | 6s         | Oui (×)             |
-| `danger`  | persistant | Oui (×) obligatoire |
+| `success` | 4s         | No                  |
+| `info`    | 4s         | No                  |
+| `warning` | 6s         | Yes (×)             |
+| `danger`  | persistent | Yes (×) mandatory   |
 
-### Anatomie du toast
+### Toast anatomy
 
 ```
 ┌────────────────────────────────────┐
-│ [icône]  Message principal     [×] │
-│          Description optionnelle   │
+│ [icon]  Main message           [×] │
+│         Optional description       │
 └────────────────────────────────────┘
 ```
 
-| Token              | Valeur                                      |
+| Token              | Value                                       |
 | ------------------ | -------------------------------------------- |
 | padding            | `spacing3` vertical, `spacing4` horizontal   |
-| bordure gauche     | 4 couleur sémantique                         |
-| fond               | fond sémantique (`*50`)                      |
-| police message     | `weightMedium` `fontSm` (14)                 |
-| police description | `weightNormal` `fontXs` (12), `textSubtle`   |
-| icône              | `iconMd` = 20                                |
+| left border        | 4 semantic color                             |
+| bg                 | semantic bg (`*50`)                          |
+| message font       | `weightMedium` `fontSm` (14)                 |
+| description font   | `weightNormal` `fontXs` (12), `textSubtle`   |
+| icon               | `iconMd` = 20                                |
 
-| Type      | Fond        | Bordure      | Icône (FontAwesome)        |
+| Type      | Bg          | Border       | Icon (FontAwesome)         |
 | --------- | ----------- | ------------ | -------------------------- |
 | `success` | `success50` | `success600` | `circleCheck`              |
 | `warning` | `warning50` | `warning600` | `triangleExclamation`      |
 | `danger`  | `danger50`  | `danger600`  | `circleExclamation`        |
 | `info`    | `info50`    | `info600`    | `circleInfo`               |
 
-Note mode sombre : fonds `*50` clairs conservés (toast = surface claire contrastée) — texte du toast en `LightColors.text`.
+Dark mode note: light `*50` backgrounds are kept (toast = contrasted light surface) — toast text in `LightColors.text`.
 
 ---
 
-## 7. PANNEAU SECONDAIRE
+## 7. SECONDARY PANEL
 
-Choisi en Phase 3 : `endDrawer` ou `BottomSheet`. Ouvert par action explicite uniquement. Jamais automatiquement.
+Chosen in Phase 3: `endDrawer` or `BottomSheet`. Opened by explicit action only. Never automatically.
 
-### endDrawer (latéral droit)
+### endDrawer (right side)
 
-| Token          | Valeur                                       |
+| Token          | Value                                       |
 | -------------- | --------------------------------------------- |
-| largeur        | 85% écran, max 360                            |
-| animation      | glissement depuis la droite, `transitionSlow` |
-| fond           | `bgElevated`                                  |
-| bordure gauche | 1 `border`                                    |
+| width          | 85% screen, max 360                           |
+| animation      | slide from the right, `transitionSlow`        |
+| bg             | `bgElevated`                                  |
+| left border    | 1 `border`                                    |
 | padding        | `spacing6` = 24                               |
-| overlay fond   | `text` opacité 40% (scrimColor)               |
+| overlay bg     | `text` 40% opacity (scrimColor)               |
 
-- Fermeture : tap overlay, bouton retour Android, ou bouton × dans le drawer.
-- En-tête : titre `weightSemibold` `fontLg` (18) + bouton × aligné à droite.
-- Contenu scrollable verticalement si dépassement.
+- Close: tap overlay, Android back button, or × button in the drawer.
+- Header: `weightSemibold` `fontLg` (18) title + × button aligned right.
+- Content vertically scrollable on overflow.
 
-### BottomSheet modal
+### Modal BottomSheet
 
-| Token        | Valeur                                  |
+| Token        | Value                                   |
 | ------------ | ---------------------------------------- |
-| largeur      | pleine largeur                           |
-| hauteur      | contenu, max 90% écran                   |
-| animation    | glissement depuis le bas, `transitionSlow` |
-| fond         | `bgElevated` — `radius` 0 (flat)          |
-| bordure haut | 1 `border`                                |
-| padding      | `spacing6` = 24 + SafeArea bas            |
-| overlay fond | `text` opacité 40%                        |
+| width        | full width                               |
+| height       | content, max 90% screen                  |
+| animation    | slide from the bottom, `transitionSlow`  |
+| bg           | `bgElevated` — `radius` 0 (flat)          |
+| top border   | 1 `border`                                |
+| padding      | `spacing6` = 24 + bottom SafeArea         |
+| overlay bg   | `text` 40% opacity                        |
 
-- Fermeture : tap overlay, bouton retour, swipe bas, ou bouton ×.
-- En-tête identique au drawer. Contenu scrollable (`DraggableScrollableSheet` si long).
+- Close: tap overlay, back button, swipe down, or × button.
+- Header identical to the drawer. Scrollable content (`DraggableScrollableSheet` if long).
 
 ---
 
-## 8. COMPOSANTS RÉCURRENTS
+## 8. RECURRING COMPONENTS
 
-### Liste de données (pendant du tableau desktop)
+### Data list (mobile counterpart of the desktop table)
 
-Sur mobile, le `QTableView` devient une liste verticale d'items structurés (`ListView.separated`).
+On mobile, a data table becomes a vertical list of structured items (`ListView.separated`).
 
-- Item : pleine largeur, padding vertical `spacing2` (8) + horizontal `spacing4`, hauteur min `touchTarget`.
-- Structure item : ligne principale `weightMedium` `fontSm` `text` + ligne secondaire `fontXs` `textSubtle` + valeur/action à droite.
-- Séparateur : 1 `borderSubtle`.
-- En-tête de groupe (si groupement) : fond `bgSubtle`, `weightSemibold` `fontSm`, `textSubtle`, bordure bas 2 `borderStrong`.
-- Item sélectionné : fond `primaryBg`. Pressed : `bgMuted`.
-- Alternance de lignes : désactivée (flat design).
-- **Listes longues : chargement paresseux natif (`ListView.builder`) + pagination par lots de 50 au scroll** (remplace la pagination à boutons desktop). Indicateur de chargement en pied de liste.
-- Actions par item : swipe (`Dismissible`) pour suppression avec confirmation, ou menu contextuel — choisi en Phase 3.
+- Item: full width, vertical padding `spacing2` (8) + horizontal `spacing4`, min height `touchTarget`.
+- Item structure: main line `weightMedium` `fontSm` `text` + secondary line `fontXs` `textSubtle` + value/action on the right.
+- Separator: 1 `borderSubtle`.
+- Group header (if grouping): `bgSubtle` bg, `weightSemibold` `fontSm`, `textSubtle`, bottom border 2 `borderStrong`.
+- Selected item: `primaryBg` bg. Pressed: `bgMuted`.
+- Row alternation: disabled (flat design).
+- **Long lists: native lazy loading (`ListView.builder`) + pagination in batches of 50 on scroll** (replaces desktop button pagination). Loading indicator at the list footer.
+- Per-item actions: swipe (`Dismissible`) for deletion with confirmation, or context menu — chosen in Phase 3.
 
-### Formulaire de saisie
+### Input form
 
-- Labels au-dessus des champs, `weightMedium` `fontSm`, `text`.
-- Champs : pleine largeur, hauteur dynamique (contentPadding vertical `spacing2`), bordure 1 `border`, focus 2 `primary` — centralisé dans `inputDecorationTheme`.
-- Espacement entre champs : `spacing4` = 16.
-- Champ en erreur : bordure 2 `danger600` + message `danger600` sous le champ, `fontXs` — via `errorText`.
-- Actions formulaire : alignées à droite — Annuler (secondaire) + Valider (primaire) ; sur écran de saisie plein : Valider en bas pleine largeur.
-- Clavier : `textInputAction` cohérent (next/done), `keyboardType` adapté, scroll automatique vers le champ focusé.
+- Labels above the fields, `weightMedium` `fontSm`, `text`.
+- Fields: full width, dynamic height (vertical contentPadding `spacing2`), 1 `border` border, focus 2 `primary` — centralized in `inputDecorationTheme`.
+- Spacing between fields: `spacing4` = 16.
+- Field in error: 2 `danger600` border + `danger600` message below the field, `fontXs` — via `errorText`.
+- Form actions: aligned right — Cancel (secondary) + Confirm (primary); on a full input screen: Confirm at the bottom, full width.
+- Keyboard: consistent `textInputAction` (next/done), adapted `keyboardType`, automatic scroll to the focused field.
 
-### Arborescence
+### Tree view
 
-- Indentation par niveau : `spacing4` = 16.
-- Icône expand/collapse : chevron FontAwesome, `iconSm` = 16, `textMuted`.
-- Item : padding vertical `spacing1` (4), hauteur tactile min `touchTarget`.
-- Item sélectionné : fond `primaryBg`.
+- Indentation per level: `spacing4` = 16.
+- Expand/collapse icon: FontAwesome chevron, `iconSm` = 16, `textMuted`.
+- Item: vertical padding `spacing1` (4), min touch height `touchTarget`.
+- Selected item: `primaryBg` bg.
 
-### Graphiques / Visualisation
+### Charts / Visualization
 
-- Fond transparent (hérite du contenu).
-- Palette : `chartPrimary`, `chartSuccess`, `chartWarning`, `chartDanger`, `chartInfo`.
-- Légende : `weightNormal` `fontSm`, `textSubtle`. Aucune ombre.
-- Bibliothèque (fl_chart…) : à valider en Phase 1 (aucune par défaut).
+- Transparent background (inherits the content).
+- Palette: `chartPrimary`, `chartSuccess`, `chartWarning`, `chartDanger`, `chartInfo`.
+- Legend: `weightNormal` `fontSm`, `textSubtle`. No shadow.
+- Library (fl_chart…): to validate in Phase 1 (none by default).
 
-### Éditeur riche — flutter_quill (si activé en Phase 1)
+### Rich editor — flutter_quill (if enabled in Phase 1)
 
-- `QuillSimpleToolbar` : fond `bgSubtle`, bordure bas 1 `border`, icônes `iconMd` `iconDefault`, bouton actif fond `primaryBg` icône `primary`.
-- `QuillEditor` : padding `spacing4`, styles de texte mappés sur les tokens typographiques.
-- Contenu persisté en Delta JSON (colonne TEXT SQLite).
-- Barre d'outils limitée aux contrôles requis par les fonctionnalités validées — pas la barre complète par défaut.
+- `QuillSimpleToolbar`: `bgSubtle` bg, bottom border 1 `border`, `iconMd` `iconDefault` icons, active button `primaryBg` bg `primary` icon.
+- `QuillEditor`: `spacing4` padding, text styles mapped to the typographic tokens.
+- Content persisted as Delta JSON (SQLite TEXT column).
+- Toolbar limited to the controls required by the validated features — not the full toolbar by default.
 
-### Dialog (modale)
+### Dialog (modal)
 
 ```
 ┌─────────────────────────────────────┐
-│  Titre du dialog                [×] │
+│  Dialog title                   [×] │
 ├─────────────────────────────────────┤
-│  Contenu (formulaire, texte…)       │
+│  Content (form, text…)              │
 ├─────────────────────────────────────┤
-│              [ Annuler ] [ Valider ]│
+│              [ Cancel ] [ Confirm ] │
 └─────────────────────────────────────┘
 ```
 
-Composant `AppDialog` (`showDialog` + widget custom) — jamais `AlertDialog` brut.
+`AppDialog` component (`showDialog` + custom widget) — never a raw `AlertDialog`.
 
-| Token        | Valeur                          |
+| Token        | Value                           |
 | ------------ | -------------------------------- |
-| largeur      | largeur écran − 2×`spacing6`     |
-| fond         | `bg` — `radius` 0, `elevation` 0 |
-| bordure      | 1 `border`                       |
+| width        | screen width − 2×`spacing6`      |
+| bg           | `bg` — `radius` 0, `elevation` 0 |
+| border       | 1 `border`                       |
 | padding      | `spacing6` = 24                  |
-| overlay fond | `text` opacité 40% (barrierColor)|
+| overlay bg   | `text` 40% opacity (barrierColor)|
 
-- Ouvert par action explicite uniquement.
-- Fermeture : ×, Annuler, bouton retour Android, tap overlay.
-- En-tête : titre `weightSemibold` `fontLg` + × à droite, bordure bas 1 `borderSubtle`.
-- Pied : Annuler (secondaire) + Valider (primaire) à droite, bordure haut 1 `borderSubtle`.
-- Confirmations destructives : ce dialog, bouton Valider en variante danger.
+- Opened by explicit action only.
+- Close: ×, Cancel, Android back button, tap overlay.
+- Header: `weightSemibold` `fontLg` title + × on the right, bottom border 1 `borderSubtle`.
+- Footer: Cancel (secondary) + Confirm (primary) on the right, top border 1 `borderSubtle`.
+- Destructive confirmations: this dialog, Confirm button in danger variant.
 
 ---
 
-## 9. GESTES & NAVIGATION SYSTÈME
+## 9. GESTURES & SYSTEM NAVIGATION
 
-| Geste / bouton          | Action                                                    |
+| Gesture / button        | Action                                                    |
 | ----------------------- | ---------------------------------------------------------- |
-| Retour Android          | Ferme dans l'ordre : dialog → sheet/drawer → écran poussé → app (`PopScope`) |
-| Swipe haut sur toast    | Fermeture (types fermables)                                |
-| Swipe sur item de liste | Suppression avec confirmation (si activé Phase 3)          |
-| Tap destination navbar  | Change d'écran, état conservé                              |
-| Pull-to-refresh         | `RefreshIndicator` sur les listes de données (couleur `primary`) |
+| Android back            | Closes in order: dialog → sheet/drawer → pushed screen → app (`PopScope`) |
+| Swipe up on toast       | Dismiss (dismissible types)                                |
+| Swipe on list item      | Deletion with confirmation (if enabled in Phase 3)         |
+| Tap navbar destination  | Change screen, state preserved                             |
+| Pull-to-refresh         | `RefreshIndicator` on data lists (`primary` color)         |
 
 ---
 
-## 10. PRÉFÉRENCES PERSISTÉES
+## 10. PERSISTED PREFERENCES
 
-`shared_preferences` — accédées uniquement via `data/repositories/preferences_repository.dart`, exposées par provider.
+`shared_preferences` — accessed only through `data/repositories/preferences_repository.dart`, exposed by a provider.
 
-| Préférence            | Valeur par défaut |
+| Preference            | Default value     |
 | --------------------- | ----------------- |
-| thème                 | système OS        |
-| dernière destination  | première          |
-| locale (si i18n)      | fr                |
+| theme                 | OS system         |
+| last destination      | first             |
+| locale (if i18n)      | fr                |
 
 ---
 
-## 11. RÉFÉRENCE CROISÉE DESIGN SYSTEM
+## 11. DESIGN SYSTEM CROSS-REFERENCE
 
-Ce fichier ne redéfinit pas les tokens — il les consomme. Toute valeur visuelle est tracée vers `design-system.md v1.0 (Flutter)`.
+This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.0 (Flutter)`.
 
-| Besoin                     | Token                                        |
+| Need                       | Token                                        |
 | -------------------------- | -------------------------------------------- |
-| Fond principal             | `bg`                                         |
-| Fond zones secondaires     | `bgSubtle`                                   |
-| Fond drawer / sheet        | `bgElevated`                                 |
-| Texte principal            | `text`                                       |
-| Texte secondaire           | `textSubtle`                                 |
-| Bordures                   | `border` / `borderSubtle` / `borderStrong`   |
-| Couleur active / sélection | `primary` / `primaryBg`                      |
-| Surface tactile minimale   | `touchTarget` = 48                           |
-| Transitions panels         | `transitionSlow` = 250ms                     |
-| Transitions états          | `transitionDefault` = 150ms                  |
-| Forme                      | `radius` = 0 (flat design)                   |
-| Ombres                     | `elevation` = 0 (flat design)                |
+| Main background            | `bg`                                         |
+| Secondary areas background | `bgSubtle`                                   |
+| Drawer / sheet background  | `bgElevated`                                 |
+| Primary text               | `text`                                       |
+| Secondary text             | `textSubtle`                                 |
+| Borders                    | `border` / `borderSubtle` / `borderStrong`   |
+| Active / selection color   | `primary` / `primaryBg`                      |
+| Minimum touch surface      | `touchTarget` = 48                           |
+| Panel transitions          | `transitionSlow` = 250ms                     |
+| State transitions          | `transitionDefault` = 150ms                  |
+| Shape                      | `radius` = 0 (flat design)                   |
+| Shadows                    | `elevation` = 0 (flat design)                |

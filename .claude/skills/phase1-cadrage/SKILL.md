@@ -1,11 +1,25 @@
 ---
 name: phase1-cadrage
-description: Phase 1 du cycle de génération d'application Flutter/Android — cadrage en 5 questions groupées, choix de la couleur primaire, annonce du calibrage (nombre de lots).
+description: Phase 1 of the Flutter/Android app generation cycle — scoping in 6 grouped questions, primary color choice, calibration announcement (number of batches), and writing of the scoping spec.
+model: sonnet
 ---
 
-# /phase1-cadrage — Cadrage
+# /phase1-cadrage — Scoping
 
-## 1. Questions — un seul bloc
+## Role
+Project scoper — turn a vague idea into a bounded, validated scope.
+
+## Goal
+Lock the project parameters (stack options, DB, i18n, calibration, primary color) before any analysis.
+
+## Deliverable
+`docs/specs/01-cadrage.md` (written in French) + on-screen summary.
+
+---
+
+## 1. Questions — single block
+
+Ask in French:
 
 ```
 Cadrage du projet :
@@ -15,38 +29,41 @@ Cadrage du projet :
 3. Édition de texte riche (gras, listes, titres — flutter_quill) ? Oui / Non
 4. Internationalisation FR/EN activée pour ce projet ? Oui / Non (FR par défaut si Non)
 5. Icône applicative : fichier PNG 1024×1024 fourni ? Oui (chemin) / Non (défaut Flutter, ajout possible plus tard)
+6. Orientation : portrait uniquement (défaut) / portrait + paysage ?
+7. Tests automatisés (flutter_test + mocktail) ? Oui / Non — recommandé Oui pour usage pro
 ```
 
-Préférences persistantes (thème, dernière destination) : toujours activées via `shared_preferences` — pas de question.
+Persistent preferences (theme, last destination): always enabled via `shared_preferences` — no question.
 
-## 2. Couleur primaire
+## 2. Primary color
 
-Après réception des réponses, proposer :
+After receiving the answers, propose (in French):
 
 ```
 Couleur primaire pour ce projet :
 
-A. [Couleur 1] — [hex clair] / [hex sombre] — [caractère en 3 mots]
-B. [Couleur 2] — [hex clair] / [hex sombre] — [caractère en 3 mots]
-C. [Couleur 3] — [hex clair] / [hex sombre] — [caractère en 3 mots]
+A. [Color 1] — [light hex] / [dark hex] — [character in 3 words]
+B. [Color 2] — [light hex] / [dark hex] — [character in 3 words]
+C. [Color 3] — [light hex] / [dark hex] — [character in 3 words]
 D. Slate Blue  — #4F46E5 / #818CF8          — professionnel, tech, sobre (défaut)
 ```
 
-- Proposer 3 couleurs professionnelles adaptées au contexte de l'application décrite.
-- Si A, B ou C : les valeurs `primary50/400/600/900` sont définies pour ce projet dans `tokens.dart`. Le `design-system.md` global reste inchangé.
-- Si D ou pas de réponse : Slate Blue par défaut.
+- Propose 3 professional colors suited to the described application context.
+- If A, B or C: the `primary50/400/600/900` values are set for this project in `tokens.dart`. The global `design-system.md` stays unchanged.
+- If D or no answer: Slate Blue by default.
 
-## 3. Calibrage — annoncé en fin de Phase 1
+## 3. Calibration — announced at the end of Phase 1
 
-| Taille        | Fichiers | Fonctionnalités | Lots |
-| ------------- | -------- | --------------- | ---- |
-| Petit         | < 10     | ≤ 5             | 3    |
-| Moyen / Grand | ≥ 10     | > 5             | 4    |
+Apply the CALIBRATION table in `CLAUDE.md` (canonical source): Small (< 10 files and ≤ 5 features) → 3 batches; Medium/Large (≥ 10 or > 5) → 4 batches; divergent criteria → the highest wins. **+1 batch if tests are enabled (Q7)** — Small 4 / Medium-Large 5.
 
-Le nombre de lots est figé après validation. Aucune modification possible.
+The number of batches is frozen after validation. No further modification possible.
 
-## 4. Bibliothèques
+## 4. Libraries
 
-Toute bibliothèque hors stack (graphiques fl_chart, flutter_secure_storage, logging, flutter_native_splash…) est proposée et validée ici — aucune ne pourra être ajoutée ensuite sans protocole de déclaration.
+Any library outside the stack (charts fl_chart, flutter_secure_storage, logging, flutter_native_splash…) is proposed and validated here — none can be added later without a declaration protocol.
 
-→ Enchaîner sur `/phase2-analyse` après validation.
+## 5. Write the spec
+
+Write `docs/specs/01-cadrage.md` (in French) capturing: objective, DB choice, rich editing, i18n, icon, orientation, tests (Q7), primary color (with hex values), validated libraries, and the frozen calibration (size + number of batches). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
+
+→ Chain to `/phase2-analyse` after validation.

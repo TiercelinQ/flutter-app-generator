@@ -1,9 +1,11 @@
 # Claude Code — personnel par machine
 .claude/settings.local.json
-.claude/agent-memory/
 
 # Sessions de génération
 claude-sessions/
+
+# Plan de travail local
+tasks/
 
 # Flutter / Dart
 build/

@@ -1,34 +1,46 @@
 ---
 name: generate-readme
-description: Analyser le code source d'un projet Flutter existant et générer automatiquement son README.md (objectif, stack, arborescence, providers, schéma SQLite, conventions, build). Invoquer depuis la racine du projet cible.
+description: Analyze the specs and source of an existing Flutter project and generate its README.md (objective, stack, tree, providers, SQLite schema, conventions, build). Invoke from the target project root.
+model: sonnet
 ---
 
-# /generate-readme — Génération du README.md
+# /generate-readme — Generate the README.md
 
-Pré-requis : invoqué depuis la racine du projet cible.
+## Role
+Technical writer — produce an accurate project README from specs + code.
 
-1. Analyser : `pubspec.yaml`, `lib/core/`, `lib/data/` (exceptions, database, models, repositories), `lib/application/`, `lib/presentation/`, `l10n.yaml`.
-2. Générer `README.md` à la racine :
+## Goal
+Write a README that reflects what was actually built.
+
+## Deliverable
+`README.md` at the project root.
+
+---
+
+Prerequisite: invoked from the target project root.
+
+1. **Sources, in priority**: `docs/specs/*` (especially `04-contrat.md`) for the intended structure, then the real code — `pubspec.yaml`, `lib/core/`, `lib/data/` (exceptions, database, models, repositories), `lib/application/`, `lib/presentation/`, `l10n.yaml`. When specs and code disagree, the code is what shipped — describe the code and note the divergence.
+2. Generate `README.md` at the root:
 
 ```markdown
-# [NOM_APP]
+# [APP_NAME]
 
-[Objectif déduit du code — 2 phrases max]
+[Objective inferred from specs/code — 2 sentences max]
 
 ## Stack
-[tableau : Flutter, Dart, Riverpod, sqflite, flutter_quill, i18n]
+[table: Flutter, Dart, Riverpod, sqflite, flutter_quill, i18n]
 
-## Arborescence
-[arborescence réelle avec rôle de chaque fichier]
+## Tree
+[real tree with the role of each file]
 
 ## Providers
-[tableau provider → repository → écrans]
+[table provider → repository → screens]
 
-## Schéma SQLite
-[tables, colonnes, version — ou "aucune"]
+## SQLite schema
+[tables, columns, version — or "none"]
 
 ## Conventions
-[couches, tokens, toasts, SQL paramétré — renvoi aux règles]
+[layers, tokens, toasts, parameterized SQL — pointer to the rules]
 
 ## Build & installation
 flutter pub get
@@ -36,5 +48,5 @@ dart run build_runner build --delete-conflicting-outputs
 flutter build apk --release
 ```
 
-3. Écrire le fichier sur le disque, confirmer en une ligne.
-4. Si des informations sont indéterminables depuis le code : poser les questions groupées en un seul bloc avant d'écrire.
+3. Write the file to disk, confirm in one line (French).
+4. If anything is undeterminable from specs + code: ask grouped questions (single block, French) before writing.
