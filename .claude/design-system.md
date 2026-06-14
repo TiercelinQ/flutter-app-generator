@@ -1,9 +1,20 @@
-# Design System — v1.0 (Flutter / Android)
+# Design System — v1.1 (Flutter / Android)
 
 > Binding reference for all Flutter/Dart Android applications.
 > Inseparable from `layout.md`.
 > All tokens are Dart constants declared in `lib/presentation/theme/tokens.dart`, consumed exclusively by `app_theme.dart` and by widgets through the theme.
 > Units: dimensions in **dp** (Flutter logical value), fonts in **sp** (follow the system setting).
+
+## Changelog
+
+| Version | Date       | Main change                                                                                       |
+| ------- | ---------- | ------------------------------------------------------------------------------------------------- |
+| v1.1    | 2026-06-14 | line-height · dark semantic backgrounds · primary/danger pressed stops · WCAG AA target · overlay layering · dark surface ramp fix · icon warning/info · selection/opacity/border-width/onPrimary tokens |
+| v1.0    | initial    | Dart-token port: typography, colors, spacing, components, states (touchTarget, sp units)            |
+
+> Aligns with the Python generator `design-system.md v1.2` and Electron `v1.1` (shared palette). Per-file versions: theme rules in `rules/theme.md`, layout in `layout.md`.
+
+Every generated application references the active version in its `README.md`.
 
 ---
 
@@ -21,6 +32,17 @@
 | `weightMedium`   | `FontWeight.w500` | Labels, navigation items |
 | `weightSemibold` | `FontWeight.w600` | Titles, headers    |
 | `weightBold`     | `FontWeight.w700` | Primary titles     |
+
+### Line-height
+
+Applied via the `height` property of `TextStyle` (multiplier of font size).
+
+| Token           | Value | Usage                          |
+| --------------- | ----- | ------------------------------ |
+| `leadingTight`  | 1.25  | Titles (`fontLg`, `font2xl`)   |
+| `leadingNormal` | 1.5   | Body, labels                   |
+
+> Scale note: the step from `fontLg` (18) to `font2xl` (24) is wider than the lower steps. No `fontXl` (20) token is defined (no current usage); do not add one speculatively.
 
 ---
 
@@ -49,8 +71,8 @@ Declaration: two token classes — `LightColors` and `DarkColors` — implementi
 | -------------- | ------- | ------------------------------ |
 | `bg`           | #111827 | Main background, AppBar        |
 | `bgSubtle`     | #1F2937 | Secondary areas                |
-| `bgMuted`      | #1F2937 | Hover/pressed                  |
-| `bgElevated`   | #374151 | Drawer, bottom sheet, dialogs  |
+| `bgElevated`   | #1F2937 | Drawer, bottom sheet           |
+| `bgMuted`      | #374151 | Hover/pressed                  |
 | `text`         | #F9FAFB | Primary text                   |
 | `textSubtle`   | #9CA3AF | Secondary text                 |
 | `textMuted`    | #6B7280 | Disabled text                  |
@@ -58,14 +80,18 @@ Declaration: two token classes — `LightColors` and `DarkColors` — implementi
 | `borderSubtle` | #1F2937 | Discreet separators            |
 | `borderStrong` | #4B5563 | List/table headers             |
 
+> Dark surface ramp: `bg` #111827 < {`bgSubtle`, `bgElevated`} #1F2937 < `bgMuted` #374151. `bgMuted` is the lightest so that the pressed highlight stays visible on every surface, including inside drawers and sheets.
+
 ### Primary color — Slate Blue
 
-| Token        | Light   | Dark    |
-| ------------ | ------- | ------- |
-| `primary50`  | #EEF2FF | —       |
-| `primary400` | —       | #818CF8 |
-| `primary600` | #4F46E5 | —       |
-| `primary900` | —       | #312E81 |
+| Token        | Light   | Dark    | Usage                            |
+| ------------ | ------- | ------- | -------------------------------- |
+| `primary50`  | #EEF2FF | —       | Selection / active bg (light)    |
+| `primary400` | —       | #818CF8 | Active content (dark)            |
+| `primary600` | #4F46E5 | —       | Active content, primary btn (light) |
+| `primary700` | #4338CA | #4338CA | Primary button pressed (both modes) |
+| `primary800` | #3730A3 | #3730A3 | Primary button deep pressed (both modes) |
+| `primary900` | —       | #312E81 | Selection / active bg (dark)     |
 
 Derived usage tokens, defined per theme — these are the ones components consume:
 
@@ -74,20 +100,24 @@ Derived usage tokens, defined per theme — these are the ones components consum
 | `primary`   | `primary600` | `primary400` |
 | `primaryBg` | `primary50`  | `primary900` |
 
-> Modification: replacing the 4 `primary*` values in `tokens.dart` is enough to change the primary color across the whole application.
+> Modification: replacing the 6 `primary*` values in `tokens.dart` is enough to change the primary color across the whole application. `primary700`/`primary800` are derived from `primary600` by the same HSL rule used by the Python generator (same H/S, lightness 50%/42%); both are mode-agnostic (one value each).
 
 ### Semantic colors
 
 | Token        | Light   | Dark    | Usage                  |
 | ------------ | ------- | ------- | ---------------------- |
-| `success50`  | #F0FDF4 | —       | Success toast bg       |
+| `success50`  | #F0FDF4 | #14532D | Success toast bg       |
 | `success600` | #16A34A | #4ADE80 | Success border, icon   |
-| `warning50`  | #FFFBEB | —       | Warning toast bg       |
+| `warning50`  | #FFFBEB | #78350F | Warning toast bg       |
 | `warning600` | #D97706 | #FCD34D | Warning border, icon   |
-| `danger50`   | #FFF1F2 | —       | Danger toast bg        |
+| `danger50`   | #FFF1F2 | #7F1D1D | Danger toast bg        |
 | `danger600`  | #DC2626 | #F87171 | Danger border, icon    |
-| `info50`     | #EFF6FF | —       | Info toast bg          |
+| `danger700`  | #B91C1C | #B91C1C | Danger button pressed  |
+| `danger800`  | #991B1B | #991B1B | Danger button deep pressed |
+| `info50`     | #EFF6FF | #1E3A8A | Info toast bg          |
 | `info600`    | #2563EB | #60A5FA | Info border, icon      |
+
+> Naming note: `*50` is a **role** ("semantic surface / toast background"), not a fixed luminance level. Light = pale tint, Dark = deep tint of the same hue, declared in `DarkColors`. A toast then keeps one coherent palette per theme: bg `*50`, text `text`, border/icon `*600` — all resolved from the same `*Colors` class. On the dark `*50` background, `text` (#F9FAFB) and the `*600` dark accent both keep WCAG AA contrast.
 
 ### Charts / visualization palette
 
@@ -98,6 +128,18 @@ Derived usage tokens, defined per theme — these are the ones components consum
 | `chartWarning` | `warning600` |
 | `chartDanger`  | `danger600`  |
 | `chartInfo`    | `info600`    |
+
+> Charts reference the themed tokens (`primary`, `*600`), so they follow light/dark with no redefinition; the dark `*600` accents keep legible series on a dark background.
+
+### Text selection & on-primary
+
+| Token           | Light        | Dark         | Usage                            |
+| --------------- | ------------ | ------------ | -------------------------------- |
+| `selectionBg`   | `primaryBg`  | `primaryBg`  | Text field selection background  |
+| `cursorColor`   | `primary`    | `primary`    | Text field cursor                |
+| `onPrimary`     | #FFFFFF      | #FFFFFF      | Text/icon on Primary / Danger buttons |
+
+> `onPrimary` replaces the literal `#FFFFFF` in button styles (§9). `selectionBg`/`cursorColor` go into `textSelectionTheme` in `app_theme.dart`.
 
 ---
 
@@ -145,14 +187,29 @@ Derived usage tokens, defined per theme — these are the ones components consum
 
 ---
 
-## 5. SHAPE & SHADOWS
+## 5. SHAPE, SHADOWS, BORDERS, OPACITY
 
-| Token       | Value                        |
-| ----------- | ---------------------------- |
-| `radius`    | 0 — strict flat design       |
-| `elevation` | 0 — strict flat design       |
+| Token       | Value                   |
+| ----------- | ----------------------- |
+| `radius`    | 0, strict flat design   |
+| `elevation` | 0, strict flat design   |
 
 `BoxShadow` forbidden. `elevation: 0` on AppBar, NavigationBar, Card, Dialog, BottomSheet (overrides in `app_theme.dart`).
+
+### Border widths
+
+| Token                 | Value | Usage                                          |
+| --------------------- | ----- | ---------------------------------------------- |
+| `borderWidth`         | 1     | Standard borders, separators                   |
+| `borderWidthEmphasis` | 2     | Focused field, error field, active indicator   |
+| `borderWidthAccent`   | 4     | Toast left accent                              |
+
+### Opacity
+
+| Token             | Value | Usage                                  |
+| ----------------- | ----- | -------------------------------------- |
+| `opacityDisabled` | 0.4   | Disabled interactive elements          |
+| `opacityOverlay`  | 0.4   | Dialog / drawer / sheet scrim (`text`) |
 
 ---
 
@@ -177,15 +234,17 @@ On mobile, the primary feedback is the pressed state (`bgMuted`) — the focus r
 
 ## 8. INTERACTIVE COMPONENT STATES
 
-Applies to all buttons, destinations, clickable items:
+Applies to **transparent / neutral interactive elements**: navbar destinations, list/tree items, Secondary and Ghost buttons. Filled colored buttons (Primary, Danger) follow their own pressed rules in §9, because a `bgMuted` gray highlight on a colored fill drops the semantic color.
 
-| State                  | Rule                                                              |
-| ---------------------- | ----------------------------------------------------------------- |
-| `default`              | Base style defined by the component                                |
-| `pressed` (≈ hover)    | `bgMuted` background — splash/highlight disabled in favor of a flat highlight (`splashFactory: NoSplash`) |
-| `active` / selected    | `primaryBg` background, `primary` content                          |
-| `disabled`             | 40% opacity, non-interactive                                       |
-| focused field          | 2 `primary` border                                                 |
+| State               | Rule                                                              |
+| ------------------- | ----------------------------------------------------------------- |
+| `default`           | Base style defined by the component                                |
+| `pressed`           | `bgMuted` highlight — splash disabled (`splashFactory: NoSplash`) |
+| `active` / selected | `primaryBg` background, `primary` content                          |
+| `disabled`          | `opacityDisabled` (0.4), non-interactive                           |
+| focused field       | `borderWidthEmphasis` (2) `primary` border                        |
+
+> `active`/selected (persistent chosen state: navbar destination, selected item) is distinct from `pressed` (transient touch-down). Do not conflate them.
 
 ---
 
@@ -193,10 +252,21 @@ Applies to all buttons, destinations, clickable items:
 
 | Variant    | Base widget      | Background    | Text         | Border         |
 | ---------- | ---------------- | ------------- | ------------ | -------------- |
-| Primary    | `FilledButton`   | `primary`     | #FFFFFF      | none           |
+| Primary    | `FilledButton`   | `primary`     | `onPrimary`  | none           |
 | Secondary  | `OutlinedButton` | transparent   | `text`       | 1 `border`     |
-| Danger     | `FilledButton`   | `danger600`   | #FFFFFF      | none           |
+| Danger     | `FilledButton`   | `danger600`   | `onPrimary`  | none           |
 | Ghost      | `TextButton`     | transparent   | `textSubtle` | none           |
+
+**Pressed state per variant** (via `WidgetStateProperty` overlay/background in `app_theme.dart`):
+
+| Variant   | pressed background       |
+| --------- | ------------------------ |
+| Primary   | `primary700`             |
+| Danger    | `danger700`              |
+| Secondary | `bgMuted` highlight      |
+| Ghost     | `bgMuted` highlight      |
+
+> Colored buttons (Primary, Danger) darken on press via their own `700` stops, never the neutral `bgMuted` rule of §8. Disabled: `opacityDisabled`.
 
 Styles centralized in `app_theme.dart` (`filledButtonTheme`, `outlinedButtonTheme`, `textButtonTheme`) — danger/ghost variants via named constructors of an `AppButton` widget consuming the tokens. Zero local `ButtonStyle` in screens.
 
@@ -222,8 +292,10 @@ Library: `font_awesome_flutter` (Font Awesome Free, embedded locally).
 | ------------- | ------------------------ | -------- |
 | `iconDefault` | #6B7280 (`textSubtle`)   | #9CA3AF  |
 | `iconActive`  | #4F46E5 (`primary`)      | #818CF8  |
-| `iconDanger`  | #DC2626 (`danger600`)    | #F87171  |
 | `iconSuccess` | #16A34A (`success600`)   | #4ADE80  |
+| `iconWarning` | #D97706 (`warning600`)   | #FCD34D  |
+| `iconDanger`  | #DC2626 (`danger600`)    | #F87171  |
+| `iconInfo`    | #2563EB (`info600`)      | #60A5FA  |
 | `iconMuted`   | #9CA3AF (`textMuted`)    | #6B7280  |
 
 ```dart
@@ -250,3 +322,35 @@ FaIcon(
 // app_theme.dart — token: bg / text
 scaffoldBackgroundColor: colors.bg,
 ```
+
+---
+
+## 12. ACCESSIBILITY
+
+Target: **WCAG 2.1 level AA**, on top of the Android touch baseline.
+
+| Criterion           | Rule                                                                                          |
+| ------------------- | --------------------------------------------------------------------------------------------- |
+| Touch target        | ≥ 48dp (`touchTarget`) on every interactive element — already enforced (§4)                    |
+| Text contrast       | ≥ 4.5:1 normal text, ≥ 3:1 large text (≥ 18sp bold or ≥ 24sp) and UI components                |
+| `textMuted`         | Disabled / decorative only, exempt from AA. Interactive icons (e.g. tree chevron) use `textSubtle` |
+| Dynamic type        | Fonts in **sp** follow the system text-size setting (§1). Avoid clamping `textScaler` to a fixed value |
+| Reduced motion      | Honor `MediaQuery.disableAnimations` — skip/shorten `transition*` when it is true              |
+| Focus / state       | Pressed feedback (`bgMuted`) is the primary touch affordance; the focus ring serves keyboard/TV |
+
+> Contrast figures are computed estimates, not tool-measured. Re-check with a contrast checker before shipping a new primary color.
+
+---
+
+## 13. LAYERING (overlay order)
+
+Flutter has no `z-index`; order comes from `Overlay` entry order and the `Navigator` stack. The intent below must be enforced by inserting the `ToastOverlay` above the modal routes.
+
+| Order | Element                              | Mechanism                                        |
+| ----- | ----------------------------------- | ------------------------------------------------ |
+| back  | Screen content (`IndexedStack`)     | Scaffold body                                    |
+|       | Drawer / BottomSheet + scrim        | `Scaffold.endDrawer` / `showModalBottomSheet`    |
+|       | Dialog + barrier                    | `showDialog` (root navigator)                    |
+| front | Toasts (`ToastOverlay`)             | root `Overlay` entry above modal routes          |
+
+> A persistent `danger` toast must stay visible above a dialog/sheet, so the `ToastOverlay` is mounted at the `MaterialApp` builder level (root overlay), not inside a screen.

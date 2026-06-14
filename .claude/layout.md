@@ -1,8 +1,15 @@
-# Layout System — v1.0 (Flutter / Android)
+# Layout System — v1.1 (Flutter / Android)
 
 > Binding reference for all Flutter/Dart Android applications.
-> Built on `design-system.md v1.0 (Flutter)`. The two files are inseparable.
+> Built on `design-system.md v1.1 (Flutter)`. The two files are inseparable.
 > Validated mobile transposition of the desktop layout: AppBar ↔ topbar, NavigationBar ↔ tabs, custom overlay toasts kept, status bar removed.
+
+## Changelog
+
+| Version | Date       | Main change                                                            |
+| ------- | ---------- | --------------------------------------------------------------------- |
+| v1.1    | 2026-06-14 | coherent dark toasts · tree chevron `textSubtle` (WCAG) · overlay layering reference |
+| v1.0    | initial    | Mobile transposition: AppBar, NavigationBar, overlay toasts, components |
 
 ---
 
@@ -185,7 +192,8 @@ Component: `presentation/widgets/toast_overlay.dart` + Riverpod controller `toas
 | `danger`  | `danger50`  | `danger600`  | `circleExclamation`        |
 | `info`    | `info50`    | `info600`    | `circleInfo`               |
 
-Dark mode note: light `*50` backgrounds are kept (toast = contrasted light surface) — toast text in `LightColors.text`.
+Dark mode: the toast uses one coherent palette per theme, all from the active `*Colors` class — bg `*50` (deep tint in dark, see `design-system.md §2`), text `text`, left border + icon `*600`. No mixing of light bg with dark accent. Icons use the matching `icon*` token (`iconSuccess`/`iconWarning`/`iconDanger`/`iconInfo`).
+Layering: the `ToastOverlay` is mounted at the root (above modal routes) so a persistent `danger` toast stays visible over a dialog/sheet (`design-system.md §13`).
 
 ---
 
@@ -252,7 +260,7 @@ On mobile, a data table becomes a vertical list of structured items (`ListView.s
 ### Tree view
 
 - Indentation per level: `spacing4` = 16.
-- Expand/collapse icon: FontAwesome chevron, `iconSm` = 16, `textMuted`.
+- Expand/collapse icon: FontAwesome chevron, `iconSm` = 16, `textSubtle` (interactive control — `textMuted` fails AA contrast).
 - Item: vertical padding `spacing1` (4), min touch height `touchTarget`.
 - Selected item: `primaryBg` bg.
 
@@ -326,7 +334,7 @@ On mobile, a data table becomes a vertical list of structured items (`ListView.s
 
 ## 11. DESIGN SYSTEM CROSS-REFERENCE
 
-This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.0 (Flutter)`.
+This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.1 (Flutter)`.
 
 | Need                       | Token                                        |
 | -------------------------- | -------------------------------------------- |
@@ -342,3 +350,6 @@ This file does not redefine tokens — it consumes them. Every visual value is t
 | State transitions          | `transitionDefault` = 150ms                  |
 | Shape                      | `radius` = 0 (flat design)                   |
 | Shadows                    | `elevation` = 0 (flat design)                |
+| Line-height                | `leadingTight` 1.25 / `leadingNormal` 1.5    |
+| Overlay scrim opacity      | `opacityOverlay` 0.4 (`text` color)          |
+| Overlay order              | layering (`design-system.md §13`)            |

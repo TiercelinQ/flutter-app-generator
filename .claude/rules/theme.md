@@ -14,7 +14,9 @@
 3. **Dark mode = complete `AppTheme.dark`** built from `DarkColors`, toggled via `themeMode` on `MaterialApp` (`themeControllerProvider`, persisted). Zero `Theme.of(context).brightness ==` in screens, zero local conditional color.
 4. **Every value in `app_theme.dart` carries a comment** indicating the source design-system token.
 5. **Flat design**: `elevation: 0` everywhere, `borderRadius: BorderRadius.zero`, `splashFactory: NoSplash.splashFactory`, `bgMuted` highlight, zero `BoxShadow`.
-6. **Structure of `tokens.dart`**: commented sections in this order — TYPOGRAPHY · LIGHT COLORS · DARK COLORS · PRIMARY (project: [Phase 1 color]) · SEMANTIC · ICONS · SPACING · FIXED SIZES · TRANSITIONS.
+6. **Structure of `tokens.dart`**: commented sections in this order — TYPOGRAPHY (+ line-height) · LIGHT COLORS · DARK COLORS · PRIMARY (project: [Phase 1 color]) — 50/400/600/700/800/900 + derived · SEMANTIC (incl. danger700/800) · ICONS · SPACING · FIXED SIZES · SHAPE / BORDER-WIDTH / OPACITY · TRANSITIONS · SELECTION / ON-PRIMARY.
+7. **Reduced motion**: honor `MediaQuery.of(context).disableAnimations` — shorten/skip `transitionDefault`/`transitionSlow` when true (Android "Remove animations" a11y setting).
+8. **Text selection**: `selectionBg` / `cursorColor` set once in `textSelectionTheme` (`app_theme.dart`), never per-field.
 
 ## Color access in widgets
 
@@ -33,7 +35,7 @@ Only tolerated exception: values computed at runtime that cannot be tokens (e.g.
 
 ## Per-project primary color
 
-If a color ≠ Slate Blue is chosen in Phase 1: only the 4 `primary50/400/600/900` values change in the project's `tokens.dart`. The global `design-system.md` stays unchanged.
+If a color ≠ Slate Blue is chosen in Phase 1: only the 6 `primary50/400/600/700/800/900` values change in the project's `tokens.dart` (the derived `primary`/`primaryBg` reference them and stay unchanged). The global `design-system.md` stays unchanged.
 
 ## Android system bar
 
