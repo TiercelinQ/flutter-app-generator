@@ -126,7 +126,7 @@ All generated apps share the same visual system, defined in `design-system.md`:
 - **Flat design** - `borderRadius: 0`, `elevation: 0`, zero shadow, zero gradient
 - **Token-driven theme** - every color, size, duration lives in `tokens.dart`; light/dark are two complete `ThemeData` built from tokens, toggled via `themeMode`
 - **Roboto** typography (Android native)
-- **Slate Blue** primary color recommended by default (+ 4 contextual proposals) - 4 token values to change the entire app color
+- **Steel Blue** primary color recommended by default (+ 4 contextual proposals) - 4 token values to change the entire app color
 - **Custom overlay toasts only** - no native `SnackBar`, no raw `AlertDialog`, no inline banner
 
 ---

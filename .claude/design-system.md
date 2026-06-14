@@ -1,4 +1,4 @@
-# Design System — v1.1 (Flutter / Android)
+# Design System — v1.2 (Flutter / Android)
 
 > Binding reference for all Flutter/Dart Android applications.
 > Inseparable from `layout.md`.
@@ -9,10 +9,11 @@
 
 | Version | Date       | Main change                                                                                       |
 | ------- | ---------- | ------------------------------------------------------------------------------------------------- |
+| v1.2    | 2026-06-14 | dark theme re-skin (theme-dark.md palette): 4-step dark surface ramp · dark neutrals/borders/semantic/icons/selection · Steel Blue primary (both modes) |
 | v1.1    | 2026-06-14 | line-height · dark semantic backgrounds · primary/danger pressed stops · WCAG AA target · overlay layering · dark surface ramp fix · icon warning/info · selection/opacity/border-width/onPrimary tokens |
 | v1.0    | initial    | Dart-token port: typography, colors, spacing, components, states (touchTarget, sp units)            |
 
-> Aligns with the Python generator `design-system.md v1.2` and Electron `v1.1` (shared palette). Per-file versions: theme rules in `rules/theme.md`, layout in `layout.md`.
+> Aligns with the Python generator `design-system.md v1.3` and Electron `v1.2` (shared palette). Per-file versions: theme rules in `rules/theme.md`, layout in `layout.md`.
 
 Every generated application references the active version in its `README.md`.
 
@@ -69,29 +70,29 @@ Declaration: two token classes — `LightColors` and `DarkColors` — implementi
 
 | Token          | Value   | Usage                          |
 | -------------- | ------- | ------------------------------ |
-| `bg`           | #111827 | Main background, AppBar        |
-| `bgSubtle`     | #1F2937 | Secondary areas                |
-| `bgElevated`   | #1F2937 | Drawer, bottom sheet           |
-| `bgMuted`      | #374151 | Hover/pressed                  |
-| `text`         | #F9FAFB | Primary text                   |
-| `textSubtle`   | #9CA3AF | Secondary text                 |
-| `textMuted`    | #6B7280 | Disabled text                  |
-| `border`       | #374151 | Standard borders               |
-| `borderSubtle` | #1F2937 | Discreet separators            |
-| `borderStrong` | #4B5563 | List/table headers             |
+| `bg`           | #1A1A1F | Main background, AppBar        |
+| `bgSubtle`     | #22222A | Secondary areas                |
+| `bgElevated`   | #2A2A35 | Drawer, bottom sheet           |
+| `bgMuted`      | #313140 | Hover/pressed                  |
+| `text`         | #D4D4D4 | Primary text                   |
+| `textSubtle`   | #9A9AB0 | Secondary text                 |
+| `textMuted`    | #5A5A72 | Disabled text                  |
+| `border`       | #3A3A4A | Standard borders               |
+| `borderSubtle` | #2E2E3A | Discreet separators            |
+| `borderStrong` | #4A4A5E | List/table headers             |
 
-> Dark surface ramp: `bg` #111827 < {`bgSubtle`, `bgElevated`} #1F2937 < `bgMuted` #374151. `bgMuted` is the lightest so that the pressed highlight stays visible on every surface, including inside drawers and sheets.
+> Dark surface ramp: `bg` #1A1A1F < `bgSubtle` #22222A < `bgElevated` #2A2A35 < `bgMuted` #313140. `bgMuted` is the lightest so that the pressed highlight stays visible on every surface, including inside drawers and sheets.
 
-### Primary color — Slate Blue
+### Primary color — Steel Blue
 
 | Token        | Light   | Dark    | Usage                            |
 | ------------ | ------- | ------- | -------------------------------- |
-| `primary50`  | #EEF2FF | —       | Selection / active bg (light)    |
-| `primary400` | —       | #818CF8 | Active content (dark)            |
-| `primary600` | #4F46E5 | —       | Active content, primary btn (light) |
-| `primary700` | #4338CA | #4338CA | Primary button pressed (both modes) |
-| `primary800` | #3730A3 | #3730A3 | Primary button deep pressed (both modes) |
-| `primary900` | —       | #312E81 | Selection / active bg (dark)     |
+| `primary50`  | #EDF3F8 | —       | Selection / active bg (light)    |
+| `primary400` | —       | #5A9FD4 | Active content (dark)            |
+| `primary600` | #4682B4 | #4682B4 | Primary button fill (both modes); active content (light) |
+| `primary700` | #396A93 | #396A93 | Primary button pressed (both modes) |
+| `primary800` | #2F5879 | #2F5879 | Primary button deep pressed (both modes) |
+| `primary900` | —       | #2A4F72 | Selection / active bg (dark)     |
 
 Derived usage tokens, defined per theme — these are the ones components consume:
 
@@ -100,24 +101,24 @@ Derived usage tokens, defined per theme — these are the ones components consum
 | `primary`   | `primary600` | `primary400` |
 | `primaryBg` | `primary50`  | `primary900` |
 
-> Modification: replacing the 6 `primary*` values in `tokens.dart` is enough to change the primary color across the whole application. `primary700`/`primary800` are derived from `primary600` by the same HSL rule used by the Python generator (same H/S, lightness 50%/42%); both are mode-agnostic (one value each).
+> Modification: replacing the 6 `primary*` values in `tokens.dart` is enough to change the primary color across the whole application. `primary700`/`primary800` are mode-agnostic (one value each). For a custom color they derive from `primary600` by the same HSL rule used by the Python generator (same H/S, lightness 50%/42%); Steel Blue is a preset whose explicit values win over that rule (its `primary600` already sits near L 49%, so `primary700/800` are darkened past the generic stops to keep the pressed darken visible).
 
 ### Semantic colors
 
 | Token        | Light   | Dark    | Usage                  |
 | ------------ | ------- | ------- | ---------------------- |
-| `success50`  | #F0FDF4 | #14532D | Success toast bg       |
-| `success600` | #16A34A | #4ADE80 | Success border, icon   |
-| `warning50`  | #FFFBEB | #78350F | Warning toast bg       |
-| `warning600` | #D97706 | #FCD34D | Warning border, icon   |
-| `danger50`   | #FFF1F2 | #7F1D1D | Danger toast bg        |
-| `danger600`  | #DC2626 | #F87171 | Danger border, icon    |
+| `success50`  | #F0FDF4 | #1D3F2A | Success toast bg       |
+| `success600` | #16A34A | #4A9E6A | Success border, icon   |
+| `warning50`  | #FFFBEB | #483B13 | Warning toast bg       |
+| `warning600` | #D97706 | #CCA840 | Warning border, icon   |
+| `danger50`   | #FFF1F2 | #441818 | Danger toast bg        |
+| `danger600`  | #DC2626 | #C04A4A | Danger border, icon    |
 | `danger700`  | #B91C1C | #B91C1C | Danger button pressed  |
 | `danger800`  | #991B1B | #991B1B | Danger button deep pressed |
-| `info50`     | #EFF6FF | #1E3A8A | Info toast bg          |
-| `info600`    | #2563EB | #60A5FA | Info border, icon      |
+| `info50`     | #EFF6FF | #1A3042 | Info toast bg          |
+| `info600`    | #2563EB | #4682B4 | Info border, icon      |
 
-> Naming note: `*50` is a **role** ("semantic surface / toast background"), not a fixed luminance level. Light = pale tint, Dark = deep tint of the same hue, declared in `DarkColors`. A toast then keeps one coherent palette per theme: bg `*50`, text `text`, border/icon `*600` — all resolved from the same `*Colors` class. On the dark `*50` background, `text` (#F9FAFB) and the `*600` dark accent both keep WCAG AA contrast.
+> Naming note: `*50` is a **role** ("semantic surface / toast background"), not a fixed luminance level. Light = pale tint, Dark = deep tint of the same hue, declared in `DarkColors`. A toast then keeps one coherent palette per theme: bg `*50`, text `text`, border/icon `*600` — all resolved from the same `*Colors` class. On the dark `*50` background, `text` (#D4D4D4) and the `*600` dark accent both keep WCAG AA contrast.
 
 ### Charts / visualization palette
 
@@ -252,7 +253,7 @@ Applies to **transparent / neutral interactive elements**: navbar destinations, 
 
 | Variant    | Base widget      | Background    | Text         | Border         |
 | ---------- | ---------------- | ------------- | ------------ | -------------- |
-| Primary    | `FilledButton`   | `primary`     | `onPrimary`  | none           |
+| Primary    | `FilledButton`   | `primary600`  | `onPrimary`  | none           |
 | Secondary  | `OutlinedButton` | transparent   | `text`       | 1 `border`     |
 | Danger     | `FilledButton`   | `danger600`   | `onPrimary`  | none           |
 | Ghost      | `TextButton`     | transparent   | `textSubtle` | none           |
@@ -267,6 +268,8 @@ Applies to **transparent / neutral interactive elements**: navbar destinations, 
 | Ghost     | `bgMuted` highlight      |
 
 > Colored buttons (Primary, Danger) darken on press via their own `700` stops, never the neutral `bgMuted` rule of §8. Disabled: `opacityDisabled`.
+
+> Primary button fill uses `primary600` (#4682B4 in both modes), **not** the `primary` usage token — so the button stays mid-steel in dark mode and white `onPrimary` reaches 4.11:1 (AA for UI / large text). The brighter `primary` (`primary400` #5A9FD4 in dark) is reserved for foreground accents (active content, icons, focus) that must read on dark surfaces; using it as a button fill would drop white text to 2.86:1.
 
 Styles centralized in `app_theme.dart` (`filledButtonTheme`, `outlinedButtonTheme`, `textButtonTheme`) — danger/ghost variants via named constructors of an `AppButton` widget consuming the tokens. Zero local `ButtonStyle` in screens.
 
@@ -290,13 +293,13 @@ Library: `font_awesome_flutter` (Font Awesome Free, embedded locally).
 
 | Token         | Light                    | Dark     |
 | ------------- | ------------------------ | -------- |
-| `iconDefault` | #6B7280 (`textSubtle`)   | #9CA3AF  |
-| `iconActive`  | #4F46E5 (`primary`)      | #818CF8  |
-| `iconSuccess` | #16A34A (`success600`)   | #4ADE80  |
-| `iconWarning` | #D97706 (`warning600`)   | #FCD34D  |
-| `iconDanger`  | #DC2626 (`danger600`)    | #F87171  |
-| `iconInfo`    | #2563EB (`info600`)      | #60A5FA  |
-| `iconMuted`   | #9CA3AF (`textMuted`)    | #6B7280  |
+| `iconDefault` | #6B7280 (`textSubtle`)   | #9A9AB0  |
+| `iconActive`  | #4682B4 (`primary`)      | #5A9FD4  |
+| `iconSuccess` | #16A34A (`success600`)   | #4A9E6A  |
+| `iconWarning` | #D97706 (`warning600`)   | #CCA840  |
+| `iconDanger`  | #DC2626 (`danger600`)    | #C04A4A  |
+| `iconInfo`    | #2563EB (`info600`)      | #4682B4  |
+| `iconMuted`   | #9CA3AF (`textMuted`)    | #5A5A72  |
 
 ```dart
 // Usage in a widget

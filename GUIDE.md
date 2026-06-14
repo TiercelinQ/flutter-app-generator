@@ -89,7 +89,7 @@ flutter --version     # Flutter stable · Dart 3 (pour générer/exécuter les a
 
 ### Phase 1 — Scoping
 
-7 questions en un seul bloc : objectif · base de données (SQLite sqflite / JSON local / aucune) · édition de texte riche (flutter_quill) · i18n FR/EN · icône PNG 1024×1024 · orientation (portrait / portrait+paysage) · tests (flutter_test + mocktail). Puis choix de couleur primaire (Slate Blue recommandé par défaut + 4 propositions adaptées au contexte). Calibrage annoncé.
+7 questions en un seul bloc : objectif · base de données (SQLite sqflite / JSON local / aucune) · édition de texte riche (flutter_quill) · i18n FR/EN · icône PNG 1024×1024 · orientation (portrait / portrait+paysage) · tests (flutter_test + mocktail). Puis choix de couleur primaire (Steel Blue recommandé par défaut + 4 propositions adaptées au contexte). Calibrage annoncé.
 
 | Taille        | Lots (sans tests) | Lots (avec tests) |
 | ------------- | ----------------- | ----------------- |

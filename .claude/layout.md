@@ -1,7 +1,7 @@
 # Layout System — v1.1 (Flutter / Android)
 
 > Binding reference for all Flutter/Dart Android applications.
-> Built on `design-system.md v1.1 (Flutter)`. The two files are inseparable.
+> Built on `design-system.md v1.2 (Flutter)`. The two files are inseparable.
 > Validated mobile transposition of the desktop layout: AppBar ↔ topbar, NavigationBar ↔ tabs, custom overlay toasts kept, status bar removed.
 
 ## Changelog
@@ -334,7 +334,7 @@ On mobile, a data table becomes a vertical list of structured items (`ListView.s
 
 ## 11. DESIGN SYSTEM CROSS-REFERENCE
 
-This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.1 (Flutter)`.
+This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.2 (Flutter)`.
 
 | Need                       | Token                                        |
 | -------------------------- | -------------------------------------------- |

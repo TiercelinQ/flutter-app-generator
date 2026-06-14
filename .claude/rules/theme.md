@@ -35,7 +35,7 @@ Only tolerated exception: values computed at runtime that cannot be tokens (e.g.
 
 ## Per-project primary color
 
-If a color ≠ Slate Blue is chosen in Phase 1: only the 6 `primary50/400/600/700/800/900` values change in the project's `tokens.dart` (the derived `primary`/`primaryBg` reference them and stay unchanged). The global `design-system.md` stays unchanged.
+If a color ≠ Steel Blue is chosen in Phase 1: only the 6 `primary50/400/600/700/800/900` values change in the project's `tokens.dart` (the derived `primary`/`primaryBg` reference them and stay unchanged). The global `design-system.md` stays unchanged.
 
 ## Android system bar
 
