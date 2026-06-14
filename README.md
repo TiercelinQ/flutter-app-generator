@@ -2,7 +2,7 @@
 
 > Claude Code generator for **Android mobile apps** — Flutter · Dart · Riverpod.
 
-Part of a family of Claude Code generators. See also [claude-python-app-generator](https://github.com/TiercelinQ/claude-python-app-generator) and [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator).
+Part of a family of Claude Code generators. See also [python-app-generator](https://github.com/TiercelinQ/python-app-generator) and [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator).
 
 Unified edition: the full generation pipeline **plus** post-delivery maintenance skills, an explicit role per skill, persisted specs, centralized executable verification, and native memory.
 
