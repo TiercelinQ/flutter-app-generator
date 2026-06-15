@@ -31,7 +31,7 @@ claude-flutter-framework/
 │   ├── fix/                  # Corriger un bug — arbre de décision, cause racine
 │   ├── refactor/             # Restructurer sous validation explicite uniquement
 │   ├── test/                 # Vérification exécutable (analyze, custom_lint, tests)
-│   ├── charger-projet/       # Chargement d'un projet existant
+│   ├── load-project/       # Chargement d'un projet existant
 │   ├── generate-readme/      # Génération README.md projet existant
 │   ├── session/              # Sauvegarde de session
 │   ├── statut/               # État courant du projet
@@ -52,7 +52,7 @@ claude-flutter-framework/
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (en français). |
-| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/charger-projet`, `/contrat`, `/feature-add`, `/refactor`. |
+| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/load-project`, `/contrat`, `/feature-add`, `/refactor`. |
 | **Skills de maintenance**     | `analyze`, `implement`, `fix`, `refactor`, `test` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : analyze, custom_lint, build_runner, tests — échec bloquant. |
 | **Mémoire native**            | `/memoriser` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
@@ -128,7 +128,7 @@ Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]
 ## Travailler sur un projet livré
 
 ```
-/flutter-app → 3      # ou directement /charger-projet depuis la racine du projet
+/flutter-app → 3      # ou directement /load-project depuis la racine du projet
 ```
 
 Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/generate-readme`.
@@ -189,7 +189,7 @@ Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage puis
 | `/fix`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/refactor`             | Sonnet | Restructurer sous validation                         |
 | `/test`                 | Sonnet | Vérification exécutable                               |
-| `/charger-projet`       | Sonnet | Charger un projet existant                           |
+| `/load-project`       | Sonnet | Charger un projet existant                           |
 | `/generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
 | `/session`              | Haiku  | Sauvegarder la session                               |
 | `/statut`               | Haiku  | État courant                                         |
@@ -229,5 +229,5 @@ mon_app/
 - Toute requête SQL est paramétrée (`?` + `whereArgs`) — zéro interpolation.
 - Les fichiers `.g.dart` ne sont jamais livrés — générés par `dart run build_runner build`.
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/feature-add` ou le protocole de déclaration d'écart.
-- `/charger-projet`, `/generate-readme`, `/feature-add`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
+- `/load-project`, `/generate-readme`, `/feature-add`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
 - Livrable : APK release signé (sideload) — AAB Play Store sur demande.
