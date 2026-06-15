@@ -27,16 +27,16 @@ claude-flutter-framework/
 │   ├── p4-architect/       # Contrat architectural verrouillé → docs/specs/04-architect.md
 │   ├── p5-development/ # Livraison par lots (enchaînement auto)
 │   ├── implement/            # Ajouter une feature à une app livrée (respect contrat + couches)
-│   ├── analyze/              # Tracer une fonctionnalité presentation→application→data
-│   ├── fix/                  # Corriger un bug — arbre de décision, cause racine
-│   ├── refactor/             # Restructurer sous validation explicite uniquement
-│   ├── test/                 # Vérification exécutable (analyze, custom_lint, tests)
+│   ├── trace-feature/              # Tracer une fonctionnalité presentation→application→data
+│   ├── fix-issue/                  # Corriger un bug — arbre de décision, cause racine
+│   ├── refactor-code/             # Restructurer sous validation explicite uniquement
+│   ├── run-tests/                 # Vérification exécutable (analyze, custom_lint, tests)
 │   ├── load-project/       # Chargement d'un projet existant
 │   ├── generate-readme/      # Génération README.md projet existant
-│   ├── session/              # Sauvegarde de session
+│   ├── save-session/              # Sauvegarde de session
 │   ├── show-state/               # État courant du projet
 │   ├── show-contract/              # Arborescence du contrat validé
-│   └── memoriser/            # Persiste dans la mémoire native Claude Code
+│   └── save-memory/            # Persiste dans la mémoire native Claude Code
 ├── settings.json             # Permissions d'exécution (flutter, dart, keytool)
 ├── GUIDE.md                  # Ce fichier
 └── README.md                 # Présentation du repo GitHub (EN)
@@ -52,10 +52,10 @@ claude-flutter-framework/
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (en français). |
-| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/load-project`, `/show-contract`, `/feature-add`, `/refactor`. |
-| **Skills de maintenance**     | `analyze`, `implement`, `fix`, `refactor`, `test` avec arbres de décision et anti-patterns. |
+| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/load-project`, `/show-contract`, `/add-feature`, `/refactor-code`. |
+| **Skills de maintenance**     | `trace-feature`, `implement`, `fix-issue`, `refactor-code`, `run-tests` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : analyze, custom_lint, build_runner, tests — échec bloquant. |
-| **Mémoire native**            | `/memoriser` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
+| **Mémoire native**            | `/save-memory` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
 
 ---
 
@@ -119,7 +119,7 @@ Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]
 ## Reprendre une session
 
 ```
-/session            # sauvegarder en fin de session (docs/sessions/)
+/save-session            # sauvegarder en fin de session (docs/sessions/)
 /flutter-app → 2    # reprendre : fournir le chemin du fichier SESSION
 ```
 
@@ -137,11 +137,11 @@ Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le c
 
 | Besoin                          | Commande      |
 | ------------------------------- | ------------- |
-| Ajouter une fonctionnalité      | `/feature-add`   |
-| Comprendre / tracer le code     | `/analyze`     |
-| Corriger un bug                 | `/fix`         |
-| Restructurer (sous validation)  | `/refactor`    |
-| Vérifier le build / lancer les checks | `/test`  |
+| Ajouter une fonctionnalité      | `/add-feature`   |
+| Comprendre / tracer le code     | `/trace-feature`     |
+| Corriger un bug                 | `/fix-issue`         |
+| Restructurer (sous validation)  | `/refactor-code`    |
+| Vérifier le build / lancer les checks | `/run-tests`  |
 
 ---
 
@@ -158,19 +158,19 @@ flutter test                 # si tests existants uniquement
 flutter build apk --release  # APK final (dernier lot)
 ```
 
-`/test` exécute cette échelle ; `/fix` y renvoie pour confirmer une correction.
+`/run-tests` exécute cette échelle ; `/fix-issue` y renvoie pour confirmer une correction.
 
 ---
 
 ## Architecture en couches
 
-`rules/architecture.md` impose des imports unidirectionnels stricts : `presentation` (`ref.watch`/`ref.read`) → `application` (Notifiers Riverpod) → `data` (repositories → SQLite). `data` n'importe jamais Flutter UI ni Riverpod ; `presentation` n'accède jamais aux repositories directement. Riverpod 3 avec génération de code (`@riverpod` + build_runner). `/fix`, `/feature-add` et `/refactor` y renvoient.
+`rules/architecture.md` impose des imports unidirectionnels stricts : `presentation` (`ref.watch`/`ref.read`) → `application` (Notifiers Riverpod) → `data` (repositories → SQLite). `data` n'importe jamais Flutter UI ni Riverpod ; `presentation` n'accède jamais aux repositories directement. Riverpod 3 avec génération de code (`@riverpod` + build_runner). `/fix-issue`, `/add-feature` et `/refactor-code` y renvoient.
 
 ---
 
 ## Gestion des anomalies et mémoire
 
-Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage puis propose `Veux-tu mémoriser ce point ? /memoriser`. `/memoriser` catégorise et écrit dans la **mémoire native Claude Code** (+ `MEMORY.md`).
+Après correction (`/fix-issue` ou Phase 5), Claude produit un bilan de nettoyage puis propose `Veux-tu mémoriser ce point ? /save-memory`. `/save-memory` catégorise et écrit dans la **mémoire native Claude Code** (+ `MEMORY.md`).
 
 ---
 
@@ -184,17 +184,17 @@ Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage puis
 | `/p3-designing`        | Sonnet | Proposition layout + personnalisation                |
 | `/p4-architect`       | Sonnet | Contrat architectural verrouillé (providers, SQLite) |
 | `/p5-development` | Sonnet | Livraison par lots — enchaînement automatique        |
-| `/feature-add`            | Sonnet | Ajouter une feature à une app livrée                 |
-| `/analyze`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
-| `/fix`                  | Sonnet | Corriger un bug — cause racine                       |
-| `/refactor`             | Sonnet | Restructurer sous validation                         |
-| `/test`                 | Sonnet | Vérification exécutable                               |
+| `/add-feature`            | Sonnet | Ajouter une feature à une app livrée                 |
+| `/trace-feature`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
+| `/fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
+| `/refactor-code`             | Sonnet | Restructurer sous validation                         |
+| `/run-tests`                 | Sonnet | Vérification exécutable                               |
 | `/load-project`       | Sonnet | Charger un projet existant                           |
 | `/generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
-| `/session`              | Haiku  | Sauvegarder la session                               |
+| `/save-session`              | Haiku  | Sauvegarder la session                               |
 | `/show-state`               | Haiku  | État courant                                         |
 | `/show-contract`              | Haiku  | Contrat architectural validé                         |
-| `/memoriser`            | Haiku  | Persister dans la mémoire native                     |
+| `/save-memory`            | Haiku  | Persister dans la mémoire native                     |
 
 ---
 
@@ -228,6 +228,6 @@ mon_app/
 - Couches strictes : `presentation` n'importe jamais `data` ; `data` n'importe jamais Flutter UI ni Riverpod.
 - Toute requête SQL est paramétrée (`?` + `whereArgs`) — zéro interpolation.
 - Les fichiers `.g.dart` ne sont jamais livrés — générés par `dart run build_runner build`.
-- Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/feature-add` ou le protocole de déclaration d'écart.
-- `/load-project`, `/generate-readme`, `/feature-add`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
+- Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/add-feature` ou le protocole de déclaration d'écart.
+- `/load-project`, `/generate-readme`, `/add-feature`, `/trace-feature`, `/fix-issue`, `/refactor-code`, `/run-tests` s'invoquent depuis la racine du projet cible.
 - Livrable : APK release signé (sideload) — AAB Play Store sur demande.

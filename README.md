@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready Flutter/And
 
 Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/feature-add` (add a feature, contract-compliant), `/analyze` (trace behavior), `/fix` (root-cause debugging with a decision tree), `/refactor` (validated, behavior-preserving), `/test` (executable verification). Plus `/load-project` and `/generate-readme` to load/document existing apps.
+**Maintenance commands**: `/add-feature` (add a feature, contract-compliant), `/trace-feature` (trace behavior), `/fix-issue` (root-cause debugging with a decision tree), `/refactor-code` (validated, behavior-preserving), `/run-tests` (executable verification). Plus `/load-project` and `/generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system and strict layered architecture.
 
@@ -82,17 +82,17 @@ Then in Claude Code:
 | `/p3-designing`        | Designing - layout proposal + customization        |
 | `/p4-architect`       | Architect - locked contract (providers, SQLite)    |
 | `/p5-development` | Auto-chained batch delivery                        |
-| `/feature-add`            | Add a feature to a shipped app                     |
-| `/analyze`              | Trace a feature across the layers                  |
-| `/fix`                  | Fix a bug - decision tree, root cause              |
-| `/refactor`             | Refactor under explicit validation only            |
-| `/test`                 | Executable verification (analyze, lint, tests)     |
+| `/add-feature`            | Add a feature to a shipped app                     |
+| `/trace-feature`              | Trace a feature across the layers                  |
+| `/fix-issue`                  | Fix a bug - decision tree, root cause              |
+| `/refactor-code`             | Refactor under explicit validation only            |
+| `/run-tests`                 | Executable verification (analyze, lint, tests)     |
 | `/load-project`       | Load an existing project from its specs/README     |
 | `/generate-readme`      | Generate README.md for an existing project         |
-| `/session`              | Save current session state                         |
+| `/save-session`              | Save current session state                         |
 | `/show-state`               | Current project status                             |
 | `/show-contract`              | Display locked architecture contract               |
-| `/memoriser`            | Persist a note in Claude Code native memory        |
+| `/save-memory`            | Persist a note in Claude Code native memory        |
 
 ---
 

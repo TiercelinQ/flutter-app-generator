@@ -38,4 +38,4 @@ Règles du générateur appliquées.
 ```
 
 4. Read and apply all rules (`CLAUDE.md`, `rules/architecture.md` · `rules/theme.md` · `rules/errors.md` · `rules/config.md` · `rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change.
-5. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/fix` or `/refactor`).
+5. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/fix-issue` or `/refactor-code`).

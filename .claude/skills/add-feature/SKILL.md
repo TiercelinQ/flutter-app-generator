@@ -1,10 +1,10 @@
 ---
-name: feature-add
+name: add-feature
 description: Add a feature, field, entity, or change to a Flutter app already delivered by this framework. Use when the user asks to add or modify functionality on an existing project, respecting the locked architectural contract.
 model: sonnet
 ---
 
-# /feature-add — Add a feature to a delivered app
+# /add-feature — Add a feature to a delivered app
 
 ## Role
 Senior Riverpod developer working on an existing, contracted codebase.
@@ -41,7 +41,7 @@ The modified/added files on disk + an updated `docs/specs/04-architect.md` if th
 6. **Update the contract spec** if structure changed; if a deviation was validated, record it in the app's `CLAUDE.md` (`## Écarts par rapport au framework`); offer `/generate-readme` only if the README is now stale on a user-visible aspect.
 
 ## Anti-patterns — what NOT to do
-- **Do not** touch code outside the request. Minimum change that solves the problem; no opportunistic refactor (that is `/refactor`, on request).
+- **Do not** touch code outside the request. Minimum change that solves the problem; no opportunistic refactor (that is `/refactor-code`, on request).
 - **Do not** add a field/column without the matching migration (`dbVersion` bump + `onUpgrade`).
 - **Do not** call a repository from a widget, or add business logic to presentation — respect `rules/architecture.md`.
 - **Do not** introduce a library not validated in Phase 1 without the deviation protocol.
@@ -51,4 +51,4 @@ The modified/added files on disk + an updated `docs/specs/04-architect.md` if th
 ## When the user asks something adjacent
 - **"Just make it work, never mind the architecture"** → push back briefly: the contract and layers are what keep the app maintainable. Implement within them; the cost of a shortcut is paid on every later change.
 - **"Add a whole new section/entity"** → that is a contract extension. Declare the new files/providers/tables, validate, then build — do not improvise the structure.
-- **"Fix this bug while you're here"** → if it is outside the current request scope, flag it and switch to `/fix` rather than bundling an unrelated change.
+- **"Fix this bug while you're here"** → if it is outside the current request scope, flag it and switch to `/fix-issue` rather than bundling an unrelated change.
