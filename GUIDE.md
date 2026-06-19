@@ -21,22 +21,22 @@ claude-flutter-framework/
 │   └── verification.md       # Vérification EXÉCUTABLE centralisée + intégrité statique
 ├── skills/
 │   ├── flutter-app/          # Menu démarrage / reprise / maintenance (4 options)
-│   ├── p1-scoping/       # Scoping — 7 questions + couleur → docs/specs/01-scoping.md
-│   ├── p2-featuring/       # Fiche besoins → docs/specs/02-featuring.md
-│   ├── p3-designing/        # Proposition layout → docs/specs/03-designing.md
-│   ├── p4-architect/       # Contrat architectural verrouillé → docs/specs/04-architect.md
-│   ├── p5-development/ # Livraison par lots (enchaînement auto)
+│   ├── flutter-p1-scoping/       # Scoping — 7 questions + couleur → docs/specs/01-scoping.md
+│   ├── flutter-p2-featuring/       # Fiche besoins → docs/specs/02-featuring.md
+│   ├── flutter-p3-designing/        # Proposition layout → docs/specs/03-designing.md
+│   ├── flutter-p4-architect/       # Contrat architectural verrouillé → docs/specs/04-architect.md
+│   ├── flutter-p5-development/ # Livraison par lots (enchaînement auto)
 │   ├── implement/            # Ajouter une feature à une app livrée (respect contrat + couches)
-│   ├── trace-feature/              # Tracer une fonctionnalité presentation→application→data
-│   ├── fix-issue/                  # Corriger un bug — arbre de décision, cause racine
-│   ├── refactor-code/             # Restructurer sous validation explicite uniquement
-│   ├── run-tests/                 # Vérification exécutable (analyze, custom_lint, tests)
-│   ├── load-project/       # Chargement d'un projet existant
-│   ├── generate-readme/      # Génération README.md projet existant
-│   ├── save-session/              # Sauvegarde de session
-│   ├── show-state/               # État courant du projet
-│   ├── show-contract/              # Arborescence du contrat validé
-│   └── save-memory/            # Persiste dans la mémoire native Claude Code
+│   ├── flutter-trace-feature/              # Tracer une fonctionnalité presentation→application→data
+│   ├── flutter-fix-issue/                  # Corriger un bug — arbre de décision, cause racine
+│   ├── flutter-refactor-code/             # Restructurer sous validation explicite uniquement
+│   ├── flutter-run-tests/                 # Vérification exécutable (analyze, custom_lint, tests)
+│   ├── flutter-load-project/       # Chargement d'un projet existant
+│   ├── flutter-generate-readme/      # Génération README.md projet existant
+│   ├── flutter-save-session/              # Sauvegarde de session
+│   ├── flutter-show-state/               # État courant du projet
+│   ├── flutter-show-contract/              # Arborescence du contrat validé
+│   └── flutter-save-memory/            # Persiste dans la mémoire native Claude Code
 ├── settings.json             # Permissions d'exécution (flutter, dart, keytool)
 ├── GUIDE.md                  # Ce fichier
 └── README.md                 # Présentation du repo GitHub (EN)
@@ -52,10 +52,10 @@ claude-flutter-framework/
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (en français). |
-| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/load-project`, `/show-contract`, `/add-feature`, `/refactor-code`. |
-| **Skills de maintenance**     | `trace-feature`, `implement`, `fix-issue`, `refactor-code`, `run-tests` avec arbres de décision et anti-patterns. |
+| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/flutter-load-project`, `/flutter-show-contract`, `/flutter-add-feature`, `/flutter-refactor-code`. |
+| **Skills de maintenance**     | `flutter-trace-feature`, `implement`, `flutter-fix-issue`, `flutter-refactor-code`, `flutter-run-tests` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : analyze, custom_lint, build_runner, tests — échec bloquant. |
-| **Mémoire native**            | `/save-memory` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
+| **Mémoire native**            | `/flutter-save-memory` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
 
 ---
 
@@ -119,7 +119,7 @@ Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]
 ## Reprendre une session
 
 ```
-/save-session            # sauvegarder en fin de session (docs/sessions/)
+/flutter-save-session            # sauvegarder en fin de session (docs/sessions/)
 /flutter-app → 2    # reprendre : fournir le chemin du fichier SESSION
 ```
 
@@ -128,20 +128,20 @@ Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]
 ## Travailler sur un projet livré
 
 ```
-/flutter-app → 3      # ou directement /load-project depuis la racine du projet
+/flutter-app → 3      # ou directement /flutter-load-project depuis la racine du projet
 ```
 
-Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/generate-readme`.
+Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/flutter-generate-readme`.
 
 ### Maintenance (`/flutter-app → 4`)
 
 | Besoin                          | Commande      |
 | ------------------------------- | ------------- |
-| Ajouter une fonctionnalité      | `/add-feature`   |
-| Comprendre / tracer le code     | `/trace-feature`     |
-| Corriger un bug                 | `/fix-issue`         |
-| Restructurer (sous validation)  | `/refactor-code`    |
-| Vérifier le build / lancer les checks | `/run-tests`  |
+| Ajouter une fonctionnalité      | `/flutter-add-feature`   |
+| Comprendre / tracer le code     | `/flutter-trace-feature`     |
+| Corriger un bug                 | `/flutter-fix-issue`         |
+| Restructurer (sous validation)  | `/flutter-refactor-code`    |
+| Vérifier le build / lancer les checks | `/flutter-run-tests`  |
 
 ---
 
@@ -158,19 +158,19 @@ flutter test                 # si tests existants uniquement
 flutter build apk --release  # APK final (dernier lot)
 ```
 
-`/run-tests` exécute cette échelle ; `/fix-issue` y renvoie pour confirmer une correction.
+`/flutter-run-tests` exécute cette échelle ; `/flutter-fix-issue` y renvoie pour confirmer une correction.
 
 ---
 
 ## Architecture en couches
 
-`rules/architecture.md` impose des imports unidirectionnels stricts : `presentation` (`ref.watch`/`ref.read`) → `application` (Notifiers Riverpod) → `data` (repositories → SQLite). `data` n'importe jamais Flutter UI ni Riverpod ; `presentation` n'accède jamais aux repositories directement. Riverpod 3 avec génération de code (`@riverpod` + build_runner). `/fix-issue`, `/add-feature` et `/refactor-code` y renvoient.
+`rules/architecture.md` impose des imports unidirectionnels stricts : `presentation` (`ref.watch`/`ref.read`) → `application` (Notifiers Riverpod) → `data` (repositories → SQLite). `data` n'importe jamais Flutter UI ni Riverpod ; `presentation` n'accède jamais aux repositories directement. Riverpod 3 avec génération de code (`@riverpod` + build_runner). `/flutter-fix-issue`, `/flutter-add-feature` et `/flutter-refactor-code` y renvoient.
 
 ---
 
 ## Gestion des anomalies et mémoire
 
-Après correction (`/fix-issue` ou Phase 5), Claude produit un bilan de nettoyage puis propose `Veux-tu mémoriser ce point ? /save-memory`. `/save-memory` catégorise et écrit dans la **mémoire native Claude Code** (+ `MEMORY.md`).
+Après correction (`/flutter-fix-issue` ou Phase 5), Claude produit un bilan de nettoyage puis propose `Veux-tu mémoriser ce point ? /flutter-save-memory`. `/flutter-save-memory` catégorise et écrit dans la **mémoire native Claude Code** (+ `MEMORY.md`).
 
 ---
 
@@ -179,22 +179,22 @@ Après correction (`/fix-issue` ou Phase 5), Claude produit un bilan de nettoyag
 | Commande                | Modèle | Action                                               |
 | ----------------------- | ------ | ---------------------------------------------------- |
 | `/flutter-app`          | Haiku  | Menu démarrage / reprise / maintenance               |
-| `/p1-scoping`       | Sonnet | Scoping — 7 questions + couleur                      |
-| `/p2-featuring`       | Sonnet | Fiche besoins                                        |
-| `/p3-designing`        | Sonnet | Proposition layout + personnalisation                |
-| `/p4-architect`       | Sonnet | Contrat architectural verrouillé (providers, SQLite) |
-| `/p5-development` | Sonnet | Livraison par lots — enchaînement automatique        |
-| `/add-feature`            | Sonnet | Ajouter une feature à une app livrée                 |
-| `/trace-feature`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
-| `/fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
-| `/refactor-code`             | Sonnet | Restructurer sous validation                         |
-| `/run-tests`                 | Sonnet | Vérification exécutable                               |
-| `/load-project`       | Sonnet | Charger un projet existant                           |
-| `/generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
-| `/save-session`              | Haiku  | Sauvegarder la session                               |
-| `/show-state`               | Haiku  | État courant                                         |
-| `/show-contract`              | Haiku  | Contrat architectural validé                         |
-| `/save-memory`            | Haiku  | Persister dans la mémoire native                     |
+| `/flutter-p1-scoping`       | Sonnet | Scoping — 7 questions + couleur                      |
+| `/flutter-p2-featuring`       | Sonnet | Fiche besoins                                        |
+| `/flutter-p3-designing`        | Sonnet | Proposition layout + personnalisation                |
+| `/flutter-p4-architect`       | Sonnet | Contrat architectural verrouillé (providers, SQLite) |
+| `/flutter-p5-development` | Sonnet | Livraison par lots — enchaînement automatique        |
+| `/flutter-add-feature`            | Sonnet | Ajouter une feature à une app livrée                 |
+| `/flutter-trace-feature`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
+| `/flutter-fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
+| `/flutter-refactor-code`             | Sonnet | Restructurer sous validation                         |
+| `/flutter-run-tests`                 | Sonnet | Vérification exécutable                               |
+| `/flutter-load-project`       | Sonnet | Charger un projet existant                           |
+| `/flutter-generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
+| `/flutter-save-session`              | Haiku  | Sauvegarder la session                               |
+| `/flutter-show-state`               | Haiku  | État courant                                         |
+| `/flutter-show-contract`              | Haiku  | Contrat architectural validé                         |
+| `/flutter-save-memory`            | Haiku  | Persister dans la mémoire native                     |
 
 ---
 
@@ -228,6 +228,6 @@ mon_app/
 - Couches strictes : `presentation` n'importe jamais `data` ; `data` n'importe jamais Flutter UI ni Riverpod.
 - Toute requête SQL est paramétrée (`?` + `whereArgs`) — zéro interpolation.
 - Les fichiers `.g.dart` ne sont jamais livrés — générés par `dart run build_runner build`.
-- Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/add-feature` ou le protocole de déclaration d'écart.
-- `/load-project`, `/generate-readme`, `/add-feature`, `/trace-feature`, `/fix-issue`, `/refactor-code`, `/run-tests` s'invoquent depuis la racine du projet cible.
+- Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/flutter-add-feature` ou le protocole de déclaration d'écart.
+- `/flutter-load-project`, `/flutter-generate-readme`, `/flutter-add-feature`, `/flutter-trace-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-run-tests` s'invoquent depuis la racine du projet cible.
 - Livrable : APK release signé (sideload) — AAB Play Store sur demande.

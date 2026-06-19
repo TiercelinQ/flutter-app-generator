@@ -91,7 +91,7 @@ testWidgets('RecordScreen se rend sans erreur', (tester) async {
 - **Do not** use arbitrary `Future.delayed` waits — `pump`/`pumpAndSettle`/`fakeAsync`.
 - **Do not** test a controller without overriding its repository provider.
 - **Do not** go beyond smoke for screens (pump + key finders).
-- **Do not** create a test suite when Phase 1 Q7 = No (and `/run-tests` never scaffolds one unasked).
+- **Do not** create a test suite when Phase 1 Q7 = No (and `/flutter-run-tests` never scaffolds one unasked).
 
 ## Integrity verification
 

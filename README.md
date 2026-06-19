@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready Flutter/And
 
 Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/add-feature` (add a feature, contract-compliant), `/trace-feature` (trace behavior), `/fix-issue` (root-cause debugging with a decision tree), `/refactor-code` (validated, behavior-preserving), `/run-tests` (executable verification). Plus `/load-project` and `/generate-readme` to load/document existing apps.
+**Maintenance commands**: `/flutter-add-feature` (add a feature, contract-compliant), `/flutter-trace-feature` (trace behavior), `/flutter-fix-issue` (root-cause debugging with a decision tree), `/flutter-refactor-code` (validated, behavior-preserving), `/flutter-run-tests` (executable verification). Plus `/flutter-load-project` and `/flutter-generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system and strict layered architecture.
 
@@ -77,22 +77,22 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/flutter-app`          | Start menu (4 entry points incl. maintenance)      |
-| `/p1-scoping`       | Scoping - 7 questions + primary color              |
-| `/p2-featuring`       | Featuring - requirements sheet + locked sizing     |
-| `/p3-designing`        | Designing - layout proposal + customization        |
-| `/p4-architect`       | Architect - locked contract (providers, SQLite)    |
-| `/p5-development` | Auto-chained batch delivery                        |
-| `/add-feature`            | Add a feature to a shipped app                     |
-| `/trace-feature`              | Trace a feature across the layers                  |
-| `/fix-issue`                  | Fix a bug - decision tree, root cause              |
-| `/refactor-code`             | Refactor under explicit validation only            |
-| `/run-tests`                 | Executable verification (analyze, lint, tests)     |
-| `/load-project`       | Load an existing project from its specs/README     |
-| `/generate-readme`      | Generate README.md for an existing project         |
-| `/save-session`              | Save current session state                         |
-| `/show-state`               | Current project status                             |
-| `/show-contract`              | Display locked architecture contract               |
-| `/save-memory`            | Persist a note in Claude Code native memory        |
+| `/flutter-p1-scoping`       | Scoping - 7 questions + primary color              |
+| `/flutter-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
+| `/flutter-p3-designing`        | Designing - layout proposal + customization        |
+| `/flutter-p4-architect`       | Architect - locked contract (providers, SQLite)    |
+| `/flutter-p5-development` | Auto-chained batch delivery                        |
+| `/flutter-add-feature`            | Add a feature to a shipped app                     |
+| `/flutter-trace-feature`              | Trace a feature across the layers                  |
+| `/flutter-fix-issue`                  | Fix a bug - decision tree, root cause              |
+| `/flutter-refactor-code`             | Refactor under explicit validation only            |
+| `/flutter-run-tests`                 | Executable verification (analyze, lint, tests)     |
+| `/flutter-load-project`       | Load an existing project from its specs/README     |
+| `/flutter-generate-readme`      | Generate README.md for an existing project         |
+| `/flutter-save-session`              | Save current session state                         |
+| `/flutter-show-state`               | Current project status                             |
+| `/flutter-show-contract`              | Display locked architecture contract               |
+| `/flutter-save-memory`            | Persist a note in Claude Code native memory        |
 
 ---
 

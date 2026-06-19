@@ -1,6 +1,6 @@
 # Verification rules — single source of truth
 
-> Centralized, reusable verification for the whole framework. Referenced by `/p5-development`, `/add-feature`, `/fix-issue`, and `/run-tests` — never duplicated in those skills.
+> Centralized, reusable verification for the whole framework. Referenced by `/flutter-p5-development`, `/flutter-add-feature`, `/flutter-fix-issue`, and `/flutter-run-tests` — never duplicated in those skills.
 > Two parts: **executable verification** (run real commands) and **static integrity** (read the code). Run silently; report only on a discrepancy.
 
 ---
