@@ -28,14 +28,12 @@ Prerequisite: invoked from the target project root, `.claude/` present.
 2. Read `pubspec.yaml` + walk `lib/` to confirm the structure (core / data / application / presentation).
 3. Confirm take-over (in French):
 
-```
 Projet chargé : [APP_NAME] v[VERSION]
 Stack : Flutter [v] · Dart [v] · Riverpod
 Entités détectées : [list]
 Providers : [count] · Tables SQLite : [list or "aucune"]
 Specs : [docs/specs présent : oui/non]
 Règles du générateur appliquées.
-```
 
 4. Read and apply all rules (`CLAUDE.md`, `rules/architecture.md` · `rules/theme.md` · `rules/errors.md` · `rules/config.md` · `rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change.
 5. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/flutter-fix-issue` or `/flutter-refactor-code`).
