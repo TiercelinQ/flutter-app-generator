@@ -49,4 +49,4 @@ flutter build apk --release
 ```
 
 3. Write the file to disk, confirm in one line (in the user's language).
-4. If anything is undeterminable from specs + code: ask grouped questions (single block, in the user's language) before writing.
+4. If anything is undeterminable from specs + code: ask the closed questions with `AskUserQuestion` (clickable options) before writing.
