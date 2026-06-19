@@ -33,7 +33,6 @@ For each question offering a choice, mark the option you recommend with `(recomm
 
 Ask in French:
 
-```
 Personnalisation du layout :
 
 1. Destinations : [proposition] — modifier ?
@@ -41,7 +40,6 @@ Personnalisation du layout :
 3. [Si formulaire d'ajout/édition] Présentation : écran dédié plein / BottomSheet / Dialog ?
 4. Actions sur les items de liste : swipe (suppression avec confirmation) / menu contextuel / boutons visibles ?
 5. Pull-to-refresh sur les listes : Oui / Non ?
-```
 
 ## 3. Synthesis
 

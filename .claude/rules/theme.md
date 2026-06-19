@@ -14,7 +14,7 @@
 3. **Dark mode = complete `AppTheme.dark`** built from `DarkColors`, toggled via `themeMode` on `MaterialApp` (`themeControllerProvider`, persisted). Zero `Theme.of(context).brightness ==` in screens, zero local conditional color.
 4. **Every value in `app_theme.dart` carries a comment** indicating the source design-system token.
 5. **Flat design**: `elevation: 0` everywhere, `borderRadius: BorderRadius.zero`, `splashFactory: NoSplash.splashFactory`, `bgMuted` highlight, zero `BoxShadow`.
-6. **Structure of `tokens.dart`**: commented sections in this order — TYPOGRAPHY (+ line-height) · LIGHT COLORS · DARK COLORS · PRIMARY (project: [Phase 1 color]) — 50/400/600/700/800/900 + derived · SEMANTIC (incl. danger700/800) · ICONS · SPACING · FIXED SIZES · SHAPE / BORDER-WIDTH / OPACITY · TRANSITIONS · SELECTION / ON-PRIMARY.
+6. **Structure of `tokens.dart`**: commented sections in this order — TYPOGRAPHY (+ line-height) · LIGHT COLORS (palette neutrals) · DARK COLORS (palette neutrals, derived) · PRIMARY (project palette accent) — 50/400/600/700/800/900 + derived · SEMANTIC (fixed, incl. danger700/800) · ICONS (fixed) · SPACING · FIXED SIZES · SHAPE / BORDER-WIDTH / OPACITY · TRANSITIONS · SELECTION / ON-PRIMARY.
 7. **Reduced motion**: honor `MediaQuery.of(context).disableAnimations` — shorten/skip `transitionDefault`/`transitionSlow` when true (Android "Remove animations" a11y setting).
 8. **Text selection**: `selectionBg` / `cursorColor` set once in `textSelectionTheme` (`app_theme.dart`), never per-field.
 
@@ -33,9 +33,9 @@ Text(label, style: TextStyle(color: context.colors.textSubtle));
 
 Only tolerated exception: values computed at runtime that cannot be tokens (e.g. a gesture position) — to be justified with a comment.
 
-## Per-project primary color
+## Per-project palette
 
-If a color ≠ Steel Blue is chosen in Phase 1: only the 6 `primary50/400/600/700/800/900` values change in the project's `tokens.dart` (the derived `primary`/`primaryBg` reference them and stay unchanged). The global `design-system.md` stays unchanged.
+In Phase 1 the project picks a **palette** (named or custom) = 5 light roles: fond principal → `bg`, fond secondaire → `bgSubtle`, accent → `primary600`, texte → `text`, détails → `border`. Claude derives the supporting neutrals, the 6 accent stops, `onPrimary`, and the **whole dark theme** (`design-system.md §2`), then writes the resolved `Color(0xFF…)` into `tokens.dart`: the neutrals in **both** `LightColors` and `DarkColors`, the accent in the 6 `primary*` stops (the derived `primary`/`primaryBg` reference them and stay unchanged). The default palette is what the global `design-system.md` documents — a custom palette replaces these values in `tokens.dart` only; `design-system.md` stays unchanged. Semantic and icon tokens stay fixed across palettes.
 
 ## Android system bar
 

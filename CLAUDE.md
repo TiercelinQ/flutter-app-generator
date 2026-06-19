@@ -102,7 +102,7 @@ All commands below are Claude Code skills invocable with `/`:
 | Command                 | Skill                          | Action                                       |
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/flutter-app`          | `skills/flutter-app/`          | Start / resume / maintenance menu            |
-| `/flutter-p1-scoping`       | `skills/flutter-p1-scoping/`       | Scoping - 7 questions + primary color        |
+| `/flutter-p1-scoping`       | `skills/flutter-p1-scoping/`       | Scoping - 7 questions + color palette        |
 | `/flutter-p2-featuring`       | `skills/flutter-p2-featuring/`       | Structured requirements sheet                |
 | `/flutter-p3-designing`        | `skills/flutter-p3-designing/`        | Layout proposal                              |
 | `/flutter-p4-architect`       | `skills/flutter-p4-architect/`       | Locked architectural contract                |

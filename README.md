@@ -12,7 +12,7 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 A structured prompt system that generates complete, production-ready Flutter/Android applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** - 7 questions (objective, DB, rich text, i18n, icon, orientation, tests) + primary color
+1. **Scoping** - 7 questions (objective, DB, rich text, i18n, icon, orientation, tests) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
 3. **Designing** - NavigationBar destinations, secondary panel, list actions, pull-to-refresh
 4. **Architect** - full file tree, providers table, SQLite schema, tokens→theme table - locked before any code is written
@@ -77,7 +77,7 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/flutter-app`          | Start menu (4 entry points incl. maintenance)      |
-| `/flutter-p1-scoping`       | Scoping - 7 questions + primary color              |
+| `/flutter-p1-scoping`       | Scoping - 7 questions + color palette              |
 | `/flutter-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
 | `/flutter-p3-designing`        | Designing - layout proposal + customization        |
 | `/flutter-p4-architect`       | Architect - locked contract (providers, SQLite)    |
@@ -126,7 +126,7 @@ All generated apps share the same visual system, defined in `design-system.md`:
 - **Flat design** - `borderRadius: 0`, `elevation: 0`, zero shadow, zero gradient
 - **Token-driven theme** - every color, size, duration lives in `tokens.dart`; light/dark are two complete `ThemeData` built from tokens, toggled via `themeMode`
 - **Roboto** typography (Android native)
-- **Steel Blue** primary color recommended by default (+ 4 contextual proposals) - 4 token values to change the entire app color
+- **Color palette** - 5 roles (fond principal, fond secondaire, accent, texte, détails) chosen for the light theme; dark theme and all supporting tokens derived. Default "Acier" (Steel Blue) + 4 named palettes + custom palette; semantic colors stay fixed
 - **Custom overlay toasts only** - no native `SnackBar`, no raw `AlertDialog`, no inline banner
 
 ---

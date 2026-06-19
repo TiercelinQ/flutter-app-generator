@@ -1,6 +1,6 @@
 ---
 name: flutter-p1-scoping
-description: Phase 1 of the Flutter/Android app generation cycle — scoping in 6 grouped questions, primary color choice, calibration announcement (number of batches), and writing of the scoping spec.
+description: Phase 1 of the Flutter/Android app generation cycle — scoping in 7 grouped questions, full color palette choice, calibration announcement (number of batches), and writing of the scoping spec.
 model: sonnet
 ---
 
@@ -10,7 +10,7 @@ model: sonnet
 Project scoper — turn a vague idea into a bounded, validated scope.
 
 ## Goal
-Lock the project parameters (stack options, DB, i18n, calibration, primary color) before any analysis.
+Lock the project parameters (stack options, DB, i18n, calibration, palette) before any analysis.
 
 ## Deliverable
 `docs/specs/01-scoping.md` (written in French) + on-screen summary.
@@ -23,7 +23,6 @@ Lock the project parameters (stack options, DB, i18n, calibration, primary color
 
 Ask in French. Each closed question carries a `(recommandé)` answer:
 
-```
 Cadrage du projet :
 
 1. Objectif de l'application — description libre.
@@ -33,27 +32,27 @@ Cadrage du projet :
 5. Icône applicative : fichier PNG 1024×1024 fourni ? Oui (chemin) / Non (recommandé : Non, défaut Flutter, ajout possible plus tard)
 6. Orientation : portrait uniquement / portrait + paysage ? (recommandé : portrait uniquement)
 7. Tests automatisés (flutter_test + mocktail) ? Oui / Non (recommandé : Oui pour usage pro)
-```
 
 Persistent preferences (theme, last destination): always enabled via `shared_preferences` — no question.
 
-## 2. Primary color
+## 2. Color palette
 
-After receiving the answers, propose (in French):
+After receiving the answers, propose the **palette** (in French). A palette = 5 **light** roles (fond principal, fond secondaire, accent, texte, détails); the dark theme and all supporting tokens are derived (`design-system.md §2`).
 
-```
-Couleur primaire pour ce projet :
+Palette de couleurs pour ce projet (5 rôles, thème clair — le sombre est dérivé) :
 
-A. Steel Blue — #4682B4 / #5A9FD4          — professionnel, tech, sobre (recommandé)
-B. [Color 1] — [light hex] / [dark hex] — [character in 3 words]
-C. [Color 2] — [light hex] / [dark hex] — [character in 3 words]
-D. [Color 3] — [light hex] / [dark hex] — [character in 3 words]
-E. [Color 4] — [light hex] / [dark hex] — [character in 3 words]
-```
+A. Acier (par défaut) — fond #FFFFFF · 2nd #F9FAFB · accent #4682B4 · texte #111827 · détails #E5E7EB — professionnel, tech, sobre (recommandé)
+B. Forêt — fond #FFFFFF · 2nd #F6F8F6 · accent #059669 · texte #14201A · détails #DCE5DF — naturel, calme, frais
+C. Ardoise — fond #FFFFFF · 2nd #F8FAFC · accent #4F46E5 · texte #1E293B · détails #E2E8F0 — moderne, net, indigo
+D. Ambre — fond #FFFDFB · 2nd #FBF6EF · accent #B45309 · texte #1C1917 · détails #ECE3D8 — chaleureux, artisanal
+E. Rubis — fond #FFFFFF · 2nd #FAF7F7 · accent #BE123C · texte #1A1212 · détails #EAE0E1 — affirmé, élégant
 
-- Steel Blue is always option A and the recommended default. Propose 4 professional colors (options B-E) suited to the described application context.
-- If B, C, D or E: the `primary50/400/600/900` values are set for this project in `tokens.dart`. The global `design-system.md` stays unchanged.
-- If A or no answer: Steel Blue by default.
+F. Palette personnalisée — fournis 5 hex clairs : fond principal, fond secondaire, accent, texte, détails.
+
+- Acier (default) is option A and the recommended default; B-E are the named palettes (canonical values — do not improvise them); F is the custom palette.
+- From the 5 light roles, Claude **derives** and announces: supporting light tokens (`bgMuted`, `bgElevated`, `textSubtle`, `textMuted`, `borderSubtle`, `borderStrong`), the 5 accent stops (`primary50/400/700/800/900`), `onPrimary`, and the **whole dark theme** (`DarkColors`, lightness targets in `design-system.md §2`). Written to `tokens.dart` (`LightColors`/`DarkColors`). Semantic and icon tokens stay fixed.
+- **Contrast check (WCAG AA, non-blocking)**: compute text/bg, textSubtle/bg, accent/bg, onPrimary/accent; if a ratio fails AA, report it (`couleur — ratio — cible`) and ask the user to confirm or adjust before continuing.
+- The global `design-system.md` stays unchanged. If A or no answer: default palette.
 
 ## 3. Calibration — announced at the end of Phase 1
 
@@ -67,6 +66,6 @@ Any library outside the stack (charts fl_chart, flutter_secure_storage, logging,
 
 ## 5. Write the spec
 
-Write `docs/specs/01-scoping.md` (in French) capturing: objective, DB choice, rich editing, i18n, icon, orientation, tests (Q7), primary color (with hex values), validated libraries, and the frozen calibration (size + number of batches). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
+Write `docs/specs/01-scoping.md` (in French) capturing: objective, DB choice, rich editing, i18n, icon, orientation, tests (Q7), the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + onPrimary; semantic kept fixed) and the contrast-check result, validated libraries, and the frozen calibration (size + number of batches). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
 
 → Chain to `/flutter-p2-featuring` after validation.

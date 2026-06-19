@@ -1,4 +1,4 @@
-# Design System — v1.2 (Flutter / Android)
+# Design System — v1.3 (Flutter / Android)
 
 > Binding reference for all Flutter/Dart Android applications.
 > Inseparable from `layout.md`.
@@ -9,11 +9,12 @@
 
 | Version | Date       | Main change                                                                                       |
 | ------- | ---------- | ------------------------------------------------------------------------------------------------- |
+| v1.3    | 2026-06-19 | full **palette** model (5 roles/theme: fond principal, fond secondaire, accent, texte, détails) replaces the primary-only choice · light theme chosen, dark + supporting tokens derived · named palette catalog + custom palette · semantic/icons/charts kept fixed · WCAG AA check (warn) |
 | v1.2    | 2026-06-14 | dark theme re-skin (theme-dark.md palette): 4-step dark surface ramp · dark neutrals/borders/semantic/icons/selection · Steel Blue primary (both modes) |
 | v1.1    | 2026-06-14 | line-height · dark semantic backgrounds · primary/danger pressed stops · WCAG AA target · overlay layering · dark surface ramp fix · icon warning/info · selection/opacity/border-width/onPrimary tokens |
 | v1.0    | initial    | Dart-token port: typography, colors, spacing, components, states (touchTarget, sp units)            |
 
-> Aligns with the Python generator `design-system.md v1.3` and Electron `v1.2` (shared palette). Per-file versions: theme rules in `rules/theme.md`, layout in `layout.md`.
+> Aligns with the Python generator `design-system.md v1.4` and Electron `v1.3` (shared palette model). Per-file versions: theme rules in `rules/theme.md`, layout in `layout.md`.
 
 Every generated application references the active version in its `README.md`.
 
@@ -51,7 +52,49 @@ Applied via the `height` property of `TextStyle` (multiplier of font size).
 
 Declaration: two token classes — `LightColors` and `DarkColors` — implementing a single `AppColors` interface, injected into `ThemeData` via a `ThemeExtension`.
 
-### Light mode (`LightColors`)
+A project's colors come from a **palette**: 5 roles chosen per project, **light theme only** — the dark theme (`DarkColors`) and every supporting token are **derived**. The default palette is the set of values in the tables below (neutrals + Steel Blue), so a project that keeps the default renders exactly as before.
+
+### Palette roles → tokens
+
+| Role (palette)   | Drives        | Also derives                                                                       |
+| ---------------- | ------------- | ---------------------------------------------------------------------------------- |
+| Fond principal   | `bg`          | `bgElevated` (= `bg` in light)                                                      |
+| Fond secondaire  | `bgSubtle`    | `bgMuted` (`bgSubtle` darkened ~3 % L)                                              |
+| Accent           | `primary600`  | `primary50/400/700/800/900`, `primary`, `primaryBg`, `selectionBg`, `cursorColor`, `onPrimary` |
+| Texte            | `text`        | `textSubtle` (mix text→bg ~45 %), `textMuted` (mix text→bg ~62 %)                   |
+| Détails          | `border`      | `borderSubtle` (mix border→bg ~50 %), `borderStrong` (mix border→text ~12 %)       |
+
+The **semantic colors** (success/warning/danger/info), the **icon tokens**, and the **chart palette** are **fixed** — independent of the palette, they carry meaning (see below).
+
+### Derivation rules (computed by Claude in Phase 1, written as literal `Color(0xFF…)` in `tokens.dart`)
+
+- **Supporting light tokens**: the sRGB mixes in the role table above.
+- **Accent stops** (HSL rule from the accent, same H/S, lightness varies): `primary50` L≈95 %, `primary400` L≈70 %, `primary700` L≈50 %, `primary800` L≈42 %, `primary900` L≈25 %. Usage tokens: `primary` = `primary600` (light) / `primary400` (dark); `primaryBg` = `primary50` (light) / `primary900` (dark). Same `colorsys` method as the Python generator. `onPrimary` = `#FFFFFF` or near-black, whichever wins contrast on the accent.
+- **Dark theme** (`DarkColors`, from the light palette, keeping each role's hue/saturation, re-targeting lightness):
+
+| Token        | Dark L | Token            | Dark L          |
+| ------------ | ------ | ---------------- | --------------- |
+| `bg`         | ≈10 %  | `text`           | ≈83 %           |
+| `bgSubtle`   | ≈14 %  | `textSubtle`     | ≈66 %           |
+| `bgElevated` | ≈18 %  | `textMuted`      | ≈40 %           |
+| `bgMuted`    | ≈22 % (lightest) | `border` / `borderSubtle` / `borderStrong` | ≈26 % / ≈20 % / ≈33 % |
+| accent       | `primary400` (L≈60-70 %) | semantic / icons / charts | fixed |
+
+> Harmony: dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth, not a flat grey. The dark surface ramp stays ascending. The **default palette** ships explicit values for both classes (the tables below); like Steel Blue today, its explicit values win over the rule and guarantee the current rendering. Named presets and custom palettes derive `DarkColors` by the rule.
+
+### Named palettes (Phase 1 catalog)
+
+`/flutter-p1-scoping` presents these; each lists its 5 **light** roles (dark derived). The user can also enter a **custom palette** (5 light hex). Phase 1 then checks WCAG AA (text/bg, textSubtle/bg, accent/bg, onPrimary/accent) and reports failures without blocking (`§12`).
+
+| Name             | Fond principal | Fond secondaire | Accent  | Texte   | Détails |
+| ---------------- | -------------- | --------------- | ------- | ------- | ------- |
+| Acier (default)  | #FFFFFF        | #F9FAFB         | #4682B4 | #111827 | #E5E7EB |
+| Forêt            | #FFFFFF        | #F6F8F6         | #059669 | #14201A | #DCE5DF |
+| Ardoise          | #FFFFFF        | #F8FAFC         | #4F46E5 | #1E293B | #E2E8F0 |
+| Ambre            | #FFFDFB        | #FBF6EF         | #B45309 | #1C1917 | #ECE3D8 |
+| Rubis            | #FFFFFF        | #FAF7F7         | #BE123C | #1A1212 | #EAE0E1 |
+
+### Light mode — default palette (`LightColors`)
 
 | Token          | Value   | Usage                          |
 | -------------- | ------- | ------------------------------ |
@@ -66,7 +109,7 @@ Declaration: two token classes — `LightColors` and `DarkColors` — implementi
 | `borderSubtle` | #F3F4F6 | Discreet separators            |
 | `borderStrong` | #D1D5DB | List/table headers             |
 
-### Dark mode (`DarkColors`)
+### Dark mode — default palette (`DarkColors`, derived)
 
 | Token          | Value   | Usage                          |
 | -------------- | ------- | ------------------------------ |
@@ -83,7 +126,7 @@ Declaration: two token classes — `LightColors` and `DarkColors` — implementi
 
 > Dark surface ramp: `bg` #1A1A1F < `bgSubtle` #22222A < `bgElevated` #2A2A35 < `bgMuted` #313140. `bgMuted` is the lightest so that the pressed highlight stays visible on every surface, including inside drawers and sheets.
 
-### Primary color — Steel Blue
+### Accent — Steel Blue (default palette)
 
 | Token        | Light   | Dark    | Usage                            |
 | ------------ | ------- | ------- | -------------------------------- |
@@ -101,9 +144,9 @@ Derived usage tokens, defined per theme — these are the ones components consum
 | `primary`   | `primary600` | `primary400` |
 | `primaryBg` | `primary50`  | `primary900` |
 
-> Modification: replacing the 6 `primary*` values in `tokens.dart` is enough to change the primary color across the whole application. `primary700`/`primary800` are mode-agnostic (one value each). For a custom color they derive from `primary600` by the same HSL rule used by the Python generator (same H/S, lightness 50%/42%); Steel Blue is a preset whose explicit values win over that rule (its `primary600` already sits near L 49%, so `primary700/800` are darkened past the generic stops to keep the pressed darken visible).
+> Modification: replacing the 6 `primary*` values in `tokens.dart` is enough to change the **accent** across the whole application. `primary700`/`primary800` are mode-agnostic (one value each). For a custom color they derive from `primary600` by the same HSL rule used by the Python generator (same H/S, lightness 50%/42%); Steel Blue is a preset whose explicit values win over that rule (its `primary600` already sits near L 49%, so `primary700/800` are darkened past the generic stops to keep the pressed darken visible).
 
-### Semantic colors
+### Semantic colors (fixed — outside the palette)
 
 | Token        | Light   | Dark    | Usage                  |
 | ------------ | ------- | ------- | ---------------------- |
@@ -341,7 +384,7 @@ Target: **WCAG 2.1 level AA**, on top of the Android touch baseline.
 | Reduced motion      | Honor `MediaQuery.disableAnimations` — skip/shorten `transition*` when it is true              |
 | Focus / state       | Pressed feedback (`bgMuted`) is the primary touch affordance; the focus ring serves keyboard/TV |
 
-> Contrast figures are computed estimates, not tool-measured. Re-check with a contrast checker before shipping a new primary color.
+> Contrast figures are computed estimates, not tool-measured. Re-check with a contrast checker before shipping a custom palette (Phase 1 runs the AA check).
 
 ---
 

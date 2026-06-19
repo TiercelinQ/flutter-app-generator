@@ -34,7 +34,7 @@ Lot suivant : [X+1/total] (si Phase 5)
 
 - OS : Android (minSdk 24) · Stack : Flutter + Dart 3 + Riverpod codegen
 - DB : [SQLite/JSON/aucune] · Édition riche : [Oui/Non] · i18n : [Oui/Non] · Icône : [fournie/défaut]
-- Couleur primaire : [valeur]
+- Palette : [nom ou custom ; 5 rôles clair + dérivés]
 - Calibrage : [Petit 3 lots / Moyen-Grand 4 lots]
 - Fonctionnalités retenues : [liste]
 - Hors périmètre : [liste]
