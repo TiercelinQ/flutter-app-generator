@@ -48,5 +48,5 @@ dart run build_runner build --delete-conflicting-outputs
 flutter build apk --release
 ```
 
-3. Write the file to disk, confirm in one line (French).
-4. If anything is undeterminable from specs + code: ask grouped questions (single block, French) before writing.
+3. Write the file to disk, confirm in one line (in the user's language).
+4. If anything is undeterminable from specs + code: ask grouped questions (single block, in the user's language) before writing.

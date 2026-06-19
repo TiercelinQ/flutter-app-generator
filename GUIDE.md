@@ -51,7 +51,7 @@ claude-flutter-framework/
 | Apport                        | Détail                                                                          |
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
-| **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (en français). |
+| **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (dans la langue de l'utilisateur). |
 | **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/flutter-load-project`, `/flutter-show-contract`, `/flutter-add-feature`, `/flutter-refactor-code`. |
 | **Skills de maintenance**     | `flutter-trace-feature`, `implement`, `flutter-fix-issue`, `flutter-refactor-code`, `flutter-run-tests` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : analyze, custom_lint, build_runner, tests — échec bloquant. |
@@ -89,7 +89,7 @@ flutter --version     # Flutter stable · Dart 3 (pour générer/exécuter les a
 
 ### Phase 1 — Scoping
 
-7 questions en un seul bloc : objectif · base de données (SQLite sqflite / JSON local / aucune) · édition de texte riche (flutter_quill) · i18n FR/EN · icône PNG 1024×1024 · orientation (portrait / portrait+paysage) · tests (flutter_test + mocktail). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Acier » par défaut + 4 palettes nommées + palette personnalisée ; contrôle de contraste WCAG AA (averti). Sémantiques figées. Calibrage annoncé.
+7 questions en un seul bloc : objectif · base de données (SQLite sqflite / JSON local / aucune) · édition de texte riche (flutter_quill) · i18n FR/EN · icône PNG 1024×1024 · orientation (portrait / portrait+paysage) · tests (flutter_test + mocktail). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel » par défaut + 4 palettes nommées + palette personnalisée ; contrôle de contraste WCAG AA (averti). Sémantiques figées. Calibrage annoncé.
 
 | Taille        | Lots (sans tests) | Lots (avec tests) |
 | ------------- | ----------------- | ----------------- |

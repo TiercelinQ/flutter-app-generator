@@ -40,7 +40,7 @@ If disabled:
 ## Conventions
 
 - File naming: `[name]_test.dart` mirroring `lib/` under `test/`.
-- Test names: explicit French behavior, e.g. `email_invalide_leve_validation_exception`.
+- Test names: explicit French behavior — always French, independent of the user's interface language — e.g. `email_invalide_leve_validation_exception`.
 - No `expect(true, isTrue)`, no empty test, no unjustified `dynamic`.
 - No real network, no production DB — use `sqflite_common_ffi` in-memory or a temp file; mock repositories with `mocktail`.
 - No arbitrary `Future.delayed` — use `tester.pump`/`pumpAndSettle` or `fakeAsync`.

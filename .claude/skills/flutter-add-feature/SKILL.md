@@ -17,13 +17,13 @@ The modified/added files on disk + an updated `docs/specs/04-architect.md` if th
 
 ---
 
-> If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+> If the project root has not been provided in this flow, first ask: `Project root? (folder path)`.
 
 ## Steps
 
 1. **Load context**: read `docs/specs/04-architect.md` (locked contract), then `rules/architecture.md` · `rules/theme.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/verification.md` (not auto-imported). Read `design-system.md` / `layout.md` on demand (no longer auto-imported) before any UI change.
 
-2. **State assumptions** before coding. If the request is ambiguous (which entity, which screen, business rule), ask — grouped questions, in French, each closed question with a `(recommandé)` answer.
+2. **State assumptions** before coding. If the request is ambiguous (which entity, which screen, business rule), ask — grouped questions, in the user's language, each closed question with a `(recommended)` answer.
 
 3. **Decide: within contract OR deviation.**
    - **Within contract** — the change fits the existing tree (new method on a controller, new field on a model + migration, new widget in an existing screen): implement directly.
@@ -38,7 +38,7 @@ The modified/added files on disk + an updated `docs/specs/04-architect.md` if th
 
 5. **Verify**: apply `rules/verification.md` (§A executable + §B static). A failing check is blocking.
 
-6. **Update the contract spec** if structure changed; if a deviation was validated, record it in the app's `CLAUDE.md` (`## Écarts par rapport au framework`); offer `/flutter-generate-readme` only if the README is now stale on a user-visible aspect.
+6. **Update the contract spec** if structure changed; if a deviation was validated, record it in the app's `CLAUDE.md` (`## Deviations from the framework`); offer `/flutter-generate-readme` only if the README is now stale on a user-visible aspect.
 
 ## Anti-patterns — what NOT to do
 - **Do not** touch code outside the request. Minimum change that solves the problem; no opportunistic refactor (that is `/flutter-refactor-code`, on request).

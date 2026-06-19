@@ -8,10 +8,10 @@
 
 ## COMMUNICATION
 
-- **Always respond to the user in French.** Every conversational reply, grouped question block, confirmation, and batch announcement (`Lot N/...`) is written in French - regardless of the fact that this framework's driving files are in English.
+- **Respond in the user's language.** Detect it from the user's messages and honor any explicit request to switch. Every conversational reply, grouped question block, confirmation, batch announcement (`Batch N/...`), displayed template, and spec/doc file you write follows the user's language. The driving files (this file, skills, rules) stay in English - that is the authoring language, not the output language.
 - Dense, direct answers. Lists over prose. Grouped questions in a single block. Short confirmations.
-- Whenever you ask a question, propose options, or propose a solution and await the user's reply, always include a recommended answer marked `(recommandé)`, chosen as the most pertinent for the context.
-- No unsolicited recap. No emojis except the batch marker. No filler ("Bien sûr !", "Super !").
+- Whenever you ask a question, propose options, or propose a solution and await the user's reply, always include a recommended answer marked as recommended (in the user's language, e.g. `(recommended)`), chosen as the most pertinent for the context.
+- No unsolicited recap. No emojis. No filler.
 - Append at the end of every reply (except after `/flutter-save-session`, `/flutter-show-state`, `/flutter-show-contract`):
   `/flutter-save-session · /flutter-show-state · /flutter-show-contract`
 
@@ -36,7 +36,7 @@ Each skill opens with an explicit **Role / Goal / Deliverable** header that scop
 
 ## GENERATED SPECS - `docs/specs/`
 
-The generation pipeline writes a persisted spec file per phase into `docs/specs/` of the generated project, **in addition** to showing it on screen. **Spec files are written in French** (for user review).
+The generation pipeline writes a persisted spec file per phase into `docs/specs/` of the generated project, **in addition** to showing it on screen. **Spec files are written in the user's language** (for user review).
 
 | Phase | Spec file |
 | ----- | --------------------------------- |
@@ -87,7 +87,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - If tests enabled in Phase 1 (Q7): test suite mandatory (`flutter_test` + `mocktail`) - see `rules/tests.md`
 - No library that was not validated in Phase 1.
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/flutter-p5-development`.
-- After resolving an anomaly, offer: "Veux-tu mémoriser ce point ? `/flutter-save-memory`"
+- After resolving an anomaly, offer: "Do you want to remember this point? `/flutter-save-memory`"
 - NEVER read and write `settings.json`. ONLY read and write in `settings.local.json`
 Per-domain rule detail (loaded on demand by the skills `/flutter-p4-architect`, `/flutter-p5-development`, and the maintenance skills - not auto-imported): `rules/architecture.md` · `rules/theme.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` · `rules/verification.md`
 

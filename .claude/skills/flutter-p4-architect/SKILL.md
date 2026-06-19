@@ -13,13 +13,13 @@ Software architect — design the locked structure the whole build will follow.
 Produce a complete, unambiguous architectural contract that freezes the file tree, providers, schema, and theme mapping.
 
 ## Deliverable
-`docs/specs/04-architect.md` (written in French) — the locked source of truth + on-screen contract.
+`docs/specs/04-architect.md` (written in the user's language) — the locked source of truth + on-screen contract.
 
 ---
 
 At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/architecture.md` (tree, batches, Riverpod conventions) and `rules/theme.md` (tokens → theme). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
 
-Present (in French):
+Present (in the user's language):
 
 1. **Complete project tree** (model: `rules/architecture.md`) with the role of each file.
 2. **Providers table**: provider → controller → repository → consuming screens.
@@ -37,6 +37,6 @@ Any deviation (merge, split, rename, addition, removal of a file, provider, tabl
 
 ## Write the spec
 
-Once validated, write the full contract to `docs/specs/04-architect.md` (in French). This file is the **locked source of truth** re-read by `/flutter-p5-development`, `/flutter-load-project`, `/flutter-show-contract`, `/flutter-add-feature`, and `/flutter-refactor-code`.
+Once validated, write the full contract to `docs/specs/04-architect.md` (in the user's language). This file is the **locked source of truth** re-read by `/flutter-p5-development`, `/flutter-load-project`, `/flutter-show-contract`, `/flutter-add-feature`, and `/flutter-refactor-code`.
 
 → Chain to `/flutter-p5-development` after validation.

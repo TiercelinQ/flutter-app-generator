@@ -17,7 +17,7 @@ The corrected file(s) on disk + a passing verification + (after a multi-attempt 
 
 ---
 
-> If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+> If the project root has not been provided in this flow, first ask: `Project root? (folder path)`.
 
 ## Decision tree — classify the failure first
 
@@ -51,7 +51,7 @@ Read `design-system.md` / `layout.md` on demand if the fix touches UI (no longer
 3. **Ask: "knowing what I know now, what is the clean fix?"** Implement that, not the quickest patch. If the clean fix is larger than expected, say so before applying.
 4. Apply the minimum correct change. Respect the layers and the contract (`docs/specs/04-architect.md`).
 5. **Verify**: re-run `rules/verification.md §A` for the affected area; confirm the targeted failure is gone and nothing else broke.
-6. If it took several attempts: produce the **cleanup report** (`rules/architecture.md` — list every dead element added during failed attempts), then offer `Veux-tu mémoriser ce point ? /flutter-save-memory`.
+6. If it took several attempts: produce the **cleanup report** (`rules/architecture.md` — list every dead element added during failed attempts), then offer `Do you want to remember this point? /flutter-save-memory`.
 
 ## Anti-patterns — what NOT to do
 - **Do not** silence an analyzer/lint finding with `// ignore:` instead of fixing the cause (unless the lint is wrong and you say why).

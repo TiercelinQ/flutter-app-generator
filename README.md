@@ -18,7 +18,7 @@ A structured prompt system that generates complete, production-ready Flutter/And
 4. **Architect** - full file tree, providers table, SQLite schema, tokens→theme table - locked before any code is written
 5. **Development** - auto-chained batch delivery, seed script if a DB is used
 
-Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
+Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
 **Maintenance commands**: `/flutter-add-feature` (add a feature, contract-compliant), `/flutter-trace-feature` (trace behavior), `/flutter-fix-issue` (root-cause debugging with a decision tree), `/flutter-refactor-code` (validated, behavior-preserving), `/flutter-run-tests` (executable verification). Plus `/flutter-load-project` and `/flutter-generate-readme` to load/document existing apps.
 
@@ -104,7 +104,7 @@ my_app/
 ├── README.md
 ├── CLAUDE.md                      # Project identity (origin, business context, deviations)
 ├── .claude/settings.json          # Guardrails + verification hook (self-enforced app)
-├── docs/specs/                    # Generation specs (FR): 01-scoping … 04-architect
+├── docs/specs/                    # Generation specs (user's language): 01-scoping … 04-architect
 ├── android/                       # minSdk 24, release signing
 └── lib/
     ├── main.dart                  # ProviderScope, MaterialApp, themeMode, root ToastOverlay
@@ -126,7 +126,7 @@ All generated apps share the same visual system, defined in `design-system.md`:
 - **Flat design** - `borderRadius: 0`, `elevation: 0`, zero shadow, zero gradient
 - **Token-driven theme** - every color, size, duration lives in `tokens.dart`; light/dark are two complete `ThemeData` built from tokens, toggled via `themeMode`
 - **Roboto** typography (Android native)
-- **Color palette** - 5 roles (fond principal, fond secondaire, accent, texte, détails) chosen for the light theme; dark theme and all supporting tokens derived. Default "Acier" (Steel Blue) + 4 named palettes + custom palette; semantic colors stay fixed
+- **Color palette** - 5 roles (main background, secondary background, accent, text, details) chosen for the light theme; dark theme and all supporting tokens derived. Default "Steel" (Steel Blue) + 4 named palettes + custom palette; semantic colors stay fixed
 - **Custom overlay toasts only** - no native `SnackBar`, no raw `AlertDialog`, no inline banner
 
 ---

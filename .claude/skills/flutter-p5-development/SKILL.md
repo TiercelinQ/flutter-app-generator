@@ -41,7 +41,7 @@ Critical reminders:
 
 - Write to the project root chosen at the start of the flow (via `/flutter-app` or `/flutter-p1-scoping`); if it was not set in this flow, ask for it once.
 - Create the folders and write the files **directly to disk** — no manual action required. Project initialized by `flutter create` if absent (or `lib/` structure written into an existing project).
-- Announcement (French): `Lot N/[total] — [content]`
+- Announcement (in the user's language): `Batch N/[total] — [content]`
 - Automatic chaining between batches without confirmation.
 - Batch split: tables in `rules/architecture.md` (3 batches Small / 4 batches Medium-Large, frozen in Phase 1).
 
@@ -62,21 +62,21 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
   ```
   + no-PC installation procedure and release signing (`rules/config.md §Android build`).
 - `README.md` written automatically at the project root: objective, stack, tree, providers, DB schema, conventions, build/installation.
-- **`CLAUDE.md`** written at the generated project root (in French), recording the app's identity for future sessions:
+- **`CLAUDE.md`** written at the generated project root (in the user's language), recording the app's identity for future sessions:
 
   ```markdown
   # [nom-app]
 
-  ## Origine
-  Framework : flutter v1.0.0
+  ## Origin
+  Framework: flutter v1.0.0
 
-  ## Contexte métier
-  [Ce que fait l'app — synthèse issue de docs/specs/02-featuring.md : objectif + fonctionnalités clés]
+  ## Business context
+  [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
 
-  ## Écarts par rapport au framework
-  - Aucun
+  ## Deviations from the framework
+  - None
   ```
-  `[nom-app]` = the app name (`appName`). The version is the one declared at the top of the framework `CLAUDE.md` (currently 1.0.0). Replace the `Écarts` list with every deviation validated via the Phase 4/5 deviation protocol (`- [écart] — raison : [justification]`); if none, keep `- Aucun`.
+  `[nom-app]` = the app name (`appName`). The version is the one declared at the top of the framework `CLAUDE.md` (currently 1.0.0). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json
@@ -97,20 +97,20 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
 
 If a database was selected, deliver a standalone seed script `tool/seed.dart` that inserts a coherent demo dataset:
 - Uses the repositories / `app_database` (`lib/data/`) — never raw SQL outside the data layer.
-- Coherent, FK-respecting data (~5-15 rows per entity), realistic French values, parents before children.
+- Coherent, FK-respecting data (~5-15 rows per entity), realistic values in the user's language, parents before children.
 - Idempotent: insert only if the target tables are empty (count check first); re-running must not duplicate rows.
 - Runtime: a CLI script runs off-device, so it uses `sqflite_common_ffi` (add it to `dev_dependencies` and `sqfliteFfiInit()` + `databaseFactory = databaseFactoryFfi` at the top of the script). Run instruction added to the README: `dart run tool/seed.dart`. Never called from `main.dart`.
 
-Announce `Lot [final]/[total] — tool/seed.dart` (before the tests batch if both apply). See `@rules/architecture.md`.
+Announce `Batch [final]/[total] — tool/seed.dart` (before the tests batch if both apply). See `@rules/architecture.md`.
 
 ## Test batch — only if Phase 1 Q7 = Yes
 
-Add a final dedicated batch: announce `Lot [final]/[total] — test/ + dev dependencies`. Deliver `test/` mirroring `lib/` (per `@rules/tests.md`: controller tests via `ProviderContainer` + overrides and `mocktail`, widget smoke tests, no network/real-DB), and add `mocktail` (+ `sqflite_common_ffi` if DB) to `dev_dependencies` in `pubspec.yaml`. Append the `flutter test` instruction to the README.
+Add a final dedicated batch: announce `Batch [final]/[total] — test/ + dev dependencies`. Deliver `test/` mirroring `lib/` (per `@rules/tests.md`: controller tests via `ProviderContainer` + overrides and `mocktail`, widget smoke tests, no network/real-DB), and add `mocktail` (+ `sqflite_common_ffi` if DB) to `dev_dependencies` in `pubspec.yaml`. Append the `flutter test` instruction to the README.
 
 ## Post-delivery adjustments
 
 Isolated fix on the affected file + direct dependencies. Deliver the complete fixed file.
-After resolving an anomaly: cleanup report (`rules/architecture.md`) then offer `Veux-tu mémoriser ce point ? /flutter-save-memory`.
+After resolving an anomaly: cleanup report (`rules/architecture.md`) then offer `Do you want to remember this point? /flutter-save-memory`.
 
 ## Finalization — post-delivery adjustments (explicit request only)
 
