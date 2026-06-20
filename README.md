@@ -12,7 +12,7 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 A structured prompt system that generates complete, production-ready Flutter/Android applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** - 7 questions (objective, DB, rich text, i18n, icon, orientation, tests) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
+1. **Scoping** - 8 questions (objective, DB, rich text, i18n, icon, orientation, tests, installation method) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
 3. **Designing** - NavigationBar destinations, secondary panel, list actions, pull-to-refresh
 4. **Architect** - full file tree, providers table, SQLite schema, tokens→theme table - locked before any code is written
@@ -41,7 +41,7 @@ Every generated app enforces the same visual design system and strict layered ar
 | i18n           | flutter_localizations + gen-l10n FR/EN (opt-in)             |
 | Preferences    | shared_preferences                                          |
 | Tests          | flutter_test + mocktail (opt-in)                            |
-| Security        | parameterized SQL · flutter_secure_storage · minimal permissions |
+| Security        | parameterized SQL · flutter_secure_storage (opt-in) · minimal permissions |
 | Quality        | flutter_lints · clean analyzer · DartDoc                    |
 | Deliverable    | On-device install, method chosen in Phase 1 (USB direct by default; Debug APK file; Signed release APK / Play Store AAB if selected) |
 
@@ -77,7 +77,7 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/flutter-app`          | Start menu (4 entry points incl. maintenance)      |
-| `/flutter-p1-scoping`       | Scoping - 7 questions + color palette              |
+| `/flutter-p1-scoping`       | Scoping - 8 questions + color palette              |
 | `/flutter-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
 | `/flutter-p3-designing`        | Designing - layout proposal + customization        |
 | `/flutter-p4-architect`       | Architect - locked contract (providers, SQLite)    |
@@ -121,7 +121,7 @@ my_app/
 
 ## Design system
 
-All generated apps share the same visual system, defined in `design-system.md`:
+All generated apps share the same visual system, defined in `.claude/design-system.md`:
 
 - **Flat design** - `borderRadius: 0`, `elevation: 0`, zero shadow, zero gradient
 - **Token-driven theme** - every color, size, duration lives in `tokens.dart`; light/dark are two complete `ThemeData` built from tokens, toggled via `themeMode`
@@ -133,16 +133,16 @@ All generated apps share the same visual system, defined in `design-system.md`:
 
 ## Architecture
 
-`rules/architecture.md` enforces strict unidirectional imports: `presentation` (`ref.watch`/`ref.read`) → `application` (Riverpod notifiers) → `data` (repositories → SQLite). `data` never imports Flutter UI or Riverpod; `presentation` never touches repositories directly. Riverpod 3 with code generation (`@riverpod` + build_runner; `.g.dart` files are user-generated, never delivered).
+`.claude/rules/architecture.md` enforces strict unidirectional imports: `presentation` (`ref.watch`/`ref.read`) → `application` (Riverpod notifiers) → `data` (repositories → SQLite). `data` never imports Flutter UI or Riverpod; `presentation` never touches repositories directly. Riverpod 3 with code generation (`@riverpod` + build_runner; `.g.dart` files are user-generated, never delivered).
 
 ---
 
 ## Documentation
 
 - [GUIDE.md](GUIDE.md) - full usage guide (FR)
-- `design-system.md` - visual token reference
-- `layout.md` - layout reference (AppShell, AppBar, NavigationBar, toasts)
-- `rules/` - domain rules:
+- `.claude/design-system.md` - visual token reference
+- `.claude/layout.md` - layout reference (AppShell, AppBar, NavigationBar, toasts)
+- `.claude/rules/` - domain rules:
   - `architecture.md` · `theme.md` · `errors.md` · `config.md` · `security.md` · `tests.md`
   - `verification.md` - single source of truth for executable + static checks
 
