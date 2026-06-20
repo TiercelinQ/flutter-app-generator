@@ -49,8 +49,8 @@ Start with the objective, then establish the project root (folder name → locat
 
 After the answers, propose the **palette** with `AskUserQuestion` (single question; clickable options from the catalog, recommended default first; the **Other** option covers a remaining named palette and the custom palette). A palette = 5 **light** roles (main background, secondary background, accent, text, details); the dark theme and all supporting tokens are derived (`design-system.md §2`).
 
-- **Palette — `AskUserQuestion`**, options (≤ 4): `Steel` (default, recommended) · `Forest` · `Slate` · `Amber`. The **Other** option covers `Ruby` and a **custom palette**. If the user picks a custom palette, ask the 5 light hex values as free-form text (main background, secondary background, accent, text, details). Catalog + hex values: `design-system.md §2`.
-- Steel is the recommended default; the named-palette values are canonical — do not improvise them. If no answer: default palette.
+- **Palette — `AskUserQuestion`**, options (≤ 4): `Teal` (default, recommended) · `Steel Blue` · `Forest` · `Slate`. The **Other** option covers `Amber`, `Ruby` and a **custom palette**. If the user picks a custom palette, ask the 5 light hex values as free-form text (main background, secondary background, accent, text, details). Catalog + hex values: `design-system.md §2`.
+- Teal is the recommended default; the named-palette values are canonical — do not improvise them. If no answer: default palette.
 - From the 5 light roles, Claude **derives** and announces: supporting light tokens (`bgMuted`, `bgElevated`, `textSubtle`, `textMuted`, `borderSubtle`, `borderStrong`), the 5 accent stops (`primary50/400/700/800/900`), `onPrimary`, and the **whole dark theme** (`DarkColors`, lightness targets in `design-system.md §2`). Written to `tokens.dart` (`LightColors`/`DarkColors`). Semantic and icon tokens stay fixed.
 - **Contrast check (WCAG AA, non-blocking)**: compute text/bg, textSubtle/bg, accent/bg, onPrimary/accent; if a ratio fails AA, report it (`color — ratio — target`) and ask the user to confirm or adjust before continuing.
 - The global `design-system.md` stays unchanged.
