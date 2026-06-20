@@ -29,7 +29,7 @@ Applied to 100% of generated applications. Any deviation requires the contract d
 
 - Database, preferences, and files live in the app's private sandbox (default paths) — never world-readable external storage without an explicit, validated feature + permission.
 - No application data committed (`.gitignore`: `*.db`, secrets, keystore).
-- Release signing keystore: local, gitignored (`android/key.properties`, `*.jks`).
+- Release signing keystore (only when a Signed release APK / Play Store AAB is chosen in Phase 1 Q8 — see `@rules/config.md §Installation methods`): local, gitignored (`android/key.properties`, `*.jks`).
 
 ## 6. WebView / external content (only if validated in Phase 1)
 

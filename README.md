@@ -43,7 +43,7 @@ Every generated app enforces the same visual design system and strict layered ar
 | Tests          | flutter_test + mocktail (opt-in)                            |
 | Security        | parameterized SQL · flutter_secure_storage · minimal permissions |
 | Quality        | flutter_lints · clean analyzer · DartDoc                    |
-| Deliverable    | Signed release APK (sideload) - Play Store AAB on request   |
+| Deliverable    | On-device install, method chosen in Phase 1 (USB direct by default; Debug APK file; Signed release APK / Play Store AAB if selected) |
 
 ---
 

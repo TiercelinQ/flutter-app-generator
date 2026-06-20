@@ -43,9 +43,9 @@ Prerequisite: invoked from the target project root.
 [layers, tokens, toasts, parameterized SQL — pointer to the rules]
 
 ## Build & installation
-flutter pub get
-dart run build_runner build --delete-conflicting-outputs
-flutter build apk --release
+[Common: flutter pub get · build_runner · custom_lint · flutter_launcher_icons (if icon)]
+[Then the 4 install methods, USB direct first — see rules/config.md §Installation methods.
+ Highlight the one chosen in Phase 1 (Q8). Signing/keystore steps only for Signed release APK / Play Store AAB.]
 ```
 
 3. Write the file to disk, confirm in one line (in the user's language).

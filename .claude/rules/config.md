@@ -125,34 +125,60 @@ File output on Android: add a handler writing to `getApplicationDocumentsDirecto
 - SQL queries: 100% parameterized (`?` + `whereArgs`) — absolute rule.
 - No hardcoded secret. User secrets (if needed): `flutter_secure_storage` (to validate in Phase 1).
 - Database and preferences: app private storage (Android sandbox) — no file in shared storage without explicit request + permission.
-- Release signing keystore: local, gitignored (`android/key.properties`, `*.jks`).
+- Release signing keystore (only if a Signed release APK / Play Store AAB is chosen in Phase 1 — see Installation methods): local, gitignored (`android/key.properties`, `*.jks`).
 
-## Android build & installation
-
-### Release signing (once per project)
-
-```
-keytool -genkey -v -keystore android/app/release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias release
-```
-
-`android/key.properties` (gitignored) + `signingConfigs` block in `android/app/build.gradle` — delivered commented in the last batch.
-
-### Commands
+## Build & code generation (common to every method)
 
 ```
 flutter pub get
 dart run build_runner build --delete-conflicting-outputs
 dart run custom_lint              # Riverpod lints (riverpod_lint)
-flutter run                       # dev — phone plugged via USB (once) or emulator
-flutter build apk --release       # signed APK: build/app/outputs/flutter-apk/app-release.apk
+dart run flutter_launcher_icons   # if an icon was provided in Phase 1
 ```
 
-### Installation without a PC (sideload — personal use)
+## Installation methods
 
-1. Copy `app-release.apk` to the phone (Drive, email, cable).
-2. Open the file → allow "Install unknown apps" for the source.
-3. Install. The app stays installed, independent of the PC.
+The install method is chosen in **Phase 1 (Q8)**. It does not change the generated `lib/` code — only the final build/install steps and whether a keystore is delivered. **Signing is opt-in**: the keystore (`keytool`), `android/key.properties`, and the `signingConfigs` block in `android/app/build.gradle` are delivered **only** for methods C (Signed release APK) and D (Play Store AAB). Methods A and B need no keystore. The generated README documents all four; the chosen one is highlighted.
 
-### Play Store (on explicit request)
+### A — USB direct (`flutter run` / `flutter install`) — default, no signing
 
-`flutter build appbundle --release` → AAB + Play Console instructions, delivered only on request.
+The simplest path: the app is pushed straight to the phone over USB by adb, with no keystore and no "install unknown apps" prompt. It stays installed after unplugging.
+
+One-time device setup (not an app-security constraint, just a device toggle):
+1. Settings → About phone → tap **Build number** 7× to unlock Developer options.
+2. Developer options → enable **USB debugging**.
+3. Plug the phone via USB → authorize the computer (one-time RSA prompt).
+
+Then:
+```
+flutter devices                   # confirm the phone is detected
+flutter run                       # debug build + hot reload (keeps a session attached)
+flutter install                   # installs the app and leaves it on the device (no attached session)
+```
+Note: this installs a **debug** build (larger/slower than release, fine for personal use). For a leaner standalone build, use method C.
+
+### B — Debug APK file (no signing)
+
+```
+flutter build apk --debug         # build/app/outputs/flutter-apk/app-debug.apk
+```
+Transfer the APK to the phone (cable, Drive, email), open it, allow "install unknown apps" for the source once, install. Auto-signed with the debug key — **no keystore**.
+
+### C — Signed release APK (sideload, shareable) — keystore opt-in
+
+Keystore, once per project:
+```
+keytool -genkey -v -keystore android/app/release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias release
+```
+`android/key.properties` (gitignored) + `signingConfigs` block in `android/app/build.gradle` — delivered commented in the last batch **only when this method (or D) is selected**.
+```
+flutter build apk --release       # build/app/outputs/flutter-apk/app-release.apk
+```
+Sideload: copy to the phone, allow "install unknown apps" once, install — stays installed, independent of the PC. (Without a custom keystore, a release build is signed with Flutter's default debug key: installable for personal use, but not shareable/distributable — use the keystore above for a properly signed release.)
+
+### D — Play Store AAB — keystore opt-in
+
+```
+flutter build appbundle --release
+```
+→ AAB + Play Console instructions. Requires the signing keystore (method C). Delivered only when selected.

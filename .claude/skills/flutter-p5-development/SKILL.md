@@ -1,6 +1,6 @@
 ---
 name: flutter-p5-development
-description: Phase 5 of the Flutter/Android app generation cycle — development and batch delivery, files written directly to disk, executable verification, final README and APK build instructions.
+description: Phase 5 of the Flutter/Android app generation cycle — development and batch delivery, files written directly to disk, executable verification, final README and install instructions (method chosen in Phase 1).
 model: sonnet
 ---
 
@@ -51,16 +51,17 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
 
 ## Last batch — mandatory extra deliverables
 
-- Complete instructions:
+- Complete instructions — common build/codegen, then the install method chosen in Phase 1 (Q8):
   ```
   flutter pub get
   dart run build_runner build --delete-conflicting-outputs
   dart run custom_lint                   # Riverpod lints
   dart run flutter_launcher_icons        # if icon provided
-  flutter run                            # dev
-  flutter build apk --release            # sideload APK
   ```
-  + no-PC installation procedure and release signing (`rules/config.md §Android build`).
+  Then the steps for the **chosen install method** (`rules/config.md §Installation methods`), USB direct by default:
+  - **USB direct / Debug APK file** (default, no signing): `flutter run` / `flutter install`, or `flutter build apk --debug` + transfer. **Do not** deliver a keystore.
+  - **Signed release APK / Play Store AAB** (only if selected): deliver the commented keystore (`keytool`), `android/key.properties`, and the `signingConfigs` block in `android/app/build.gradle`, plus `flutter build apk --release` / `flutter build appbundle --release`.
+  The README documents all four methods regardless; highlight the chosen one.
 - `README.md` written automatically at the project root: objective, stack, tree, providers, DB schema, conventions, build/installation.
 - **`CLAUDE.md`** written at the generated project root (in the user's language), recording the app's identity for future sessions:
 

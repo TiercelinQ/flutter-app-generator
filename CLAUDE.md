@@ -71,7 +71,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | Internationalization | FR/EN - FR default - `flutter_localizations` + `gen-l10n` (ARB)  |
 | Preferences          | `shared_preferences`                                            |
 | Quality              | `flutter_lints` · clean analyzer · DartDoc on classes and public API |
-| Deliverable          | Signed release APK (sideload) - Play Store AAB on request       |
+| Deliverable          | On-device install, method chosen in Phase 1 (Q8): USB direct by default (no signing); Debug APK file; Signed release APK (sideload) or Play Store AAB if selected — see @rules/config.md |
 
 ---
 

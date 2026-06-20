@@ -1,6 +1,6 @@
 ---
 name: flutter-p1-scoping
-description: Phase 1 of the Flutter/Android app generation cycle — scoping in 7 grouped questions, full color palette choice, calibration announcement (number of batches), and writing of the scoping spec.
+description: Phase 1 of the Flutter/Android app generation cycle — scoping in 8 grouped questions, full color palette choice, calibration announcement (number of batches), and writing of the scoping spec.
 model: sonnet
 ---
 
@@ -38,9 +38,10 @@ Start with the objective, then establish the project root (folder name → locat
    - **Rich text editing** (bold, lists, headings — flutter_quill): `No` (recommended, unless a real need) · `Yes`.
    - **FR/EN i18n** (FR by default): `No` (recommended, unless a real EN need) · `Yes`.
    - **Orientation**: `portrait only` (recommended) · `portrait + landscape`.
-3. **`AskUserQuestion` — call 2** (2 questions):
+3. **`AskUserQuestion` — call 2** (3 questions):
    - **Application icon**: `No` (recommended — Flutter default, can be added later) · `Yes`. If `Yes`, ask the 1024×1024 PNG path as free-form text.
    - **Automated tests** (flutter_test + mocktail): `Yes` (recommended, pro use) · `No`.
+   - **Install method** (how the app reaches the phone): `USB direct` (recommended — `flutter run` / `flutter install`, no signing, no "install unknown apps") · `Debug APK file` · `Signed release APK (sideload)` · `Play Store AAB`. The **Other** option covers a custom case. Drives the final build/install instructions and the keystore delivery (signing opt-in: keystore delivered only for `Signed release APK` / `Play Store AAB`). All four methods are documented in the README regardless; the chosen one is highlighted. Detail: `rules/config.md` (Installation methods).
 
 ## 2. Color palette
 
@@ -64,6 +65,6 @@ Any library outside the stack (charts fl_chart, flutter_secure_storage, logging,
 
 ## 5. Write the spec
 
-Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB choice, rich editing, i18n, icon, orientation, tests (Q7), the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + onPrimary; semantic kept fixed) and the contrast-check result, validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
+Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB choice, rich editing, i18n, icon, orientation, tests (Q7), **install method** (Q8), the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + onPrimary; semantic kept fixed) and the contrast-check result, validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
 
 → Chain to `/flutter-p2-featuring` after validation.

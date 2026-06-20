@@ -28,7 +28,7 @@ A short report in the user's language stating what passed, with command output a
    flutter analyze              # expect "No issues found"
    dart run custom_lint         # Riverpod lints
    flutter test                 # ONLY if test/ already has tests
-   flutter build apk --release  # only when a full build is requested
+   flutter build apk            # compile smoke (debug); --release / appbundle only if release/AAB selected (Phase 1 Q8)
    ```
 2. **Capture output**. A non-zero exit or any reported issue is a failure — quote the relevant lines.
 3. **Report** (in the user's language): which commands passed, with proof. On failure: name the command, the `file:line`, and hand off to `/flutter-fix-issue` for the root cause (do not patch here unless the user asks).
