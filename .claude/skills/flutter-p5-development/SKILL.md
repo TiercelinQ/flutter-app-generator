@@ -110,6 +110,24 @@ Announce `Batch [final]/[total] — tool/seed.dart` (before the tests batch if b
 
 Add a final dedicated batch: announce `Batch [final]/[total] — test/ + dev dependencies`. Deliver `test/` mirroring `lib/` (per `@rules/tests.md`: controller tests via `ProviderContainer` + overrides and `mocktail`, widget smoke tests, no network/real-DB), and add `mocktail` (+ `sqflite_common_ffi` if DB) to `dev_dependencies` in `pubspec.yaml`. Append the `flutter test` instruction to the README.
 
+## Final delivery summary
+
+Once the last batch (plus the seed/test batches if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). List:
+
+- **Project folder** — the project root (clickable).
+- **README.md** — how to run, stack, tree, conventions (clickable).
+- **Generated `CLAUDE.md`** — the app identity for future sessions (clickable).
+- **Documentation — phase specs** — one clickable link each: `docs/specs/01-scoping.md`, `docs/specs/02-featuring.md`, `docs/specs/03-designing.md`, `docs/specs/04-architect.md` (and the latest `docs/sessions/SESSION_*.md` if one exists).
+- **How to run** — the key commands (also in the README):
+
+  ```
+  flutter pub get
+  dart run build_runner build --delete-conflicting-outputs
+  ```
+  then the install method chosen in Phase 1 (USB direct by default: `flutter run` or `flutter install`). Other methods: `rules/config.md §Installation methods`. (+ `dart run tool/seed.dart` if a DB was selected; `flutter test` if tests enabled.)
+
+The summary points to the documents; it does not restate them.
+
 ## Post-delivery adjustments
 
 Isolated fix on the affected file + direct dependencies. Deliver the complete fixed file.
