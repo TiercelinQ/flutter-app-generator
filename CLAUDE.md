@@ -104,7 +104,7 @@ All commands below are Claude Code skills invocable with `/`:
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/flutter-app`          | `skills/flutter-app/`          | Start / resume / maintenance menu            |
 | `/flutter-p1-scoping`       | `skills/flutter-p1-scoping/`       | Scoping - 7 questions + color palette        |
-| `/flutter-p2-featuring`       | `skills/flutter-p2-featuring/`       | Structured requirements sheet                |
+| `/flutter-p2-featuring`       | `skills/flutter-p2-featuring/`       | App name + features (MoSCoW) + v1.0 scope + locked sizing |
 | `/flutter-p3-designing`        | `skills/flutter-p3-designing/`        | Layout proposal                              |
 | `/flutter-p4-architect`       | `skills/flutter-p4-architect/`       | Locked architectural contract                |
 | `/flutter-p5-development` | `skills/flutter-p5-development/` | Batch delivery                               |
@@ -132,7 +132,7 @@ All commands below are Claude Code skills invocable with `/`:
 
 ---
 
-## CALIBRATION (FROZEN AFTER PHASE 1)
+## CALIBRATION (FROZEN AFTER PHASE 2)
 
 Canonical source of the calibration. Skills refer to it - do not duplicate this table elsewhere.
 
