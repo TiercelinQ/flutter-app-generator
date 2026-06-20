@@ -80,7 +80,7 @@ The **semantic colors** (success/warning/danger/info), the **icon tokens**, and 
 | `bgMuted`    | ≈22 % (lightest) | `border` / `borderSubtle` / `borderStrong` | ≈26 % / ≈20 % / ≈33 % |
 | accent       | `primary400` (L≈60-70 %) | semantic / icons / charts | fixed |
 
-> Harmony: dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth, not a flat grey. The dark surface ramp stays ascending. The **default palette** ships explicit values for both classes (the tables below); like Steel Blue today, its explicit values win over the rule and guarantee the current rendering. Named presets and custom palettes derive `DarkColors` by the rule.
+> Harmony: for named presets and custom palettes, dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth. The **default palette** ships an explicit **neutral grey** dark theme (achromatic surfaces and accent — the tables below), and its explicit values win over the rule. The dark surface ramp stays ascending in every case. Named presets and custom palettes derive `DarkColors` by the rule.
 
 ### Named palettes (Phase 1 catalog)
 
@@ -113,29 +113,31 @@ The **semantic colors** (success/warning/danger/info), the **icon tokens**, and 
 
 | Token          | Value   | Usage                          |
 | -------------- | ------- | ------------------------------ |
-| `bg`           | #1A1A1F | Main background, AppBar        |
-| `bgSubtle`     | #22222A | Secondary areas                |
-| `bgElevated`   | #2A2A35 | Drawer, bottom sheet           |
-| `bgMuted`      | #313140 | Hover/pressed                  |
-| `text`         | #D4D4D4 | Primary text                   |
-| `textSubtle`   | #9A9AB0 | Secondary text                 |
-| `textMuted`    | #5A5A72 | Disabled text                  |
-| `border`       | #3A3A4A | Standard borders               |
-| `borderSubtle` | #2E2E3A | Discreet separators            |
-| `borderStrong` | #4A4A5E | List/table headers             |
+| `bg`           | #1C1C1C | Main background, AppBar        |
+| `bgSubtle`     | #2B2B2B | Secondary areas                |
+| `bgElevated`   | #353535 | Drawer, bottom sheet           |
+| `bgMuted`      | #3F3F3F | Hover/pressed                  |
+| `text`         | #F5F5F5 | Primary text                   |
+| `textSubtle`   | #939393 | Secondary text                 |
+| `textMuted`    | #6E6E6E | Disabled text                  |
+| `border`       | #525252 | Standard borders               |
+| `borderSubtle` | #373737 | Discreet separators            |
+| `borderStrong` | #666666 | List/table headers             |
 
-> Dark surface ramp: `bg` #1A1A1F < `bgSubtle` #22222A < `bgElevated` #2A2A35 < `bgMuted` #313140. `bgMuted` is the lightest so that the pressed highlight stays visible on every surface, including inside drawers and sheets.
+> Dark surface ramp: `bg` #1C1C1C < `bgSubtle` #2B2B2B < `bgElevated` #353535 < `bgMuted` #3F3F3F. `bgMuted` is the lightest so that the pressed highlight stays visible on every surface, including inside drawers and sheets.
 
 ### Accent — Steel Blue (default palette)
 
 | Token        | Light   | Dark    | Usage                            |
 | ------------ | ------- | ------- | -------------------------------- |
 | `primary50`  | #EDF3F8 | —       | Selection / active bg (light)    |
-| `primary400` | —       | #5A9FD4 | Active content (dark)            |
-| `primary600` | #4682B4 | #4682B4 | Primary button fill (both modes); active content (light) |
-| `primary700` | #396A93 | #396A93 | Primary button pressed (both modes) |
-| `primary800` | #2F5879 | #2F5879 | Primary button deep pressed (both modes) |
-| `primary900` | —       | #2A4F72 | Selection / active bg (dark)     |
+| `primary400` | —       | #B3B3B3 | Active content (dark)            |
+| `primary600` | #4682B4 | #9E9E9E | Primary button fill; active content (light) |
+| `primary700` | #396A93 | #808080 | Primary button pressed           |
+| `primary800` | #2F5879 | #6B6B6B | Primary button deep pressed      |
+| `primary900` | —       | #404040 | Selection / active bg (dark)     |
+
+> `onPrimary` (primary-button text): #FFFFFF in light (on Steel Blue), #1C1C1C in dark (white fails AA on the #9E9E9E grey accent, 2.7:1; near-black = 6.4:1). `DarkColors` holds the grey accent stops and the near-black `onPrimary` directly; `LightColors` keeps Steel Blue.
 
 Derived usage tokens, defined per theme — these are the ones components consume:
 
@@ -161,7 +163,7 @@ Derived usage tokens, defined per theme — these are the ones components consum
 | `info50`     | #EFF6FF | #1A3042 | Info toast bg          |
 | `info600`    | #2563EB | #4682B4 | Info border, icon      |
 
-> Naming note: `*50` is a **role** ("semantic surface / toast background"), not a fixed luminance level. Light = pale tint, Dark = deep tint of the same hue, declared in `DarkColors`. A toast then keeps one coherent palette per theme: bg `*50`, text `text`, border/icon `*600` — all resolved from the same `*Colors` class. On the dark `*50` background, `text` (#D4D4D4) and the `*600` dark accent both keep WCAG AA contrast.
+> Naming note: `*50` is a **role** ("semantic surface / toast background"), not a fixed luminance level. Light = pale tint, Dark = deep tint of the same hue, declared in `DarkColors`. A toast then keeps one coherent palette per theme: bg `*50`, text `text`, border/icon `*600` — all resolved from the same `*Colors` class. On the dark `*50` background, `text` (#F5F5F5) and the `*600` dark accent both keep WCAG AA contrast.
 
 ### Charts / visualization palette
 
@@ -312,7 +314,7 @@ Applies to **transparent / neutral interactive elements**: navbar destinations, 
 
 > Colored buttons (Primary, Danger) darken on press via their own `700` stops, never the neutral `bgMuted` rule of §8. Disabled: `opacityDisabled`.
 
-> Primary button fill uses `primary600` (#4682B4 in both modes), **not** the `primary` usage token — so the button stays mid-steel in dark mode and white `onPrimary` reaches 4.11:1 (AA for UI / large text). The brighter `primary` (`primary400` #5A9FD4 in dark) is reserved for foreground accents (active content, icons, focus) that must read on dark surfaces; using it as a button fill would drop white text to 2.86:1.
+> Primary button fill uses `primary600`, **not** the `primary` usage token. In light it is Steel Blue #4682B4 with white `onPrimary` (4.11:1, AA for UI / large text). In dark (default palette) it is the neutral grey #9E9E9E with **near-black** `onPrimary` #1C1C1C (6.4:1) — white would fail on this grey (2.7:1). The `primary` usage token (`primary400` #B3B3B3 in dark) is reserved for foreground accents (active content, icons, focus) that must read on dark surfaces.
 
 Styles centralized in `app_theme.dart` (`filledButtonTheme`, `outlinedButtonTheme`, `textButtonTheme`) — danger/ghost variants via named constructors of an `AppButton` widget consuming the tokens. Zero local `ButtonStyle` in screens.
 
@@ -336,13 +338,13 @@ Library: `font_awesome_flutter` (Font Awesome Free, embedded locally).
 
 | Token         | Light                    | Dark     |
 | ------------- | ------------------------ | -------- |
-| `iconDefault` | #6B7280 (`textSubtle`)   | #9A9AB0  |
-| `iconActive`  | #4682B4 (`primary`)      | #5A9FD4  |
+| `iconDefault` | #6B7280 (`textSubtle`)   | #939393  |
+| `iconActive`  | #4682B4 (`primary`)      | #B3B3B3  |
 | `iconSuccess` | #16A34A (`success600`)   | #4A9E6A  |
 | `iconWarning` | #D97706 (`warning600`)   | #CCA840  |
 | `iconDanger`  | #DC2626 (`danger600`)    | #C04A4A  |
 | `iconInfo`    | #2563EB (`info600`)      | #4682B4  |
-| `iconMuted`   | #9CA3AF (`textMuted`)    | #5A5A72  |
+| `iconMuted`   | #9CA3AF (`textMuted`)    | #6E6E6E  |
 
 ```dart
 // Usage in a widget
