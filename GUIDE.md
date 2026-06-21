@@ -22,7 +22,8 @@ claude-flutter-framework/
     │   ├── config.md         # pubspec, dépendances, i18n gen-l10n, build APK
     │   ├── security.md       # Validation entrées, SQL paramétré, flutter_secure_storage, permissions
     │   ├── tests.md          # flutter_test + mocktail, couverture par couche
-    │   └── verification.md   # Vérification EXÉCUTABLE centralisée + intégrité statique
+    │   ├── verification.md   # Vérification EXÉCUTABLE centralisée + intégrité statique
+    │   └── readme.md         # Synchro README post-livraison (régénération auto)
     ├── skills/
     │   ├── flutter-app/             # Menu démarrage / reprise / maintenance (4 options)
     │   ├── flutter-p1-scoping/      # Scoping — 8 questions + couleur → docs/specs/01-scoping.md

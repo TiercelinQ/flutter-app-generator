@@ -118,7 +118,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/flutter-p5-development`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/flutter-save-memory`"
 - NEVER read and write `settings.json`. ONLY read and write in `settings.local.json`
-Per-domain rule detail (loaded on demand by the skills `/flutter-p4-architect`, `/flutter-p5-development`, and the maintenance skills - not auto-imported): `rules/architecture.md` · `rules/theme.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` · `rules/verification.md`
+Per-domain rule detail (loaded on demand by the skills `/flutter-p4-architect`, `/flutter-p5-development`, and the maintenance skills - not auto-imported): `rules/architecture.md` · `rules/theme.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` · `rules/verification.md` · `rules/readme.md`
 
 ---
 
