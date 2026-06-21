@@ -39,12 +39,13 @@ Read the actual error before touching code. Classify, then act in this order:
 - Fix at the layer that owns the cause, not where the symptom surfaces.
 
 ### 4. Design-system / layout deviation (visual bug)
-- Hardcoded color/size, missing dark-mode handling, raw `SnackBar`/`AlertDialog`, non-flat element.
-- Route the value through `tokens.dart`/`context.colors`, or replace the native widget with the framework one (`AppDialog`, toast). See `rules/theme.md` / `rules/errors.md`.
+First read the **design system mode** in `docs/specs/04-architect.md` — the correct fix depends on it.
+- `framework`: hardcoded color/size, missing dark-mode handling, raw `SnackBar`/`AlertDialog`, non-flat element → route the value through `tokens.dart`/`context.colors`, or replace the native widget with the framework one (`AppDialog`, toast). See `rules/theme.md` / `rules/errors.md`.
+- `native`: raw hex instead of `colorScheme`, a magic number instead of `AppTokens`, or a custom toast/dialog where Material is expected → route colors through `Theme.of(context).colorScheme`, spacing through `AppTokens`, use `SnackBar`/`MaterialBanner`/`AlertDialog`. See `rules/native-design.md`.
 
 ## Steps
 
-Read `design-system.md` / `layout.md` on demand if the fix touches UI (no longer auto-imported).
+Read the design reference for the app's mode (`docs/specs/04-architect.md`) on demand if the fix touches UI: `design-system.md` / `layout.md` if `framework`; `rules/native-design.md` / `layout.md` if `native` (no longer auto-imported).
 
 1. Get the real error (command output, stack trace, or the user's repro). If you cannot reproduce, ask for the exact message — do not guess.
 2. Classify with the tree above; read both the failing site and the declaration it depends on.

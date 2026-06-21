@@ -14,7 +14,7 @@
 - Whenever you ask a question, propose options, or propose a solution and await the user's reply, always include a recommended answer marked as recommended (in the user's language, e.g. `(recommended)`), chosen as the most pertinent for the context.
 - No unsolicited recap. No emojis. No filler.
 - Append at the end of every reply (except after `/flutter-save-session`, `/flutter-show-state`, `/flutter-show-contract`):
-  `/flutter-save-session · /flutter-show-state · /flutter-show-contract`
+  `/flutter-save-session` · `/flutter-show-state` · `/flutter-show-contract`
 
 ---
 
@@ -82,6 +82,8 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 `design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) - the UI skills (`/flutter-p3-designing`, `/flutter-p4-architect`, `/flutter-p5-development`, `/flutter-add-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-trace-feature`) read them on demand before producing or altering any UI.
 
+In `designSystem: native` mode (Phase 1), the binding visual reference is `rules/native-design.md` **instead of** `design-system.md` (and `rules/theme.md`); the structural parts of `layout.md` still apply in both modes. The UI skills read the reference matching the mode recorded in `docs/specs/04-architect.md`.
+
 ---
 
 ## STACK (NON-NEGOTIABLE)
@@ -92,7 +94,8 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | Framework            | Flutter stable · Dart 3                                          |
 | State / Controllers  | Riverpod 3 with code generation (`@riverpod` + `riverpod_generator` + `build_runner`) |
 | Architecture         | Strict layers - `data` (Models) · `application` (Controllers) · `presentation` (Views) |
-| Theme                | Centralized tokens `lib/presentation/theme/tokens.dart` + `app_theme.dart` (light/dark ThemeData) |
+| Design system        | Chosen in Phase 1: `framework` (default — opinionated flat, tokens, custom toasts/dialogs; `design-system.md` + `layout.md`) **or** `native` (Material 3 `ColorScheme.fromSeed`, native components, Material Icons; `rules/native-design.md`). Flutter-only option. |
+| Theme                | `framework`: centralized tokens `lib/presentation/theme/tokens.dart` + `app_theme.dart` (light/dark ThemeData). `native`: `app_theme.dart` with `ColorScheme.fromSeed` light/dark, `AppTokens` (spacing/sizes/durations) kept, colors via `Theme.of(context).colorScheme` |
 | SQLite database      | `sqflite` - raw SQL **always parameterized** (if selected in Phase 1) |
 | Rich text editing    | `flutter_quill` - only if enabled in Phase 1                    |
 | Icons                | `font_awesome_flutter`                                           |
@@ -105,10 +108,11 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 ## ABSOLUTE RULES
 
-- Zero hardcoded visual value in widgets - every color, size, duration, text style lives in `tokens.dart` / `app_theme.dart`.
-- Dark mode: two complete `ThemeData` built from tokens (`AppTheme.light` / `AppTheme.dark`) - never a scattered `isDark` test in widgets, never a `Theme.of(context)` bypassed by a local constant.
-- Zero native `SnackBar`, zero raw `AlertDialog`, zero inline banner for business errors - custom overlay toasts only (`layout.md §6`).
-- Strict flat design: `borderRadius: 0`, `elevation: 0`, zero shadow, zero gradient.
+- Zero hardcoded visual value in widgets - every color, size, duration, text style lives in `tokens.dart` / `app_theme.dart`. *(native mode: colors come from `Theme.of(context).colorScheme`, spacing/sizes from `AppTokens`, no raw hex except `seedColor` — `rules/native-design.md`.)*
+- Dark mode: two complete `ThemeData` (`AppTheme.light` / `AppTheme.dark`) - never a scattered `isDark` test in widgets, never a `Theme.of(context)` bypassed by a local constant. (framework: built from tokens; native: from `ColorScheme.fromSeed` per brightness.)
+- **The next two rules apply in `framework` mode only.** If `designSystem: native` (Phase 1), they are replaced by `rules/native-design.md` (native `SnackBar`/`MaterialBanner`/`AlertDialog`, Material default shapes/elevation):
+  - Zero native `SnackBar`, zero raw `AlertDialog`, zero inline banner for business errors - custom overlay toasts only (`layout.md §6`).
+  - Strict flat design: `borderRadius: 0`, `elevation: 0`, zero shadow, zero gradient.
 - Every SQL query is prepared/parameterized (`whereArgs`, `?`) - zero value interpolation in SQL.
 - Zero `// TODO`, zero unjustified empty implementation, zero unjustified `dynamic`. Clean analyzer.
 - Strict layers: `presentation` never imports `data`; `data` never imports Flutter UI or Riverpod.
@@ -131,7 +135,7 @@ All commands below are Claude Code skills invocable with `/`:
 | Command                 | Skill                          | Action                                       |
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/flutter-app`          | `skills/flutter-app/`          | Start / resume / maintenance menu            |
-| `/flutter-p1-scoping`       | `skills/flutter-p1-scoping/`       | Scoping - 8 questions + color palette        |
+| `/flutter-p1-scoping`       | `skills/flutter-p1-scoping/`       | Scoping - 9 questions (incl. design system) + palette/seed |
 | `/flutter-p2-featuring`       | `skills/flutter-p2-featuring/`       | App name + features (MoSCoW) + v1.0 scope + locked sizing |
 | `/flutter-p3-designing`        | `skills/flutter-p3-designing/`        | Layout proposal                              |
 | `/flutter-p4-architect`       | `skills/flutter-p4-architect/`       | Locked architectural contract                |

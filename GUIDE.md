@@ -13,11 +13,12 @@ claude-flutter-framework/
 ├── README.md                 # Présentation du repo GitHub (EN)
 ├── LICENSE.txt
 └── .claude/
-    ├── design-system.md      # Référence visuelle contraignante (tokens Dart) — source de vérité unique
+    ├── design-system.md      # Référence visuelle contraignante (tokens Dart) — mode framework
     ├── layout.md             # Référence layout contraignante — AppShell, AppBar, NavigationBar, toasts
     ├── rules/
     │   ├── architecture.md   # Couches data / application / presentation, livraison par lots
-    │   ├── theme.md          # tokens.dart + app_theme.dart, ThemeExtension, mode sombre
+    │   ├── theme.md          # tokens.dart + app_theme.dart, ThemeExtension, mode sombre (mode framework)
+    │   ├── native-design.md  # Profil Material 3 natif (si design system natif choisi en phase 1)
     │   ├── errors.md         # Exceptions métier, toasts overlay, AsyncValue
     │   ├── config.md         # pubspec, dépendances, i18n gen-l10n, build APK
     │   ├── security.md       # Validation entrées, SQL paramétré, flutter_secure_storage, permissions
@@ -26,7 +27,7 @@ claude-flutter-framework/
     │   └── readme.md         # Synchro README post-livraison (régénération auto)
     ├── skills/
     │   ├── flutter-app/             # Menu démarrage / reprise / maintenance (4 options)
-    │   ├── flutter-p1-scoping/      # Scoping — 8 questions + couleur → docs/specs/01-scoping.md
+    │   ├── flutter-p1-scoping/      # Scoping — 9 questions (dont design system) + couleur → docs/specs/01-scoping.md
     │   ├── flutter-p2-featuring/    # Fiche besoins → docs/specs/02-featuring.md
     │   ├── flutter-p3-designing/    # Proposition layout → docs/specs/03-designing.md
     │   ├── flutter-p4-architect/    # Contrat architectural verrouillé → docs/specs/04-architect.md
@@ -46,7 +47,7 @@ claude-flutter-framework/
     └── settings.local.json   # Overrides locaux (non versionné)
 ```
 
-> Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/`. `CLAUDE.md` les importe via `@`.
+> Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/` (lus à la demande par les skills UI, non auto-importés). `design-system.md` vaut pour le mode framework ; en mode natif, la référence visuelle contraignante est `rules/native-design.md`. `layout.md` (parties structurelles) s'applique aux deux modes.
 
 ---
 
@@ -93,7 +94,12 @@ flutter --version     # Flutter stable · Dart 3 (pour générer/exécuter les a
 
 ### Phase 1 — Scoping
 
-8 questions en un seul bloc : objectif · base de données (SQLite sqflite / JSON local / aucune) · édition de texte riche (flutter_quill) · i18n FR/EN · icône PNG 1024×1024 · orientation (portrait / portrait+paysage) · tests (flutter_test + mocktail) · méthode d'installation (USB direct / APK debug / APK release signé / AAB Play Store). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Teal » par défaut + 5 palettes nommées (Steel Blue, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti). Sémantiques figées. Calibrage annoncé.
+9 questions : objectif · **design system** (framework par défaut / Material 3 natif) · base de données (SQLite sqflite / JSON local / aucune) · édition de texte riche (flutter_quill) · i18n FR/EN · icône PNG 1024×1024 · orientation (portrait / portrait+paysage) · tests (flutter_test + mocktail) · méthode d'installation (USB direct / APK debug / APK release signé / AAB Play Store). Puis les couleurs, branchées sur le design system :
+
+- **Framework** : choix de la **palette** — 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Teal » par défaut + 5 palettes nommées (Steel Blue, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti). Sémantiques figées.
+- **Natif** : une **seed** unique (presets + hex personnalisé) → `ColorScheme.fromSeed` génère les schémas clair + sombre. Pas de palette 5 rôles, pas de dynamic color ; contraste garanti par Material 3. Profil : `rules/native-design.md`.
+
+Calibrage annoncé.
 
 | Taille        | Lots (sans tests) | Lots (avec tests) |
 | ------------- | ----------------- | ----------------- |
@@ -183,7 +189,7 @@ Après correction (`/flutter-fix-issue` ou Phase 5), Claude produit un bilan de 
 | Commande                | Modèle | Action                                               |
 | ----------------------- | ------ | ---------------------------------------------------- |
 | `/flutter-app`          | Haiku  | Menu démarrage / reprise / maintenance               |
-| `/flutter-p1-scoping`       | Sonnet | Scoping — 8 questions + couleur                      |
+| `/flutter-p1-scoping`       | Sonnet | Scoping — 9 questions (dont design system) + couleur |
 | `/flutter-p2-featuring`       | Sonnet | Fiche besoins                                        |
 | `/flutter-p3-designing`        | Sonnet | Proposition layout + personnalisation                |
 | `/flutter-p4-architect`       | Sonnet | Contrat architectural verrouillé (providers, SQLite) |
@@ -223,12 +229,15 @@ mon_app/
         └── widgets/               # app_app_bar, toast_overlay, app_dialog, app_button…
 ```
 
+> Arbre en mode **framework**. En mode **natif** : `presentation/` sans `toast_overlay`/`app_dialog`/`app_button`, `application/` sans `toast_controller` ; ajout de `presentation/messenger.dart` (clé globale `ScaffoldMessengerKey` → `SnackBar`/`MaterialBanner`/`AlertDialog`) ; `theme/` = `AppTokens` + une `seedColor` (`ColorScheme.fromSeed`).
+
 ---
 
 ## Points de vigilance
 
-- `.claude/design-system.md` et `.claude/layout.md` sont la **source de vérité unique** — ne pas les dupliquer.
-- Zéro valeur visuelle en dur dans les widgets — tout dans `tokens.dart` / `app_theme.dart`.
+- Le design system est choisi en phase 1 : **framework** (`design-system.md` + `layout.md`) ou **natif** Material 3 (`rules/native-design.md`). Option Flutter only.
+- `.claude/design-system.md` et `.claude/layout.md` sont la **source de vérité** du mode framework — ne pas les dupliquer.
+- Zéro valeur visuelle en dur dans les widgets — mode framework : tout dans `tokens.dart` / `app_theme.dart` ; mode natif : couleurs via `Theme.of(context).colorScheme`, dimensions via `AppTokens`.
 - Couches strictes : `presentation` n'importe jamais `data` ; `data` n'importe jamais Flutter UI ni Riverpod.
 - Toute requête SQL est paramétrée (`?` + `whereArgs`) — zéro interpolation.
 - Les fichiers `.g.dart` ne sont jamais livrés — générés par `dart run build_runner build`.

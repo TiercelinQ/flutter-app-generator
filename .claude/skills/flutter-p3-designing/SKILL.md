@@ -21,7 +21,7 @@ Define the concrete screen layout (destinations, secondary panel, recurring comp
 
 **Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 3/5 — Design; (2) progress line: Scoping ✓ · Features ✓ · ▶ Design · Architecture · Development; (3) intent in italics: Map the validated features onto the layout. See `## PIPELINE` in `CLAUDE.md`.
 
-**Read `design-system.md` and `layout.md` first** (no longer auto-imported).
+**Read `layout.md` first** (no longer auto-imported), plus the design reference for the chosen mode (`docs/specs/01-scoping.md`): `design-system.md` if `designSystem: framework`, `rules/native-design.md` if `native`. The structural layout is the same in both modes; in native mode the feedback surface is `SnackBar`/`MaterialBanner` (not the custom toast), so do not raise toast-specific customization.
 
 Based on the project description (`docs/specs/02-featuring.md`), propose a layout among the structures defined in `layout.md`:
 

@@ -4,7 +4,7 @@
 
 ## What the README documents
 
-objective · stack & dependencies · file tree · providers · SQLite schema · conventions · build & installation & uninstall. Exact sections: `/flutter-generate-readme`.
+objective · stack & dependencies · file tree · providers · SQLite schema · conventions (incl. the **design system mode** — `framework` or `native`) · build & installation & uninstall. Exact sections: `/flutter-generate-readme`.
 
 ## When to refresh (trigger)
 

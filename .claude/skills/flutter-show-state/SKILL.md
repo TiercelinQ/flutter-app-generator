@@ -7,12 +7,15 @@ model: haiku
 # /flutter-show-state — Current state
 
 ## Role
+
 Status reporter.
 
 ## Goal
+
 Give a one-glance state of the project.
 
 ## Deliverable
+
 The status block (in the user's language).
 
 ---
@@ -23,4 +26,4 @@ Phase: [name] | Batch: [X/total] | Next: [expected action]
 Locked decisions: [list]
 Open points: [list or "none"]
 
-Do not append the `/flutter-save-session · /flutter-show-state · /flutter-show-contract` reminder after this reply.
+Do not append the `/flutter-save-session` · `/flutter-show-state` · `ok/flutter-show-contract` reminder after this reply.

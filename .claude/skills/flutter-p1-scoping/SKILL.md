@@ -1,6 +1,6 @@
 ---
 name: flutter-p1-scoping
-description: Phase 1 of the Flutter/Android app generation cycle — scoping in 8 grouped questions, full color palette choice, calibration announcement (number of batches), and writing of the scoping spec.
+description: Phase 1 of the Flutter/Android app generation cycle — scoping in 9 grouped questions (incl. design system framework/native), color palette or seed choice, calibration announcement (number of batches), and writing of the scoping spec.
 model: sonnet
 ---
 
@@ -40,12 +40,19 @@ Start with the objective, then establish the project root (folder name → locat
    - **Rich text editing** (bold, lists, headings — flutter_quill): `No` (recommended, unless a real need) · `Yes`.
    - **FR/EN i18n** (FR by default): `No` (recommended, unless a real EN need) · `Yes`.
    - **Orientation**: `portrait only` (recommended) · `portrait + landscape`.
-3. **`AskUserQuestion` — call 2** (3 questions):
+3. **`AskUserQuestion` — call 2** (4 questions):
+   - **Design system**: `Framework` (recommended — opinionated flat design, tokens, custom toasts/dialogs) · `Material 3 native` (standard Material: `ColorScheme.fromSeed`, native components, Material Icons). Drives Phase 1 §2 (palette vs seed) and the whole UI of the build. Native mode is **Flutter only** and defined in `rules/native-design.md`. Recorded as `designSystem: framework | native` in the spec.
    - **Application icon**: `No` (recommended — Flutter default, can be added later) · `Yes`. If `Yes`, ask the 1024×1024 PNG path as free-form text.
    - **Automated tests** (flutter_test + mocktail): `Yes` (recommended, pro use) · `No`.
    - **Install method** (how the app reaches the phone): `USB direct` (recommended — `flutter run` / `flutter install`, no signing, no "install unknown apps") · `Debug APK file` · `Signed release APK (sideload)` · `Play Store AAB`. The **Other** option covers a custom case. Drives the final build/install instructions and the keystore delivery (signing opt-in: keystore delivered only for `Signed release APK` / `Play Store AAB`). All four methods are documented in the README regardless; the chosen one is highlighted. Detail: `rules/config.md` (Installation methods).
 
-## 2. Color palette
+## 2. Color palette / seed (branches on the Design system answer)
+
+### If `designSystem: native`
+
+No 5-role palette. Ask a **single seed color** with `AskUserQuestion`: presets (`Teal` default/recommended `#0D9488` · `Steel Blue` `#4682B4` · `Forest` `#059669` · `Slate` `#4F46E5`); the **Other** option covers a **custom hex** (free-form text). `ColorScheme.fromSeed(seedColor)` derives the full light + dark schemes — no role derivation, no `DarkColors`, no token color classes. The WCAG check is **skipped** (Material 3 `fromSeed` guarantees scheme contrast); just note the seed. Profile: `rules/native-design.md`. Then go to §3.
+
+### If `designSystem: framework`
 
 After the answers, propose the **palette** with `AskUserQuestion` (single question; clickable options from the catalog, recommended default first; the **Other** option covers a remaining named palette and the custom palette). A palette = 5 **light** roles (main background, secondary background, accent, text, details); the dark theme and all supporting tokens are derived (`design-system.md §2`).
 
@@ -67,6 +74,10 @@ Any library outside the stack (charts fl_chart, flutter_secure_storage, logging,
 
 ## 5. Write the spec
 
-Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB choice, rich editing, i18n, icon, orientation, tests (Q7), **install method** (Q8), the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + onPrimary; semantic kept fixed) and the contrast-check result, validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
+Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, **design system** (`designSystem: framework | native`), DB choice, rich editing, i18n, icon, orientation, tests (Q7), **install method** (Q8), validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). For the colors, branch on the design system:
+- `framework`: the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + onPrimary; semantic kept fixed) and the contrast-check result.
+- `native`: the **seed color** (preset name or custom hex); note "Material 3 `ColorScheme.fromSeed`, Material Icons, native `SnackBar`/`MaterialBanner`/`AlertDialog`" — profile in `rules/native-design.md`.
+
+If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
 
 → Chain to `/flutter-p2-featuring` after validation.

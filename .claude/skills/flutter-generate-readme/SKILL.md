@@ -40,7 +40,7 @@ Prerequisite: invoked from the target project root.
 [tables, columns, version — or "none"]
 
 ## Conventions
-[layers, tokens, toasts, parameterized SQL — pointer to the rules]
+[design system mode (framework or native — from 01-scoping.md / 04-architect.md), layers, theming (tokens + custom toasts for framework; ColorScheme.fromSeed + native SnackBar/MaterialBanner/AlertDialog for native), parameterized SQL — pointer to the rules]
 
 ## Build & installation
 [Common: flutter pub get · build_runner · custom_lint · flutter_launcher_icons (if icon)]

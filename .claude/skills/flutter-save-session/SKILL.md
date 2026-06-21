@@ -7,12 +7,15 @@ model: haiku
 # /flutter-save-session — Session save
 
 ## Role
+
 Session archivist.
 
 ## Goal
+
 Persist enough state to resume the project exactly where it stopped.
 
 ## Deliverable
+
 `docs/sessions/SESSION_[app_name]_S[N].md` (in the user's language).
 
 ---
@@ -57,4 +60,4 @@ Reference: docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 04-
 > If `docs/specs/04-architect.md` exists, reference it instead of duplicating the full tree. Only summarize the locked decisions here.
 
 4. Confirm: `Session saved: docs/sessions/SESSION_[app_name]_S[N].md`
-5. Do not append the `/flutter-save-session · /flutter-show-state · /flutter-show-contract` reminder after this reply.
+5. Do not append the `/flutter-save-session` · `/flutter-show-state` · `/flutter-show-contract` reminder after this reply.

@@ -21,7 +21,7 @@ The modified/added files on disk + an updated `docs/specs/04-architect.md` if th
 
 ## Steps
 
-1. **Load context**: read `docs/specs/04-architect.md` (locked contract), then `rules/architecture.md` · `rules/theme.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/verification.md` (not auto-imported). Read `design-system.md` / `layout.md` on demand (no longer auto-imported) before any UI change.
+1. **Load context**: read `docs/specs/04-architect.md` (locked contract — it records the **design system mode**), then `rules/architecture.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/verification.md` (not auto-imported). For UI, read the mode's reference on demand: `design-system.md` + `layout.md` + `rules/theme.md` if `framework`; `rules/native-design.md` + `layout.md` if `native`. Match the existing app's mode — never mix the two.
 
 2. **State assumptions** before coding. If the request is ambiguous (which entity, which screen, business rule), ask — closed questions via `AskUserQuestion` (clickable options, recommended first); free-form text only for non-enumerable details.
 
@@ -34,7 +34,7 @@ The modified/added files on disk + an updated `docs/specs/04-architect.md` if th
    - Then application (controller method, exception handling → toast).
    - Then presentation (screen/widget, consuming providers only).
    - New user-facing strings → i18n (all locale ARB files) or `core/strings.dart` if i18n off.
-   - New visual values → tokens, never hardcoded.
+   - New visual values → `framework`: tokens, never hardcoded; `native`: `colorScheme` for colors, `AppTokens` for spacing/sizes, Material components (`SnackBar`/`MaterialBanner`/`AlertDialog`).
 
 5. **Verify**: apply `rules/verification.md` (§A executable + §B static). A failing check is blocking.
 

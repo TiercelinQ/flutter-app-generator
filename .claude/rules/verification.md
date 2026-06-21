@@ -35,9 +35,9 @@ Rules:
 3. Layer responsibilities respected (zero UI in data/application, zero data access in presentation). See `rules/architecture.md` anti-patterns.
 4. Zero `// TODO`, zero unjustified empty implementation, zero unjustified `dynamic`.
 5. Dart 3 · stable Flutter API · zero deprecated API.
-6. `design-system.md` and `layout.md` compliance — zero hardcoded visual value in widgets. See `rules/theme.md` anti-patterns.
+6. Design-system compliance — depends on the mode (`docs/specs/01-scoping.md` / `04-architect.md`). `framework`: `design-system.md` + `layout.md`, zero hardcoded visual value (tokens / `context.colors`), flat design. `native`: `rules/native-design.md` — colors from `Theme.of(context).colorScheme` (no raw hex except `seedColor`), spacing/sizes from `AppTokens`, Material components; flat-design checks do not apply. See `rules/theme.md` / `rules/native-design.md`.
 7. SQL: 100% parameterized (`?` + `whereArgs`).
-8. Errors: business exceptions caught in `application`, surfaced as toasts; no `SnackBar`/raw `AlertDialog`. See `rules/errors.md`.
+8. Errors: business exceptions caught in `application`, surfaced via the mode's feedback sink. `framework`: custom toasts only, no `SnackBar`/raw `AlertDialog`. `native`: `SnackBar`/`MaterialBanner`/`AlertDialog` are the expected surfaces (via `presentation/messenger.dart`). See `rules/errors.md` / `rules/native-design.md §6`.
 9. Security: no hardcoded secret; SQL parameterized; secrets via `flutter_secure_storage`; minimal Android permissions; no cleartext traffic. See `rules/security.md`.
 
 ### Last batch only — cross-file

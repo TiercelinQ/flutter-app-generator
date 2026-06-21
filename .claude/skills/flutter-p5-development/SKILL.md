@@ -21,12 +21,12 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-At start, read and fully apply: `rules/architecture.md` · `rules/theme.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` (if tests) · `rules/verification.md` (not auto-imported). **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+At start, read and fully apply: `rules/architecture.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` (if tests) · `rules/verification.md` (not auto-imported). For UI, read the reference for the design system mode recorded in `docs/specs/04-architect.md`: `design-system.md` + `layout.md` + `rules/theme.md` if `framework`; `rules/native-design.md` + `layout.md` (structural parts) if `native`. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 - Analyzer clean · `flutter_lints` · Dart 3 strict · DartDoc on classes and public API.
 - Error handling on all critical operations.
-- Zero hardcoded visual value in widgets — everything in `tokens.dart` / `app_theme.dart`.
+- Zero hardcoded visual value in widgets — `framework`: everything in `tokens.dart` / `app_theme.dart`; `native`: colors via `Theme.of(context).colorScheme`, spacing/sizes via `AppTokens`, no raw hex except `seedColor` (`rules/native-design.md`).
 - SQL 100% parameterized.
 - Riverpod codegen — `.g.dart` files never delivered, build_runner command in the instructions.
 - No library that was not validated in Phase 1.
@@ -113,7 +113,7 @@ Add a final dedicated batch: announce `Batch [final]/[total] — test/ + dev dep
 
 ## Final delivery summary
 
-Once the last batch (plus the seed/test batches if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). List:
+Once the last batch (plus the seed/test batches if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). **Valid link syntax (mandatory)**: a Markdown link destination cannot contain spaces unless wrapped in angle brackets. When the path contains spaces (typical of absolute Windows paths), wrap the destination in `<…>` and use forward slashes, e.g. `[README.md](<D:/Documents/00 Mes Documents/.../markdown-reader/README.md>)`. Without spaces, a plain relative path is fine. List:
 
 - **Project folder** — the project root (clickable).
 - **README.md** — how to run, stack, tree, conventions (clickable).
@@ -136,4 +136,4 @@ After resolving an anomaly: cleanup report (`rules/architecture.md`) then offer 
 
 ## Finalization — post-delivery adjustments (explicit request only)
 
-Theme touch-ups · optimizations (const, rebuilds) · `layout.md` compliance · `design-system.md` compliance.
+Theme touch-ups · optimizations (const, rebuilds) · `layout.md` compliance · design-system compliance (`design-system.md` if framework, `rules/native-design.md` if native).

@@ -1,5 +1,6 @@
 # Layout System — v1.1 (Flutter / Android)
 
+> The **structural** parts (global structure, AppShell, AppBar, NavigationBar, content area, secondary panel, recurring components, gestures) apply in **both** design-system modes. The **skin/feedback** parts that reference framework tokens or the custom toast system (notably §6 Toast) apply in `framework` mode only — in `native` mode (`rules/native-design.md`), feedback uses native `SnackBar`/`MaterialBanner` and Material default shapes.
 > Binding reference for all Flutter/Dart Android applications.
 > Built on `design-system.md v1.5 (Flutter)`. The two files are inseparable.
 > Validated mobile transposition of the desktop layout: AppBar ↔ topbar, NavigationBar ↔ tabs, custom overlay toasts kept, status bar removed.

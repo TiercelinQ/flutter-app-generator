@@ -37,7 +37,7 @@ dependencies:
   sqflite: ^2.4.0              # if SQLite DB
   path: ^1.9.0                 # if SQLite DB
   shared_preferences: ^2.5.0   # if preferences
-  font_awesome_flutter: ^11.0.0
+  font_awesome_flutter: ^11.0.0     # framework design system only — in native mode, drop this dep and use Material Icons (`Icons.*`, in SDK)
   flutter_quill: ^11.5.0       # if rich editing enabled in Phase 1 — requires sdk ^3.12.0 / Flutter ≥ 3.44
   flutter_localizations: { sdk: flutter }   # if i18n
   intl: any                                  # if i18n — `any` imposed by flutter_localizations (the only tolerated exception to the caret rule above)

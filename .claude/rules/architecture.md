@@ -92,6 +92,8 @@ my_app/
 
 (+ `l10n.yaml` + `lib/l10n/app_fr.arb`, `app_en.arb` if i18n — see `rules/config.md`. If i18n disabled: `core/strings.dart` instead of the ARB files.)
 
+> **Native design system (`designSystem: native`) — tree deltas** (`rules/native-design.md §7`): remove `application/theme_controller.dart`'s sibling `application/toast_controller.dart`, and `presentation/widgets/toast_overlay.dart`, `app_dialog.dart`, `app_button.dart` (native `SnackBar`/`MaterialBanner`/`AlertDialog` and native buttons replace them). Add `presentation/messenger.dart` (global `ScaffoldMessengerKey` + helpers). `presentation/theme/tokens.dart` keeps `AppTokens` + a single `seedColor`; `app_theme.dart` builds `ColorScheme.fromSeed` light/dark with no `AppColors` extension. The rest of the tree is unchanged.
+
 ## Batch delivery
 
 > `l10n.yaml` + ARB (or `core/strings.dart` if i18n off) are delivered in **batch 1**: the `application` and `presentation` layers reference `AppLocalizations` (`t`) — the analyzer can only be clean once the localizations are available.

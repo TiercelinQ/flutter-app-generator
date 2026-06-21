@@ -1,5 +1,7 @@
 # Error handling rules
 
+> **Mode.** The escalation `data → application → presentation` is identical in both design-system modes — only the **UI sink** differs. In `designSystem: framework` (default), `application` triggers a **custom toast** via `toastControllerProvider` (this file). In `designSystem: native`, it surfaces a **`SnackBar`** (success/info/warning) or a **`MaterialBanner`** (persistent danger) via the global `ScaffoldMessengerState` helper (`presentation/messenger.dart`), and destructive confirmations use a native `AlertDialog` — see `rules/native-design.md §6`. Everywhere below, read "toast" as "the mode's feedback surface".
+
 ## Data → Application → Presentation escalation convention
 
 - **Data (repositories)**: raise explicit business exceptions (classes extending `Exception`, defined in `lib/data/exceptions.dart`).

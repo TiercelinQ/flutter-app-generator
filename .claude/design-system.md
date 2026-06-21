@@ -1,5 +1,6 @@
 # Design System — v1.5 (Flutter / Android)
 
+> **Applies when `designSystem: framework` (Phase 1 default).** If `designSystem: native` was chosen, ignore this file for colors/components and follow `rules/native-design.md` (Material 3); only the structural layout of `layout.md` stays shared.
 > Binding reference for all Flutter/Dart Android applications.
 > Inseparable from `layout.md`.
 > All tokens are Dart constants declared in `lib/presentation/theme/tokens.dart`, consumed exclusively by `app_theme.dart` and by widgets through the theme.

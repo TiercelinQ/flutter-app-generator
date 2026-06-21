@@ -1,5 +1,7 @@
 # Theme rules — tokens, ThemeData, dark mode
 
+> **Mode.** This file describes `designSystem: framework` (Phase 1 default). If `designSystem: native` was chosen, follow `rules/native-design.md` instead: `app_theme.dart` = `ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor, brightness: …))` for light + dark, `tokens.dart` keeps `AppTokens` (spacing/sizes/durations) + a single `seedColor`, no `LightColors`/`DarkColors`, no `AppColors` `ThemeExtension`; colors are read from `Theme.of(context).colorScheme`, never `context.colors`. The rules below (token color classes, `context.colors`, flat overrides) do not apply in native mode.
+
 ## Files
 
 | File                                     | Role                                                       |

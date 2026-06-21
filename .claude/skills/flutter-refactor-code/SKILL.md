@@ -25,7 +25,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 ## Steps
 
-1. **Load context**: `docs/specs/04-architect.md`, then `design-system.md`, `layout.md`, `rules/architecture.md` · `rules/theme.md` (not auto-imported).
+1. **Load context**: `docs/specs/04-architect.md` (records the **design system mode**), then `layout.md` · `rules/architecture.md`, and the mode's theming reference: `design-system.md` + `rules/theme.md` if `framework`; `rules/native-design.md` if `native` (not auto-imported). Keep the app in its existing mode.
 
 2. **Diagnose** what is actually wrong: duplication, a widget doing business logic, a god-controller, a token bypassed by a hardcoded value, a layer violation. Anchor each finding to `file:line`.
 
