@@ -1,6 +1,9 @@
 # Claude Code — personnel par machine
 .claude/settings.local.json
 
+# Flutter App Generator
+incidents-reports/
+
 # Plan de travail local
 tasks/
 
