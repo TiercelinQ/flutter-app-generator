@@ -46,6 +46,10 @@ Prerequisite: invoked from the target project root.
 [Common: flutter pub get · build_runner · custom_lint · flutter_launcher_icons (if icon)]
 [Then the 4 install methods, USB direct first — see rules/config.md §Installation methods.
  Highlight the one chosen in Phase 1 (Q8). Signing/keystore steps only for Signed release APK / Play Store AAB.]
+
+## Uninstall
+[Clean removal (app + private data) — see rules/config.md §Installation methods → Uninstall.
+ Both cases documented (dev/sideload A/B/C vs Play Store D); highlight the one matching the install method chosen in Phase 1 (Q8).]
 ```
 
 3. Write the file to disk, confirm in one line (in the user's language).

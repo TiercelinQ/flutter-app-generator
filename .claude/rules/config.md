@@ -195,3 +195,13 @@ Sideload: copy to the phone, allow "install unknown apps" once, install — stay
 flutter build appbundle --release
 ```
 → AAB + Play Console instructions. Requires the signing keystore (method C). Delivered only when selected.
+
+### Uninstall (clean removal)
+
+Uninstalling an Android app removes the app **and its private data** (SQLite DB, `shared_preferences`, `flutter_secure_storage`) from the app sandbox — nothing is left behind. That is the clean removal; only the trigger differs per install method. The README documents both cases; highlight the one matching the method chosen in Phase 1 (Q8).
+
+- **Methods A / B / C (USB direct, Debug APK, Signed release APK — dev / sideload)**:
+  - On the phone: long-press the app icon → **Uninstall**, or Settings → Apps → [appName] → **Uninstall**.
+  - From the PC over USB (device connected, USB debugging on): `adb uninstall <applicationId>` — `applicationId` from `android/app/build.gradle.kts`.
+- **Method D (Play Store AAB)**: uninstall from the Play Store app page, or on the phone as above.
+- **Reset without uninstalling** (wipe data only, keep the app): Settings → Apps → [appName] → Storage → **Clear data**.

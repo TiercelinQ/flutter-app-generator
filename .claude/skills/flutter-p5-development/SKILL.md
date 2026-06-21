@@ -64,7 +64,8 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
   - **USB direct / Debug APK file** (default, no signing): `flutter run` / `flutter install`, or `flutter build apk --debug` + transfer. **Do not** deliver a keystore.
   - **Signed release APK / Play Store AAB** (only if selected): deliver the commented keystore (`keytool`), `android/key.properties`, and the `signingConfigs` block in `android/app/build.gradle`, plus `flutter build apk --release` / `flutter build appbundle --release`.
   The README documents all four methods regardless; highlight the chosen one.
-- `README.md` written automatically at the project root: objective, stack, tree, providers, DB schema, conventions, build/installation.
+- Uninstall steps for the chosen method (`rules/config.md §Installation methods → Uninstall`): clean removal (app + private data), both cases documented (dev/sideload A/B/C vs Play Store D), the one matching the chosen install method highlighted.
+- `README.md` written automatically at the project root: objective, stack, tree, providers, DB schema, conventions, build/installation, uninstall.
 - **`CLAUDE.md`** written at the generated project root (in the user's language), recording the app's identity for future sessions:
 
   ```markdown

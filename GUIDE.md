@@ -115,7 +115,7 @@ Arborescence + rôle de chaque fichier + **tableau des providers** (provider →
 
 ### Phase 5 — Development
 
-Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]`. Enchaînement automatique. Dernier lot : instructions (build_runner, custom_lint, build APK), `README.md` + `tool/seed.dart` (jeu de données cohérent si une base est présente). Vérification exécutable appliquée. Les fichiers `.g.dart` ne sont jamais livrés (générés par build_runner).
+Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]`. Enchaînement automatique. Dernier lot : instructions (build_runner, custom_lint, build APK, installation + désinstallation selon la méthode choisie en Phase 1), `README.md` + `tool/seed.dart` (jeu de données cohérent si une base est présente). Vérification exécutable appliquée. Les fichiers `.g.dart` ne sont jamais livrés (générés par build_runner).
 
 ---
 
