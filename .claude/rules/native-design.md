@@ -19,7 +19,7 @@ This mode is **Flutter only**. The other generators (electron, python) keep thei
 
 ## 3. Seed color
 
-- A **single seed** color chosen in Phase 1 (presets + custom hex), default **Teal `#0D9488`** (reused from the framework default accent).
+- A **single seed** color chosen in Phase 1 (presets + custom hex), default **Steel Blue `#4682B4`** (reused from the framework default accent).
 - No dynamic color (Material You / wallpaper) — deterministic output. Could be added later as an opt-in; not in scope here.
 - Written as a single `const Color seedColor = Color(0xFF…);` in `tokens.dart`, consumed by `app_theme.dart`. Changing it reskins the whole app via `fromSeed`.
 

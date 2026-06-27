@@ -131,7 +131,7 @@ Chosen in Phase 1. Two modes; both keep the same structural layout (AppShell, Ap
 - **Flat design** - `borderRadius: 0`, `elevation: 0`, zero shadow, zero gradient
 - **Token-driven theme** - every color, size, duration lives in `tokens.dart`; light/dark are two complete `ThemeData` built from tokens, toggled via `themeMode`
 - **Roboto** typography (Android native)
-- **Color palette** - 5 roles (main background, secondary background, accent, text, details) chosen for the light theme; dark theme and all supporting tokens derived. Default "Teal" + Steel Blue, Forest, Slate, Amber, Ruby named palettes + custom palette; semantic colors stay fixed
+- **Color palette** - 5 roles (main background, secondary background, accent, text, details) chosen for the light theme; dark theme and all supporting tokens derived. Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette; semantic colors stay fixed
 - **Custom overlay toasts only** - no native `SnackBar`, no raw `AlertDialog`, no inline banner
 
 ### Native mode (Flutter only) — `.claude/rules/native-design.md`

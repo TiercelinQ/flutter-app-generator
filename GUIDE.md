@@ -96,7 +96,7 @@ flutter --version     # Flutter stable · Dart 3 (pour générer/exécuter les a
 
 9 questions : objectif · **design system** (framework par défaut / Material 3 natif) · base de données (SQLite sqflite / JSON local / aucune) · édition de texte riche (flutter_quill) · i18n FR/EN · icône PNG 1024×1024 · orientation (portrait / portrait+paysage) · tests (flutter_test + mocktail) · méthode d'installation (USB direct / APK debug / APK release signé / AAB Play Store). Puis les couleurs, branchées sur le design system :
 
-- **Framework** : choix de la **palette** — 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Teal » par défaut + 5 palettes nommées (Steel Blue, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti). Sémantiques figées.
+- **Framework** : choix de la **palette** — 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti). Sémantiques figées.
 - **Natif** : une **seed** unique (presets + hex personnalisé) → `ColorScheme.fromSeed` génère les schémas clair + sombre. Pas de palette 5 rôles, pas de dynamic color ; contraste garanti par Material 3. Profil : `rules/native-design.md`.
 
 Calibrage annoncé.

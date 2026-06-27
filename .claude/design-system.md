@@ -1,4 +1,4 @@
-# Design System — v1.5 (Flutter / Android)
+# Design System — v1.6 (Flutter / Android)
 
 > **Applies when `designSystem: framework` (Phase 1 default).** If `designSystem: native` was chosen, ignore this file for colors/components and follow `rules/native-design.md` (Material 3); only the structural layout of `layout.md` stays shared.
 > Binding reference for all Flutter/Dart Android applications.
@@ -10,6 +10,7 @@
 
 | Version | Date       | Main change                                                                                       |
 | ------- | ---------- | ------------------------------------------------------------------------------------------------- |
+| v1.6    | 2026-06-27 | default accent → **Steel Blue** `#4682B4` (chromatic in both themes, derived like the named palettes) · dark **surfaces** stay neutral grey · `onPrimary` stays a single white value (white on `#4682B4` 4.1:1) · Teal kept as a named palette |
 | v1.5    | 2026-06-20 | default accent → **Teal** `#0D9488` (chromatic in both themes, derived like the named palettes) · dark **surfaces** stay neutral grey · grey-accent dark special-case removed · `onPrimary` back to a single white value for the default · Steel Blue kept as a named palette |
 | v1.4    | 2026-06-20 | decouple Danger button text from the accent: new fixed `onDanger` token (white, both themes) · `onPrimary` is Primary-only and resolves to near-black `#1C1C1C` in dark (table now matches the §9 note) · fixes the white-on-grey / near-black-on-red contrast fails |
 | v1.3    | 2026-06-19 | full **palette** model (5 roles/theme: main background, secondary background, accent, text, details) replaces the primary-only choice · light theme chosen, dark + supporting tokens derived · named palette catalog + custom palette · semantic/icons/charts kept fixed · WCAG AA check (warn) |
@@ -17,7 +18,7 @@
 | v1.1    | 2026-06-14 | line-height · dark semantic backgrounds · primary/danger pressed stops · WCAG AA target · overlay layering · dark surface ramp fix · icon warning/info · selection/opacity/border-width/onPrimary tokens |
 | v1.0    | initial    | Dart-token port: typography, colors, spacing, components, states (touchTarget, sp units)            |
 
-> Aligns with the Python generator `design-system.md v1.5` and Electron `v1.5` (shared palette model). Per-file versions: theme rules in `rules/theme.md`, layout in `layout.md`.
+> Aligns with the Python generator `design-system.md v1.6` and Electron `v1.6` (shared palette model). Per-file versions: theme rules in `rules/theme.md`, layout in `layout.md`.
 
 Every generated application references the active version in its `README.md`.
 
@@ -55,7 +56,7 @@ Applied via the `height` property of `TextStyle` (multiplier of font size).
 
 Declaration: two token classes — `LightColors` and `DarkColors` — implementing a single `AppColors` interface, injected into `ThemeData` via a `ThemeExtension`.
 
-A project's colors come from a **palette**: 5 roles chosen per project, **light theme only** — the dark theme (`DarkColors`) and every supporting token are **derived**. The default palette is the set of values in the tables below (neutral surfaces + the Teal accent).
+A project's colors come from a **palette**: 5 roles chosen per project, **light theme only** — the dark theme (`DarkColors`) and every supporting token are **derived**. The default palette is the set of values in the tables below (neutral surfaces + the Steel Blue accent).
 
 ### Palette roles → tokens
 
@@ -83,7 +84,7 @@ The **semantic colors** (success/warning/danger/info), the **icon tokens**, and 
 | `bgMuted`    | ≈22 % (lightest) | `border` / `borderSubtle` / `borderStrong` | ≈26 % / ≈20 % / ≈33 % |
 | accent       | `primary400` (L≈60-70 %) | semantic / icons / charts | fixed |
 
-> Harmony: for named presets and custom palettes, dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth. The **default palette** ships neutral grey dark **surfaces** (achromatic — the tables below) with a chromatic Teal accent, and its explicit surface values win over the rule. The dark surface ramp stays ascending in every case. Named presets and custom palettes derive `DarkColors` by the rule.
+> Harmony: for named presets and custom palettes, dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth. The **default palette** ships neutral grey dark **surfaces** (achromatic — the tables below) with a chromatic Steel Blue accent, and its explicit surface values win over the rule. The dark surface ramp stays ascending in every case. Named presets and custom palettes derive `DarkColors` by the rule.
 
 ### Named palettes (Phase 1 catalog)
 
@@ -91,8 +92,8 @@ The **semantic colors** (success/warning/danger/info), the **icon tokens**, and 
 
 | Name             | Main background | Secondary background | Accent  | Text   | Details |
 | ---------------- | -------------- | --------------- | ------- | ------- | ------- |
-| Teal (default)   | #FFFFFF        | #F9FAFB         | #0D9488 | #111827 | #E5E7EB |
-| Steel Blue        | #FFFFFF        | #F9FAFB         | #4682B4 | #111827 | #E5E7EB |
+| Steel Blue (default) | #FFFFFF    | #F9FAFB         | #4682B4 | #111827 | #E5E7EB |
+| Teal              | #FFFFFF        | #F9FAFB         | #0D9488 | #111827 | #E5E7EB |
 | Forest            | #FFFFFF        | #F6F8F6         | #059669 | #14201A | #DCE5DF |
 | Slate          | #FFFFFF        | #F8FAFC         | #4F46E5 | #1E293B | #E2E8F0 |
 | Amber            | #FFFDFB        | #FBF6EF         | #B45309 | #1C1917 | #ECE3D8 |
@@ -130,20 +131,20 @@ The **semantic colors** (success/warning/danger/info), the **icon tokens**, and 
 
 > Dark surface ramp: `bg` #1C1C1C < `bgSubtle` #2B2B2B < `bgElevated` #353535 < `bgMuted` #3F3F3F. `bgMuted` is the lightest so that the pressed highlight stays visible on every surface, including inside drawers and sheets.
 
-### Accent — Teal (default palette)
+### Accent — Steel Blue (default palette)
 
 A single chromatic ramp, used in **both** themes (like every named palette). No grey special-case.
 
 | Token        | Value   | Usage                                                     |
 | ------------ | ------- | --------------------------------------------------------- |
-| `primary50`  | #F0FDFA | Selection / active bg (light)                             |
-| `primary400` | #2DD4BF | Active content (dark) — bright, reads ~9:1 on `#1C1C1C`   |
-| `primary600` | #0D9488 | Primary button fill (both themes); active content (light) |
-| `primary700` | #0F766E | Primary button pressed                                    |
-| `primary800` | #115E59 | Primary button deep pressed                               |
-| `primary900` | #134E4A | Selection / active bg (dark)                              |
+| `primary50`  | #EDF3F8 | Selection / active bg (light)                             |
+| `primary400` | #5A9FD4 | Active content (dark) — bright, reads ~5.9:1 on `#1C1C1C` |
+| `primary600` | #4682B4 | Primary button fill (both themes); active content (light) |
+| `primary700` | #396A93 | Primary button pressed                                    |
+| `primary800` | #2F5879 | Primary button deep pressed                               |
+| `primary900` | #2A4F72 | Selection / active bg (dark)                              |
 
-> `onPrimary` (primary-button text): `#FFFFFF` in **both** themes — white on the teal `#0D9488` fill is 3.9:1 (AA for UI / large text). The dark foreground accent is the brighter `primary400 #2DD4BF`, not the button fill. `LightColors` and `DarkColors` both hold the teal stops (one ramp).
+> `onPrimary` (primary-button text): `#FFFFFF` in **both** themes — white on the Steel Blue `#4682B4` fill is 4.1:1 (AA for UI / large text). The dark foreground accent is the brighter `primary400 #5A9FD4`, not the button fill. `LightColors` and `DarkColors` both hold the Steel Blue stops (one ramp).
 
 Derived usage tokens, defined per theme — these are the ones components consume:
 
@@ -152,7 +153,7 @@ Derived usage tokens, defined per theme — these are the ones components consum
 | `primary`   | `primary600` | `primary400` |
 | `primaryBg` | `primary50`  | `primary900` |
 
-> Modification: replacing the 6 `primary*` values in `tokens.dart` is enough to change the **accent** across the whole application. The 6 stops are mode-agnostic (one value each, shared by `LightColors`/`DarkColors`). For a custom color they derive from `primary600` by the same HSL rule used by the Python generator; Teal (default) is a preset whose explicit values win over that rule (its `primary600 #0D9488` sits near L 32%).
+> Modification: replacing the 6 `primary*` values in `tokens.dart` is enough to change the **accent** across the whole application. The 6 stops are mode-agnostic (one value each, shared by `LightColors`/`DarkColors`). For a custom color they derive from `primary600` by the same HSL rule used by the Python generator; Steel Blue (default) is a preset whose explicit values win over that rule (its `primary600 #4682B4` sits near L 49%).
 
 ### Semantic colors (fixed — outside the palette)
 
@@ -192,7 +193,7 @@ Derived usage tokens, defined per theme — these are the ones components consum
 | `onPrimary`     | #FFFFFF      | #FFFFFF      | Text/icon on Primary button      |
 | `onDanger`      | #FFFFFF      | #FFFFFF      | Text/icon on Danger button (fixed) |
 
-> `onPrimary` (Primary button) and `onDanger` (Danger button) replace the literal `#FFFFFF` in button styles (§9). Both are white in both themes for the default Teal accent (white on `#0D9488` 3.9:1; on the danger fills `#DC2626` 4.9:1 / `#C04A4A` 5.8:1). They stay separate tokens so a custom accent dark enough to need near-black `onPrimary` does not drag the Danger button along. `selectionBg`/`cursorColor` go into `textSelectionTheme` in `app_theme.dart`.
+> `onPrimary` (Primary button) and `onDanger` (Danger button) replace the literal `#FFFFFF` in button styles (§9). Both are white in both themes for the default Steel Blue accent (white on `#4682B4` 4.1:1; on the danger fills `#DC2626` 4.9:1 / `#C04A4A` 5.8:1). They stay separate tokens so a custom accent dark enough to need near-black `onPrimary` does not drag the Danger button along. `selectionBg`/`cursorColor` go into `textSelectionTheme` in `app_theme.dart`.
 
 ---
 
@@ -321,7 +322,7 @@ Applies to **transparent / neutral interactive elements**: navbar destinations, 
 
 > Colored buttons (Primary, Danger) darken on press via their own `700` stops, never the neutral `bgMuted` rule of §8. Disabled: `opacityDisabled`.
 
-> Primary button fill uses `primary600`, **not** the `primary` usage token. It is the teal `#0D9488` in **both** themes, with white `onPrimary` (3.9:1, AA for UI / large text). The `primary` usage token (`primary400` #2DD4BF in dark) is reserved for foreground accents (active content, icons, focus) that must read on dark surfaces — brighter than the button fill.
+> Primary button fill uses `primary600`, **not** the `primary` usage token. It is the Steel Blue `#4682B4` in **both** themes, with white `onPrimary` (4.1:1, AA for UI / large text). The `primary` usage token (`primary400` #5A9FD4 in dark) is reserved for foreground accents (active content, icons, focus) that must read on dark surfaces — brighter than the button fill.
 
 Styles centralized in `app_theme.dart` (`filledButtonTheme`, `outlinedButtonTheme`, `textButtonTheme`) — danger/ghost variants via named constructors of an `AppButton` widget consuming the tokens. Zero local `ButtonStyle` in screens.
 
@@ -346,7 +347,7 @@ Library: `font_awesome_flutter` (Font Awesome Free, embedded locally).
 | Token         | Light                    | Dark     |
 | ------------- | ------------------------ | -------- |
 | `iconDefault` | #6B7280 (`textSubtle`)   | #939393  |
-| `iconActive`  | #0D9488 (`primary`)      | #2DD4BF  |
+| `iconActive`  | #4682B4 (`primary`)      | #5A9FD4  |
 | `iconSuccess` | #16A34A (`success600`)   | #4A9E6A  |
 | `iconWarning` | #D97706 (`warning600`)   | #CCA840  |
 | `iconDanger`  | #DC2626 (`danger600`)    | #C04A4A  |
