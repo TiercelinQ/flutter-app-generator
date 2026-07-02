@@ -32,7 +32,7 @@ claude-flutter-framework/
     │   ├── flutter-p3-designing/    # Proposition layout → docs/specs/03-designing.md
     │   ├── flutter-p4-architect/    # Contrat architectural verrouillé → docs/specs/04-architect.md
     │   ├── flutter-p5-development/  # Livraison par lots (enchaînement auto)
-    │   ├── flutter-add-feature/     # Ajouter une feature à une app livrée (respect contrat + couches)
+    │   ├── flutter-add-feature/     # Ajouter une feature à une app livrée (diff de contrat validé avant écriture)
     │   ├── flutter-trace-feature/   # Tracer une fonctionnalité presentation→application→data
     │   ├── flutter-fix-issue/       # Corriger un bug — arbre de décision, cause racine
     │   ├── flutter-refactor-code/   # Restructurer sous validation explicite uniquement
@@ -133,6 +133,8 @@ Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]
 /flutter-app → 2    # reprendre : fournir le chemin du fichier SESSION
 ```
 
+La reprise est gérée par `/flutter-app` (option 2, ou bloc SESSION collé directement dans le message — reprise sans menu) : lecture complète du fichier SESSION, réponse `Resuming [APP_NAME] — [phase suivante] | Batch [X/total] | Open points: …`, puis enchaînement immédiat sans re-poser les questions résolues.
+
 ---
 
 ## Travailler sur un projet livré
@@ -141,7 +143,7 @@ Fichiers écrits directement sur le disque. Annonce `Lot N/[total] — [contenu]
 /flutter-app → 3      # ou directement /flutter-load-project depuis la racine du projet
 ```
 
-Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/flutter-generate-readme`.
+Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, détecte les tests (`test/`), puis confirme la prise en charge en un bloc (`Project loaded: [nom] v[version]`, stack, DB, entités, providers, tests, design system, specs, `Generator rules applied. Ready for: development · fixes · improvements · adjustments.`) et applique toutes les règles. Projet sans README : `/flutter-generate-readme`.
 
 ### Maintenance (`/flutter-app → 4`)
 
@@ -241,6 +243,6 @@ mon_app/
 - Couches strictes : `presentation` n'importe jamais `data` ; `data` n'importe jamais Flutter UI ni Riverpod.
 - Toute requête SQL est paramétrée (`?` + `whereArgs`) — zéro interpolation.
 - Les fichiers `.g.dart` ne sont jamais livrés — générés par `dart run build_runner build`.
-- Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/flutter-add-feature` ou le protocole de déclaration d'écart.
+- Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/flutter-add-feature` (diff de contrat validé avant écriture) ou le protocole de déclaration d'écart.
 - `/flutter-load-project`, `/flutter-generate-readme`, `/flutter-add-feature`, `/flutter-trace-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-run-tests` s'invoquent depuis la racine du projet cible.
 - Livrable : installation sur le téléphone, méthode choisie en phase 1 (Q8) — USB direct par défaut (`flutter run` / `flutter install`, sans signature ni "sources inconnues") ; fichier APK debug ; APK release signé (sideload) ou AAB Play Store si sélectionné. Signature/keystore opt-in (livrés seulement pour release/AAB). Détail : `rules/config.md §Installation methods`.

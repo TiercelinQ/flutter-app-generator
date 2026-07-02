@@ -20,7 +20,7 @@ The contract on screen (in the user's language).
 
 ---
 
-Read `docs/specs/04-architect.md` (the locked source of truth) and display the complete validated tree with the role of each file, followed by the providers table and the SQLite schema (if DB).
+Read `docs/specs/04-architect.md` (the locked source of truth) and display the complete validated tree with the role of each file, followed by the providers table, the SQLite schema (if DB), the theme mapping (tokens → theme table in framework mode, or the seed in native mode), and (if tests) the source→test mapping.
 
 If `docs/specs/04-architect.md` does not exist and no contract has been validated in session yet: `No validated contract — Phase 4 not reached.`
 

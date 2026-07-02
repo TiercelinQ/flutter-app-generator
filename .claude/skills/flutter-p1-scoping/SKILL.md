@@ -66,7 +66,12 @@ After the answers, propose the **palette** with `AskUserQuestion` (single questi
 
 Apply the CALIBRATION table in `CLAUDE.md` (canonical source): Small (< 10 files and ≤ 5 features) → 3 batches; Medium/Large (≥ 10 or > 5) → 4 batches; divergent criteria → the highest wins. **+1 batch if tests are enabled (Q7)** — Small 4 / Medium-Large 5.
 
-Announce it as **provisional**: the real feature count is not known yet (features are elicited in Phase 2). The calibration is **confirmed and locked at the end of Phase 2**, on the v1.0 feature count.
+Announce it as **provisional** (template, rendered in the user's language):
+
+Provisional calibration: [Small | Medium/Large] — [N] batches (incl. 1 test batch if enabled)
+(Confirmed at the end of Phase 2, after counting the real features.)
+
+The real feature count is not known yet (features are elicited in Phase 2). The calibration is **confirmed and locked at the end of Phase 2**, on the v1.0 feature count.
 
 ## 4. Libraries
 

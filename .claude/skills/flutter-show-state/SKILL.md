@@ -26,4 +26,6 @@ Phase: [name] | Batch: [X/total] | Next: [expected action]
 Locked decisions: [list]
 Open points: [list or "none"]
 
-Do not append the `/flutter-save-session` · `/flutter-show-state` · `ok/flutter-show-contract` reminder after this reply.
+If no project is active: "No active project. Type /flutter-app to start."
+
+Do not append the `/flutter-save-session` · `/flutter-show-state` · `/flutter-show-contract` reminder after this reply.

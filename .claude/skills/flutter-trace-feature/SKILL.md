@@ -21,7 +21,7 @@ A structured report (in the user's language) with `file:line` references. Option
 
 ## Steps
 
-1. **Identify scope** — a single file, an entity (model+repo+controller+screen), a cross-cutting pattern (theming, error handling, navigation), or the whole app.
+1. **Identify scope** — a single file, an entity (model+repo+controller+screen), a cross-cutting pattern (theming, error handling, navigation, security), or the whole app.
 
 2. **Ask when ambiguous** — if the request has several valid readings, use `AskUserQuestion` before diving in. See "When to ask" below.
 
@@ -39,7 +39,7 @@ A structured report (in the user's language) with `file:line` references. Option
 5. **Report** (in the user's language):
    - What the code does (behavior).
    - How it connects across layers (dependencies, data flow).
-   - Any inconsistency vs the contract or the rules (`rules/*`), with the rule named.
+   - Any inconsistency vs the contract or the rules (`rules/*`), with the rule named — **including security** (`rules/security.md`).
    - `file:line` references.
    - **Flag any unverified assumption explicitly** — do not fabricate a runtime behavior you could not read.
 
@@ -61,4 +61,4 @@ Offer 2–4 concrete options, recommended one first. Do not ask when the scope i
 
 ## When the user asks something adjacent
 - **"And fix it"** → switch to `/flutter-fix-issue` (bug) or `/flutter-add-feature` (change), carrying the analysis findings.
-- **"Is this the right architecture?"** → compare against `docs/specs/04-architect.md` and `rules/architecture.md`; report deviations, do not refactor (that is `/flutter-refactor-code`, on request).
+- **"Is this secure / well-architected?"** → compare against `rules/security.md`, `docs/specs/04-architect.md`, and `rules/architecture.md`; report deviations, do not refactor (that is `/flutter-refactor-code`, on request).

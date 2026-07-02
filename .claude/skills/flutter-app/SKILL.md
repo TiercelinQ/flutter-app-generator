@@ -27,7 +27,7 @@ Map the chosen option to the routing below; a pasted SESSION block still trigger
 
 **1 — New application**: start `/flutter-p1-scoping`, which handles the project folder name, location, and creation (the project root is established there).
 
-**2 — Resume**: ask for the SESSION file path (`docs/sessions/SESSION_AppName_SN.md`), read it fully. The project root is the folder containing `docs/` (two levels up from the SESSION file); confirm it. Then apply the resume protocol:
+**2 — Resume**: ask for the SESSION file path (`docs/sessions/SESSION_AppName_SN.md`), read it fully (native `Read` tool, never `cat` — Windows-compatible). The project root is the folder containing `docs/` (two levels up from the SESSION file); confirm it. Then apply the resume protocol:
 
 1. Read the SESSION block fully.
 2. Reply: `Resuming [APP_NAME] — [next phase] | Batch [X/total] | Open points: [list or "none"]`
@@ -35,7 +35,7 @@ Map the chosen option to the routing below; a pasted SESSION block still trigger
 
 If a SESSION block is pasted directly into the message: apply the resume protocol without showing the menu.
 
-**3 — Load a delivered project**: ask for the project root to load, then chain to `/flutter-load-project`:
+**3 — Load a delivered project**: ask for the project root to load, then chain to `/flutter-load-project` (`.claude/` present at that root):
 Project root to load? (folder path, e.g. C:\projects\MyApp)
 
 **4 — Maintain a delivered project**: ask for the project root, first ensure the project is loaded (`/flutter-load-project` if not already), then route to the right maintenance skill based on the user's intent:

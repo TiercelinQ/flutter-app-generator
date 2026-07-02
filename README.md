@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready Flutter/And
 
 Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/flutter-add-feature` (add a feature, contract-compliant), `/flutter-trace-feature` (trace behavior), `/flutter-fix-issue` (root-cause debugging with a decision tree), `/flutter-refactor-code` (validated, behavior-preserving), `/flutter-run-tests` (executable verification). Plus `/flutter-load-project` and `/flutter-generate-readme` to load/document existing apps.
+**Maintenance commands**: `/flutter-add-feature` (add a feature after a validated contract diff), `/flutter-trace-feature` (trace behavior), `/flutter-fix-issue` (root-cause debugging with a decision tree), `/flutter-refactor-code` (validated, behavior-preserving), `/flutter-run-tests` (executable verification). Plus `/flutter-load-project` and `/flutter-generate-readme` to load/document existing apps.
 
 Every generated app enforces a strict layered architecture and one of two visual design systems chosen in Phase 1: the **framework** design system (default, opinionated flat) or **native Material 3** (`ColorScheme.fromSeed`, native components) — a Flutter-only option.
 

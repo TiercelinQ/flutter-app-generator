@@ -65,15 +65,18 @@ Produce the sheet (in the user's language):
 - Dropped — Won't (out of scope, deliberate): [list]
 
 **Technical constraints**
-- Target: Android minSdk 24 · Flutter stable · Dart 3
+- Runtime: Flutter stable · Dart 3 · Riverpod 3 (minSdk 24)
 - DB: [value chosen in Phase 1]
-- Rich text (flutter_quill): [Yes/No]
-- i18n: [Yes/No]
-- Orientation: [portrait only | portrait + landscape]
-- Icon: [Yes/No]
+- Rich editing (flutter_quill): [Yes/No]
 - Preferences: always on (shared_preferences)
+- i18n: [Yes/No]
 - Tests: [Yes/No] — flutter_test + mocktail
-- Palette: [Phase 1 choice: name or custom, 5 roles]
+- Icon: [Yes/No]
+- Orientation: [portrait only | portrait + landscape]
+- Design system: [framework | native]
+- Installation method: [USB direct | Debug APK file | Signed release APK | Play Store AAB]
+- Validated libraries: [Phase 1 list]
+- Palette or seed: [framework: palette name or custom, 5 roles | native: seed preset or hex]
 
 **Calibration (confirmed here, from the v1.0 feature count)**
 - Counted v1.0 features: [N]

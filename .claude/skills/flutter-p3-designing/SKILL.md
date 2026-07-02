@@ -23,17 +23,24 @@ Define the concrete screen layout (destinations, secondary panel, recurring comp
 
 **Read `layout.md` first** (no longer auto-imported), plus the design reference for the chosen mode (`docs/specs/01-scoping.md`): `design-system.md` if `designSystem: framework`, `rules/native-design.md` if `native`. The structural layout is the same in both modes; in native mode the feedback surface is `SnackBar`/`MaterialBanner` (not the custom toast), so do not raise toast-specific customization.
 
-Based on the project description (`docs/specs/02-featuring.md`), propose a layout among the structures defined in `layout.md`:
+Based on the features validated in Phase 2 (`docs/specs/02-featuring.md`), propose a layout among the structures defined in `layout.md`, justified against the features. Produce (in the user's language):
 
-1. Describe the chosen structure (NavigationBar destinations, optional secondary panel, recurring components).
-2. Justify the choice against the features.
-3. List the navigation destinations and their content (2 to 5 — or a single screen with no NavigationBar).
+## Proposed layout — [APP_NAME]
+
+**Structure**
+[Description: AppShell — AppBar, NavigationBar destinations (2 to 5 — or a single screen with no NavigationBar), main content]
+
+**Destinations**
+| Destination | Content |
+| ----------- | ------- |
+| …           | …       |
+
+**Recurring components**
+- [List / Form / Cards / Charts — depending on the features]
 
 ## 2. Customization — questions via `AskUserQuestion`
 
-For each question offering a choice, mark the option you recommend with `(recommended)`, chosen from the validated feature context.
-
-Ask in the user's language:
+For each question, mark the option you recommend with `(recommended)`, chosen from the validated feature context. Ask with `AskUserQuestion` (clickable options, ≤ 4 options each, **Other** for the rest; split into ≤ 4-question calls). Ask in the user's language:
 
 Layout customization:
 
@@ -45,7 +52,7 @@ Layout customization:
 
 ## 3. Synthesis
 
-Produce a complete synthesis of the validated layout (shell, destinations, panel, forms, gestures, toasts, any deviations vs the `layout.md` default).
+Produce the complete synthesis of the validated layout (in the user's language): shell, destinations, panel, forms, gestures, toasts, any deviations vs the `layout.md` default.
 
 **→ Explicit validation required before Phase 4.**
 

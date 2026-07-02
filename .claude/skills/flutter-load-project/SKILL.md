@@ -25,15 +25,21 @@ Prerequisite: invoked from the target project root, `.claude/` present.
    - `docs/specs/04-architect.md` (locked contract — most reliable). If present, it is authoritative for the structure.
    - Other `docs/specs/*` for the scoping/analysis/layout decisions.
    - `README.md` at the root. If both specs and README are absent: offer `/flutter-generate-readme` and stop.
-2. Read `pubspec.yaml` + walk `lib/` to confirm the structure (core / data / application / presentation).
-3. Confirm take-over (in the user's language):
+2. **Detect `test/`** via `Glob` with the pattern `test/**/*_test.dart` → count the files for the Tests line.
+3. Read `pubspec.yaml` + walk `lib/` to confirm the structure (core / data / application / presentation).
+4. Confirm take-over with this exact format (in the user's language):
 
 Project loaded: [APP_NAME] v[VERSION]
-Stack : Flutter [v] · Dart [v] · Riverpod
-Entities detected: [list]
-Providers: [count] · SQLite tables: [list or "none"]
-Specs: [docs/specs present: yes/no]
-Generator rules applied.
 
-4. Read and apply all rules (`CLAUDE.md`, `rules/architecture.md` · `rules/errors.md` · `rules/config.md` · `rules/verification.md`, `layout.md`) to any later change, plus the **design system mode** recorded in `docs/specs/04-architect.md`: `design-system.md` + `rules/theme.md` if `framework`; `rules/native-design.md` if `native`. The `rules/*` are not auto-imported: read them before any code change. Keep the loaded app in its existing mode.
-5. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/flutter-fix-issue` or `/flutter-refactor-code`).
+Stack : Flutter [v] · Dart [v] · Riverpod
+DB : [value]
+Entities detected: [list]
+Providers: [count]
+Tests : [present ([N] files) | absent]
+Design system: [framework | native]
+Specs: [docs/specs present: yes/no]
+
+Generator rules applied. Ready for: development · fixes · improvements · adjustments.
+
+5. Read and apply all rules (`CLAUDE.md`, `rules/architecture.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` (if tests present) · `rules/verification.md`, `layout.md`) to any later change, plus the **design system mode** recorded in `docs/specs/04-architect.md`: `design-system.md` + `rules/theme.md` if `framework`; `rules/native-design.md` if `native`. The `rules/*` are not auto-imported: read them before any code change. Keep the loaded app in its existing mode.
+6. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/flutter-fix-issue` or `/flutter-refactor-code`).
