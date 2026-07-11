@@ -42,7 +42,7 @@ The generation pipeline has 5 phases. Each phase skill **opens by displaying a v
 Phases - user-facing name + one-line intent:
 1. **Scoping** - destination folder, project parameters, palette.
 2. **Features** - elicit, prioritize (MoSCoW), bound the v1.0 scope.
-3. **Design** - map the validated features onto the layout.
+3. **Surfaces** - map the validated features onto the layout.
 4. **Architecture** - lock the file/structure contract.
 5. **Development** - deliver the app in batches.
 
@@ -54,7 +54,7 @@ Banner format - **output it as plain Markdown, never inside a code block / fence
 Example for Phase 2 (renders as a heading + two lines, not a fenced block):
 
 > ## Phase 2/5 — Features
-> Scoping ✓ · ▶ Features · Design · Architecture · Development
+> Scoping ✓ · ▶ Features · Surfaces · Architecture · Development
 > *Elicit, prioritize (MoSCoW), and bound the v1.0 scope.*
 
 - Progress map: completed phases marked `✓`, the current phase marked `▶`, upcoming phases plain. These are **intentional progress markers** (not decorative - the no-emoji rule does not strip them).
@@ -71,7 +71,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | ----- | --------------------------------- |
 | 1 - Scoping    | `docs/specs/01-scoping.md`   |
 | 2 - Featuring  | `docs/specs/02-featuring.md`   |
-| 3 - Designing  | `docs/specs/03-designing.md`    |
+| 3 - Surfaces  | `docs/specs/03-surfaces.md`    |
 | 4 - Architect  | `docs/specs/04-architect.md` (locked architectural contract) |
 
 `docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/flutter-load-project`, `/flutter-show-contract`, `/flutter-add-feature`, and `/flutter-refactor-code`.
@@ -80,7 +80,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 ## BINDING REFERENCES
 
-`design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) - the UI skills (`/flutter-p3-designing`, `/flutter-p4-architect`, `/flutter-p5-development`, `/flutter-add-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-trace-feature`) read them on demand before producing or altering any UI.
+`design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) - the UI skills (`/flutter-p3-surfaces`, `/flutter-p4-architect`, `/flutter-p5-development`, `/flutter-add-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-trace-feature`) read them on demand before producing or altering any UI.
 
 In `designSystem: native` mode (Phase 1), the binding visual reference is `rules/native-design.md` **instead of** `design-system.md` (and `rules/theme.md`); the structural parts of `layout.md` still apply in both modes. The UI skills read the reference matching the mode recorded in `docs/specs/04-architect.md`.
 
@@ -102,7 +102,7 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 | Internationalization | FR/EN - FR default - `flutter_localizations` + `gen-l10n` (ARB)  |
 | Preferences          | `shared_preferences`                                            |
 | Quality              | `flutter_lints` · clean analyzer · DartDoc on classes and public API |
-| Deliverable          | On-device install, method chosen in Phase 1 (Q8): USB direct by default (no signing); Debug APK file; Signed release APK (sideload) or Play Store AAB if selected — see @rules/config.md |
+| Deliverable          | On-device install, method chosen in Phase 1 (Q8): USB direct by default (no signing); Debug APK file; Signed release APK (sideload) or Play Store AAB if selected — see rules/config.md |
 
 ---
 
@@ -121,7 +121,7 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 - No library that was not validated in Phase 1.
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/flutter-p5-development`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/flutter-save-memory`"
-- NEVER read and write `settings.json`. ONLY read and write in `settings.local.json`
+- NEVER read and write the generator's own `.claude/settings.json` — ONLY read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
 Per-domain rule detail (loaded on demand by the skills `/flutter-p4-architect`, `/flutter-p5-development`, and the maintenance skills - not auto-imported): `rules/architecture.md` · `rules/theme.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` · `rules/verification.md` · `rules/readme.md`
 
 ---
@@ -137,7 +137,7 @@ All commands below are Claude Code skills invocable with `/`:
 | `/flutter-app`          | `skills/flutter-app/`          | Start / resume / maintenance menu            |
 | `/flutter-p1-scoping`       | `skills/flutter-p1-scoping/`       | Scoping - 9 questions (incl. design system) + palette/seed |
 | `/flutter-p2-featuring`       | `skills/flutter-p2-featuring/`       | App name + features (MoSCoW) + v1.0 scope + locked sizing |
-| `/flutter-p3-designing`        | `skills/flutter-p3-designing/`        | Layout proposal                              |
+| `/flutter-p3-surfaces`        | `skills/flutter-p3-surfaces/`        | Layout proposal                              |
 | `/flutter-p4-architect`       | `skills/flutter-p4-architect/`       | Locked architectural contract                |
 | `/flutter-p5-development` | `skills/flutter-p5-development/` | Batch delivery                               |
 
@@ -161,6 +161,23 @@ All commands below are Claude Code skills invocable with `/`:
 | `/flutter-show-state`          | `skills/flutter-show-state/`          | Current project state                           |
 | `/flutter-show-contract`         | `skills/flutter-show-contract/`         | Validated contract tree                         |
 | `/flutter-save-memory`       | `skills/flutter-save-memory/`       | Memorize an error, decision, or preference      |
+
+---
+
+## WORKFLOWS — chaining by situation
+
+Which command(s) to run for a given intent. The **generation pipeline** (p1→p5) is **not** re-detailed here — it self-chains from `/flutter-app` (see `## PIPELINE` + each skill's `→ Chain to` line). This section covers the **entry point and the maintenance sequences**.
+
+- **New app** — `/flutter-app` (chains p1-scoping → … → p5-development on its own), then `/flutter-run-tests`.
+- **Resume an in-progress generation** — `/flutter-show-state` (or `/flutter-app` → resume), continue at the reported phase.
+- **Delivered app — always `/flutter-load-project` first**, then by intent:
+  - Add a feature — `/flutter-add-feature` → `/flutter-run-tests`
+  - Fix a bug — `/flutter-fix-issue` → `/flutter-run-tests`
+  - Refactor (behavior-preserving, plan validated first) — `/flutter-refactor-code` → `/flutter-run-tests`
+  - Understand / audit the code — `/flutter-trace-feature`
+  - Refresh the README — `/flutter-generate-readme`
+- **Verify on demand** — `/flutter-run-tests` (pub get · build_runner · analyze · custom_lint · build).
+- **End of session** — `/flutter-save-session`; remember a lesson not to repeat — `/flutter-save-memory`.
 
 ---
 

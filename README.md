@@ -14,7 +14,7 @@ A structured prompt system that generates complete, production-ready Flutter/And
 
 1. **Scoping** - 9 questions (objective, **design system**, DB, rich text, i18n, icon, orientation, tests, installation method) + colors: framework mode → color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check); native mode → a single seed color (`ColorScheme.fromSeed`)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
-3. **Designing** - NavigationBar destinations, secondary panel, list actions, pull-to-refresh
+3. **Surfaces** - NavigationBar destinations, secondary panel, list actions, pull-to-refresh
 4. **Architect** - full file tree, providers table, SQLite schema, tokens→theme table - locked before any code is written
 5. **Development** - auto-chained batch delivery, seed script if a DB is used
 
@@ -80,7 +80,7 @@ Then in Claude Code:
 | `/flutter-app`          | Start menu (4 entry points incl. maintenance)      |
 | `/flutter-p1-scoping`       | Scoping - 9 questions (incl. design system) + palette/seed |
 | `/flutter-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
-| `/flutter-p3-designing`        | Designing - layout proposal + customization        |
+| `/flutter-p3-surfaces`        | Surfaces - layout proposal + customization        |
 | `/flutter-p4-architect`       | Architect - locked contract (providers, SQLite)    |
 | `/flutter-p5-development` | Auto-chained batch delivery                        |
 | `/flutter-add-feature`            | Add a feature to a shipped app                     |

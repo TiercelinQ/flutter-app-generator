@@ -111,9 +111,11 @@ my_app/
 | Batch | Content                                                                                  |
 | ----- | ----------------------------------------------------------------------------------------- |
 | 1     | `core/` + `data/` + l10n (`l10n.yaml` + ARB) or `core/strings.dart`                      |
-| 2     | `presentation/` (theme, screens, widgets)                                                |
-| 3     | `application/` (controllers)                                                             |
+| 2     | `application/` (controllers)                                                             |
+| 3     | `presentation/` (theme, screens, widgets)                                                |
 | 4     | `main.dart` + `pubspec.yaml` + `analysis_options.yaml` + README + instructions          |
+
+> **Order: `application` before `presentation`.** `presentation` imports the `application` providers (`ref.watch(xxxControllerProvider)`, see the unidirectional imports above), so shipping `presentation` first would leave batch 2 referencing providers that do not exist yet and `flutter analyze` would fail — same reasoning as the l10n-in-batch-1 note. Each batch must stay analyzer-clean (`rules/verification.md §A`).
 
 ### Tests batch (only if Phase 1 Q7 = Yes)
 Add a final dedicated batch — `test/` (mirroring `lib/`) + the `mocktail` (and `sqflite_common_ffi` if DB) dev dependencies in `pubspec.yaml`. → Small 4 batches / Medium-Large 5 batches. Patterns and coverage: `@rules/tests.md`.

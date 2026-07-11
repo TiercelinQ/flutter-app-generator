@@ -29,7 +29,7 @@ claude-flutter-framework/
     │   ├── flutter-app/             # Menu démarrage / reprise / maintenance (4 options)
     │   ├── flutter-p1-scoping/      # Scoping — 9 questions (dont design system) + couleur → docs/specs/01-scoping.md
     │   ├── flutter-p2-featuring/    # Fiche besoins → docs/specs/02-featuring.md
-    │   ├── flutter-p3-designing/    # Proposition layout → docs/specs/03-designing.md
+    │   ├── flutter-p3-surfaces/    # Proposition layout → docs/specs/03-surfaces.md
     │   ├── flutter-p4-architect/    # Contrat architectural verrouillé → docs/specs/04-architect.md
     │   ├── flutter-p5-development/  # Livraison par lots (enchaînement auto)
     │   ├── flutter-add-feature/     # Ajouter une feature à une app livrée (diff de contrat validé avant écriture)
@@ -112,9 +112,9 @@ Calibrage annoncé.
 
 Fiche structurée + calibrage figé. Validation bloquante avant Phase 3. Écrit `docs/specs/02-featuring.md`.
 
-### Phase 3 — Designing
+### Phase 3 — Surfaces
 
-Proposition issue de `layout.md` + personnalisation (destinations NavigationBar, panneau secondaire endDrawer/BottomSheet, actions sur listes, pull-to-refresh). Validation bloquante. Écrit `docs/specs/03-designing.md`.
+Proposition issue de `layout.md` + personnalisation (destinations NavigationBar, panneau secondaire endDrawer/BottomSheet, actions sur listes, pull-to-refresh). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
 
 ### Phase 4 — Architect
 
@@ -193,7 +193,7 @@ Après correction (`/flutter-fix-issue` ou Phase 5), Claude produit un bilan de 
 | `/flutter-app`          | Haiku  | Menu démarrage / reprise / maintenance               |
 | `/flutter-p1-scoping`       | Sonnet | Scoping — 9 questions (dont design system) + couleur |
 | `/flutter-p2-featuring`       | Sonnet | Fiche besoins                                        |
-| `/flutter-p3-designing`        | Sonnet | Proposition layout + personnalisation                |
+| `/flutter-p3-surfaces`        | Sonnet | Proposition layout + personnalisation                |
 | `/flutter-p4-architect`       | Sonnet | Contrat architectural verrouillé (providers, SQLite) |
 | `/flutter-p5-development` | Sonnet | Livraison par lots — enchaînement automatique        |
 | `/flutter-add-feature`            | Sonnet | Ajouter une feature à une app livrée                 |

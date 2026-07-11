@@ -17,9 +17,9 @@ Produce a complete, unambiguous architectural contract that freezes the file tre
 
 ---
 
-**Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 4/5 — Architecture; (2) progress line: Scoping ✓ · Features ✓ · Design ✓ · ▶ Architecture · Development; (3) intent in italics: Lock the file/structure contract. See `## PIPELINE` in `CLAUDE.md`.
+**Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 4/5 — Architecture; (2) progress line: Scoping ✓ · Features ✓ · Surfaces ✓ · ▶ Architecture · Development; (3) intent in italics: Lock the file/structure contract. See `## PIPELINE` in `CLAUDE.md`.
 
-At start: read `layout.md` (no longer auto-imported), `rules/architecture.md` (tree, batches, Riverpod conventions), and the theming reference for the chosen mode (`docs/specs/01-scoping.md`): `design-system.md` + `rules/theme.md` if `designSystem: framework`; `rules/native-design.md` if `native` (apply its §7 tree deltas — no `toast_controller`/`toast_overlay`/`app_dialog`/`app_button`, add `presentation/messenger.dart`, `tokens.dart` = `AppTokens` + `seedColor`). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
+At start: read `layout.md` (no longer auto-imported), `rules/architecture.md` (tree, batches, Riverpod conventions), and the theming reference for the chosen mode (`docs/specs/01-scoping.md`): `design-system.md` + `rules/theme.md` if `designSystem: framework`; `rules/native-design.md` if `native` (apply its §7 tree deltas — no `toast_controller`/`toast_overlay`/`app_dialog`/`app_button`, add `presentation/messenger.dart`, `tokens.dart` = `AppTokens` + `seedColor`). Read `docs/specs/01-scoping.md` through `03-surfaces.md` for the validated decisions.
 
 Present (in the user's language, as plain Markdown — never inside a code block):
 
