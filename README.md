@@ -2,7 +2,7 @@
 
 > Claude Code generator for **Android mobile apps** - Flutter · Dart · Riverpod.
 
-Part of a family of Claude Code generators. See also [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator), [claude-python-app-generator](https://github.com/TiercelinQ/claude-python-app-generator), [sf-node-generator](https://github.com/TiercelinQ/sf-node-generator), and [vscode-ext-generator](https://github.com/TiercelinQ/vscode-ext-generator).
+Part of a family of Claude Code generators. See also [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator), [python-app-generator](https://github.com/TiercelinQ/python-app-generator), [sf-node-generator](https://github.com/TiercelinQ/sf-node-generator), and [vscode-ext-generator](https://github.com/TiercelinQ/vscode-ext-generator).
 
 Unified edition: the full generation pipeline **plus** post-delivery maintenance skills, an explicit role per skill, persisted specs, centralized executable verification, and native memory.
 
@@ -165,7 +165,7 @@ Chosen in Phase 1. Two modes; both keep the same structural layout (AppShell, Ap
 
 | Generator | Stack | Target |
 | --------- | ----- | ------ |
-| [claude-python-app-generator](https://github.com/TiercelinQ/claude-python-app-generator) | Python · PyQt6 · QSS | Windows desktop |
+| [python-app-generator](https://github.com/TiercelinQ/python-app-generator) | Python · PyQt6 · QSS | Windows desktop |
 | [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator) | Node.js · Electron · React · TS | Windows desktop |
 | [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator) | Flutter · Dart · Riverpod | Android |
 | [sf-node-generator](https://github.com/TiercelinQ/sf-node-generator) | Node.js · TypeScript · Salesforce CLI | Headless CLI |
