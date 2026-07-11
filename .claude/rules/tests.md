@@ -2,7 +2,7 @@
 
 ## Activation
 
-Conditional — enabled if Phase 1 (Q7) = `Yes`.
+Conditional — enabled if Phase 1 (Q8) = `Yes`.
 
 If enabled:
 - `test/` folder mandatory in the architectural contract (Phase 4).
@@ -72,6 +72,33 @@ void main() {
 }
 ```
 
+## Controller test pattern — native design system (if `designSystem: native`)
+
+The pattern above assumes the default `framework` mode (`toastControllerProvider`). When `designSystem: native` (Phase 1), there is **no `toastControllerProvider`**: feedback surfaces as a `SnackBar` / `MaterialBanner` through the global `ScaffoldMessengerKey` in `presentation/messenger.dart` (`rules/native-design.md §6`). A bare `ProviderContainer` cannot observe it (the key has no mounted `ScaffoldMessengerState`), so assert at the **widget level** — mount the messenger key, drive the controller through the mounted scope, then find the surface:
+
+```dart
+class MockRecordRepository extends Mock implements RecordRepository {}
+
+testWidgets('save affiche un MaterialBanner danger sur RecordNotFoundException (mode natif)', (tester) async {
+  final repo = MockRecordRepository();
+  when(() => repo.save(any())).thenThrow(const RecordNotFoundException('absent'));
+
+  await tester.pumpWidget(ProviderScope(
+    overrides: [recordRepositoryProvider.overrideWithValue(repo)],
+    // messengerKey (GlobalKey<ScaffoldMessengerState>) exported by presentation/messenger.dart —
+    // it drives SnackBar/MaterialBanner without a BuildContext (native-design.md §6).
+    child: MaterialApp(scaffoldMessengerKey: messengerKey, home: const Scaffold()),
+  ));
+
+  final container = ProviderScope.containerOf(tester.element(find.byType(Scaffold)));
+  await container.read(recordControllerProvider.notifier).save(testRecord);
+  await tester.pump();   // let the messenger present the surface (no arbitrary delay)
+
+  expect(find.byType(MaterialBanner), findsOneWidget);   // danger → MaterialBanner
+  // success / info / warning → assert find.byType(SnackBar) instead
+});
+```
+
 ## Widget smoke test pattern (mandatory)
 
 ```dart
@@ -91,7 +118,7 @@ testWidgets('RecordScreen se rend sans erreur', (tester) async {
 - **Do not** use arbitrary `Future.delayed` waits — `pump`/`pumpAndSettle`/`fakeAsync`.
 - **Do not** test a controller without overriding its repository provider.
 - **Do not** go beyond smoke for screens (pump + key finders).
-- **Do not** create a test suite when Phase 1 Q7 = No (and `/flutter-run-tests` never scaffolds one unasked).
+- **Do not** create a test suite when Phase 1 Q8 = No (and `/flutter-run-tests` never scaffolds one unasked).
 
 ## Integrity verification
 

@@ -10,11 +10,14 @@
     ],
     "deny": [
       "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/secrets/**)",
       "Write(**/.env)",
       "Write(**/.env.*)",
+      "Write(**/secrets/**)",
       "Edit(**/.env)",
       "Edit(**/.env.*)",
-      "Write(**/secrets/**)",
+      "Edit(**/secrets/**)",
       "Write(**/*.g.dart)",
       "Write(**/.dart_tool/**)",
       "Write(**/build/**)"

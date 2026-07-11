@@ -11,7 +11,7 @@ claude-flutter-framework/
 ├── CLAUDE.md                 # Instructions core (EN) · persona · communication FR · index commandes · calibrage
 ├── GUIDE.md                  # Ce fichier
 ├── README.md                 # Présentation du repo GitHub (EN)
-├── LICENSE.txt
+├── LICENSE
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (tokens Dart) — mode framework
     ├── layout.md             # Référence layout contraignante — AppShell, AppBar, NavigationBar, toasts
@@ -48,6 +48,8 @@ claude-flutter-framework/
 ```
 
 > Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/` (lus à la demande par les skills UI, non auto-importés). `design-system.md` vaut pour le mode framework ; en mode natif, la référence visuelle contraignante est `rules/native-design.md`. `layout.md` (parties structurelles) s'applique aux deux modes.
+
+> Dossiers locaux **non versionnés** (gitignorés) : `tasks/` (plan de travail — `todo.md`, `lessons.md`) et `incidents-reports/`, dossier **optionnel** pour tes propres notes d'incidents/anomalies pendant la maintenance. Rien ne l'alimente automatiquement (aucun skill n'y écrit) ; c'est un espace de notes personnel. Supprime l'entrée du `.gitignore` si tu ne t'en sers pas.
 
 ---
 
@@ -167,7 +169,7 @@ dart run build_runner build --delete-conflicting-outputs   # .g.dart
 flutter analyze              # 0 issue
 dart run custom_lint         # lints Riverpod
 flutter test                 # si tests existants uniquement
-flutter build apk            # smoke de compilation (debug) ; --release / appbundle seulement si APK release signé / AAB choisi (phase 1 Q8)
+flutter build apk            # smoke de compilation (debug) ; --release / appbundle seulement si APK release signé / AAB choisi (phase 1 Q9)
 ```
 
 `/flutter-run-tests` exécute cette échelle ; `/flutter-fix-issue` y renvoie pour confirmer une correction.
@@ -245,4 +247,4 @@ mon_app/
 - Les fichiers `.g.dart` ne sont jamais livrés — générés par `dart run build_runner build`.
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/flutter-add-feature` (diff de contrat validé avant écriture) ou le protocole de déclaration d'écart.
 - `/flutter-load-project`, `/flutter-generate-readme`, `/flutter-add-feature`, `/flutter-trace-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-run-tests` s'invoquent depuis la racine du projet cible.
-- Livrable : installation sur le téléphone, méthode choisie en phase 1 (Q8) — USB direct par défaut (`flutter run` / `flutter install`, sans signature ni "sources inconnues") ; fichier APK debug ; APK release signé (sideload) ou AAB Play Store si sélectionné. Signature/keystore opt-in (livrés seulement pour release/AAB). Détail : `rules/config.md §Installation methods`.
+- Livrable : installation sur le téléphone, méthode choisie en phase 1 (Q9) — USB direct par défaut (`flutter run` / `flutter install`, sans signature ni "sources inconnues") ; fichier APK debug ; APK release signé (sideload) ou AAB Play Store si sélectionné. Signature/keystore opt-in (livrés seulement pour release/AAB). Détail : `rules/config.md §Installation methods`.

@@ -13,7 +13,7 @@
 - **Closed/enumerable choices are asked with the `AskUserQuestion` tool** (clickable options, the recommended option first / marked `(recommended)`) — never make the user type an answer that can be enumerated (DB, Yes/No, orientation, palette, start menu…). Free-form text is reserved for non-enumerable input only (free description, file paths, custom hex). Tool caps: **≤ 4 questions per call** and **2-4 options per question** — split into several `AskUserQuestion` calls when needed, and use the built-in **Other** option for a 5th+ choice or a custom value. **Never call `AskUserQuestion` for a free-form / non-enumerable prompt** (objective, folder name/location, file path, custom hex): the tool requires ≥ 2 options and errors otherwise — ask those as plain text.
 - Whenever you ask a question, propose options, or propose a solution and await the user's reply, always include a recommended answer marked as recommended (in the user's language, e.g. `(recommended)`), chosen as the most pertinent for the context.
 - No unsolicited recap. No emojis. No filler.
-- Append at the end of every reply (except after `/flutter-save-session`, `/flutter-show-state`, `/flutter-show-contract`):
+- Append at the end of every reply (except after `/flutter-save-session`, `/flutter-show-state`, `/flutter-show-contract`, `/flutter-save-memory`):
   `/flutter-save-session` · `/flutter-show-state` · `/flutter-show-contract`
 
 ---
@@ -60,6 +60,7 @@ Example for Phase 2 (renders as a heading + two lines, not a fenced block):
 - Progress map: completed phases marked `✓`, the current phase marked `▶`, upcoming phases plain. These are **intentional progress markers** (not decorative - the no-emoji rule does not strip them).
 - Render every phase label and intent in the user's language.
 - **Start-of-flow overview (once)**: at the very start of Phase 1 (new app), first list the 5 phases with their intent, then show the Phase 1/5 banner.
+- **Skill slug ↔ phase label**: the skill names carry the pipeline verb, the banner shows the user-facing label — `flutter-p2-featuring` → **Features**, `flutter-p4-architect` → **Architecture**. The other three match by name (`p1-scoping` → Scoping, `p3-surfaces` → Surfaces, `p5-development` → Development).
 
 ---
 
@@ -102,7 +103,7 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 | Internationalization | FR/EN - FR default - `flutter_localizations` + `gen-l10n` (ARB)  |
 | Preferences          | `shared_preferences`                                            |
 | Quality              | `flutter_lints` · clean analyzer · DartDoc on classes and public API |
-| Deliverable          | On-device install, method chosen in Phase 1 (Q8): USB direct by default (no signing); Debug APK file; Signed release APK (sideload) or Play Store AAB if selected — see rules/config.md |
+| Deliverable          | On-device install, method chosen in Phase 1 (Q9): USB direct by default (no signing); Debug APK file; Signed release APK (sideload) or Play Store AAB if selected — see rules/config.md |
 
 ---
 
@@ -117,7 +118,7 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 - Zero `// TODO`, zero unjustified empty implementation, zero unjustified `dynamic`. Clean analyzer.
 - Strict layers: `presentation` never imports `data`; `data` never imports Flutter UI or Riverpod.
 - Security mandatory in every app: validated inputs, parameterized SQL only, secrets via `flutter_secure_storage` (never hardcoded), strict Android permissions - see `rules/security.md`
-- If tests enabled in Phase 1 (Q7): test suite mandatory (`flutter_test` + `mocktail`) - see `rules/tests.md`
+- If tests enabled in Phase 1 (Q8): test suite mandatory (`flutter_test` + `mocktail`) - see `rules/tests.md`
 - No library that was not validated in Phase 1.
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/flutter-p5-development`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/flutter-save-memory`"

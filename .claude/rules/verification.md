@@ -14,13 +14,13 @@ flutter pub get                                       # dependencies resolve
 dart run build_runner build --delete-conflicting-outputs   # .g.dart generated, no conflict
 flutter analyze                                       # MUST report "No issues found"
 dart run custom_lint                                  # Riverpod lints clean (not covered by flutter analyze)
-flutter test                                          # ONLY if tests enabled (Phase 1 Q7) / test/ exists — otherwise skip
-flutter build apk                                     # compile smoke (debug) — last batch; use --release / `appbundle` only if a Signed release APK / Play Store AAB was selected (Phase 1 Q8)
+flutter test                                          # ONLY if tests enabled (Phase 1 Q8) / test/ exists — otherwise skip
+flutter build apk                                     # compile smoke (debug) — last batch; use --release / `appbundle` only if a Signed release APK / Play Store AAB was selected (Phase 1 Q9)
 ```
 
 Rules:
 - A non-zero exit or any reported issue is a failure → fix the root cause, do not silence the rule. Re-run until clean.
-- **`flutter test`**: run only if tests were enabled in Phase 1 (Q7) / `test/` contains tests. **Do not create tests if the project has none** — only run what exists.
+- **`flutter test`**: run only if tests were enabled in Phase 1 (Q8) / `test/` contains tests. **Do not create tests if the project has none** — only run what exists.
 - If the Flutter SDK is **not** available in the environment, say so explicitly, fall back to the static checks below (read-through), and tell the user which commands they must run themselves before considering the work verified. Never claim a clean analyzer you could not run.
 - Quote the relevant command output as proof when reporting completion.
 - The generated app ships a `.claude/settings.json` (deny guards on secrets/artifacts + a `Stop` hook running `flutter analyze`). These enforce the rules automatically in later maintenance sessions but **do not replace** this checklist.

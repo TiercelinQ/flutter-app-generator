@@ -35,7 +35,7 @@ Present (in the user's language, as plain Markdown — never inside a code block
 | …                      | …           | …          | …                    |
 
    `native` mode: short `ColorScheme.fromSeed(seedColor)` mapping (seed → light/dark `ColorScheme`, `useMaterial3: true`) + the `AppTokens` retained for spacing/sizes/durations.
-5. **Source → test mapping** (only if tests enabled in Phase 1 Q7): each source module → its `_test.dart` file. See `rules/tests.md`.
+5. **Source → test mapping** (only if tests enabled in Phase 1 Q8): each source module → its `_test.dart` file. See `rules/tests.md`.
 
 **→ Validation required. This contract is locked.**
 

@@ -49,7 +49,7 @@ dev_dependencies:
   riverpod_lint: ^3.1.0             # Riverpod-specific lints (via custom_lint)
   custom_lint: ^0.8.0              # engine for riverpod_lint
   flutter_launcher_icons: ^0.14.4   # launcher icon — validated by default
-  mocktail: ^1.0.0                  # tests only (Phase 1 Q7 = Yes) — see @rules/tests.md
+  mocktail: ^1.0.0                  # tests only (Phase 1 Q8 = Yes) — see @rules/tests.md
   # sqflite_common_ffi: ^2.3.0      # tests only, if DB — in-memory SQLite
 
 flutter:
@@ -81,7 +81,7 @@ analyzer:
 ## Android — `gradle.properties`
 
 - `minSdk = 24` set in `android/app/build.gradle.kts` (do not leave `flutter.minSdkVersion`).
-- **Cross-drive Kotlin incremental build (Windows)**: if the project and the Pub cache are on **different drives** (this user: project under `D:\…`, Pub cache under `C:\Users\…\AppData\Local\Pub\Cache`), Kotlin incremental compilation of Android plugins (e.g. `share_plus`, `quill_native_bridge_android`) throws `IllegalArgumentException: this and base files have different roots` (`RelocatableFileToPathConverter.toPath`) → `Daemon compilation failed` / `assembleDebug failed`. **Always add** to `android/gradle.properties`:
+- **Cross-drive Kotlin incremental build (Windows)**: if the project and the Pub cache are on **different drives** (e.g. the project on `D:` while the Pub cache stays under its default `C:\Users\…\AppData\Local\Pub\Cache`), Kotlin incremental compilation of Android plugins (e.g. `share_plus`, `quill_native_bridge_android`) throws `IllegalArgumentException: this and base files have different roots` (`RelocatableFileToPathConverter.toPath`) → `Daemon compilation failed` / `assembleDebug failed`. **Always add** to `android/gradle.properties`:
 
 ```
 # Project and Pub cache are on different drives (Windows); incremental Kotlin
@@ -151,7 +151,7 @@ dart run flutter_launcher_icons   # if an icon was provided in Phase 1
 
 ## Installation methods
 
-The install method is chosen in **Phase 1 (Q8)**. It does not change the generated `lib/` code — only the final build/install steps and whether a keystore is delivered. **Signing is opt-in**: the keystore (`keytool`), `android/key.properties`, and the `signingConfigs` block in `android/app/build.gradle` are delivered **only** for methods C (Signed release APK) and D (Play Store AAB). Methods A and B need no keystore. The generated README documents all four; the chosen one is highlighted.
+The install method is chosen in **Phase 1 (Q9)**. It does not change the generated `lib/` code — only the final build/install steps and whether a keystore is delivered. **Signing is opt-in**: the keystore (`keytool`), `android/key.properties`, and the `signingConfigs` block in `android/app/build.gradle` are delivered **only** for methods C (Signed release APK) and D (Play Store AAB). Methods A and B need no keystore. The generated README documents all four; the chosen one is highlighted.
 
 ### A — USB direct (`flutter run` / `flutter install`) — default, no signing
 
@@ -198,7 +198,7 @@ flutter build appbundle --release
 
 ### Uninstall (clean removal)
 
-Uninstalling an Android app removes the app **and its private data** (SQLite DB, `shared_preferences`, `flutter_secure_storage`) from the app sandbox — nothing is left behind. That is the clean removal; only the trigger differs per install method. The README documents both cases; highlight the one matching the method chosen in Phase 1 (Q8).
+Uninstalling an Android app removes the app **and its private data** (SQLite DB, `shared_preferences`, `flutter_secure_storage`) from the app sandbox — nothing is left behind. That is the clean removal; only the trigger differs per install method. The README documents both cases; highlight the one matching the method chosen in Phase 1 (Q9).
 
 - **Methods A / B / C (USB direct, Debug APK, Signed release APK — dev / sideload)**:
   - On the phone: long-press the app icon → **Uninstall**, or Settings → Apps → [appName] → **Uninstall**.

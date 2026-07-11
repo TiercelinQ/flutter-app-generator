@@ -64,7 +64,7 @@ After the answers, propose the **palette** with `AskUserQuestion` (single questi
 
 ## 3. Provisional calibration — announced at the end of Phase 1
 
-Apply the CALIBRATION table in `CLAUDE.md` (canonical source): Small (< 10 files and ≤ 5 features) → 3 batches; Medium/Large (≥ 10 or > 5) → 4 batches; divergent criteria → the highest wins. **+1 batch if tests are enabled (Q7)** — Small 4 / Medium-Large 5.
+Apply the CALIBRATION table in `CLAUDE.md` (canonical source) — it holds the size thresholds, the batch counts, and the +1 batch when tests are enabled (Q8); do not restate them here.
 
 Announce it as **provisional** (template, rendered in the user's language):
 
@@ -79,7 +79,7 @@ Any library outside the stack (charts fl_chart, flutter_secure_storage, logging,
 
 ## 5. Write the spec
 
-Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, **design system** (`designSystem: framework | native`), DB choice, rich editing, i18n, icon, orientation, tests (Q7), **install method** (Q8), validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). For the colors, branch on the design system:
+Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, **design system** (`designSystem: framework | native`), DB choice, rich editing, i18n, icon, orientation, tests (Q8), **install method** (Q9), validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). For the colors, branch on the design system:
 - `framework`: the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + onPrimary; semantic kept fixed) and the contrast-check result.
 - `native`: the **seed color** (preset name or custom hex); note "Material 3 `ColorScheme.fromSeed`, Material Icons, native `SnackBar`/`MaterialBanner`/`AlertDialog`" — profile in `rules/native-design.md`.
 

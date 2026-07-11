@@ -55,10 +55,12 @@ Future<void> save(Record record) async {
        .show(ToastData(ToastType.danger, e.message));
   } on DatabaseException catch (e) {
     ref.read(toastControllerProvider.notifier)
-       .show(ToastData(ToastType.danger, 'Erreur base de données', description: e.message));
+       .show(ToastData(ToastType.danger, t.databaseError, description: e.message));
   }
 }
 ```
+
+> **i18n-consistent.** With i18n enabled, every user-facing toast **message** is a localization key — `t.recordSaved`, `t.databaseError` (`t` = `AppLocalizations.of(context)`, `rules/config.md`); the `description` carries the untranslated technical detail (`e.message`). With i18n **off**, the message reads from the centralized `AppStrings.*` in `core/strings.dart` (`rules/architecture.md`) — never a bare FR literal (`'Erreur base de données'`) in the controller. `e.message` is used as the message only for an exception that already carries a user-ready, localized string.
 
 ## Rules
 

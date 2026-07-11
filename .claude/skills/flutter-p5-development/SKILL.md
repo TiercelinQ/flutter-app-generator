@@ -53,7 +53,7 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
 
 ## Last batch — mandatory extra deliverables
 
-- Complete instructions — common build/codegen, then the install method chosen in Phase 1 (Q8):
+- Complete instructions — common build/codegen, then the install method chosen in Phase 1 (Q9):
   ```
   flutter pub get
   dart run build_runner build --delete-conflicting-outputs
@@ -94,7 +94,21 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
     }
   }
   ```
-  The `Stop` hook runs the analyzer at the end of each turn. Note in the README that the user can tune or remove it.
+  The `Stop` hook runs the analyzer at the end of each turn. Note in the README that the user can tune or remove it. **`flutter analyze` is slower, so to skip it on doc-only turns** (make it conditional), ship a tiny guard as `tool/stop_analyze.dart` and point the hook at `dart run tool/stop_analyze.dart` (a bare inline shell guard is not portable across cmd/PowerShell/bash — use the script). The guard: `git status --porcelain`, run `flutter analyze` **only** when a `.dart` path is present, and **degrade to always-analyze** if git is unavailable:
+  ```dart
+  // tool/stop_analyze.dart — Stop-hook guard: analyze only when a .dart source file has uncommitted changes.
+  import 'dart:io';
+  void main() {
+    var changed = true;
+    try {
+      final s = Process.runSync('git', ['status', '--porcelain']);
+      if (s.exitCode == 0) changed = RegExp(r'\.dart(\s|$)', multiLine: true).hasMatch(s.stdout as String);
+    } catch (_) { /* no git → analyze */ }
+    if (!changed) return;
+    final r = Process.runSync('flutter', ['analyze'], runInShell: true);
+    stdout.write(r.stdout); stderr.write(r.stderr); exit(r.exitCode);
+  }
+  ```
 - Confirm `docs/specs/` is present and consistent with the delivered code.
 
 ## Seed batch — only if DB ≠ none (Phase 1 Q2)
@@ -107,7 +121,7 @@ If a database was selected, deliver a standalone seed script `tool/seed.dart` th
 
 Announce `Batch [final]/[total] — tool/seed.dart` (before the tests batch if both apply). See `@rules/architecture.md`.
 
-## Test batch — only if Phase 1 Q7 = Yes
+## Test batch — only if Phase 1 Q8 = Yes
 
 Add a final dedicated batch: announce `Batch [final]/[total] — test/ + dev dependencies`. Deliver `test/` mirroring `lib/` (per `@rules/tests.md`: controller tests via `ProviderContainer` + overrides and `mocktail`, widget smoke tests, no network/real-DB), and add `mocktail` (+ `sqflite_common_ffi` if DB) to `dev_dependencies` in `pubspec.yaml`. Append the `flutter test` instruction to the README.
 

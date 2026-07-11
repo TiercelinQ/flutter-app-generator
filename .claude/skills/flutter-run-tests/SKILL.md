@@ -28,7 +28,7 @@ A short report in the user's language stating what passed, with command output a
    flutter analyze              # expect "No issues found"
    dart run custom_lint         # Riverpod lints
    flutter test                 # ONLY if test/ already has tests
-   flutter build apk            # compile smoke (debug); --release / appbundle only if release/AAB selected (Phase 1 Q8)
+   flutter build apk            # compile smoke (debug); --release / appbundle only if release/AAB selected (Phase 1 Q9)
    ```
 2. **Capture output**. A non-zero exit or any reported issue is a failure — quote the relevant lines.
 3. **Report** (in the user's language): which commands passed, with proof. On failure: name the command, the `file:line`, and hand off to `/flutter-fix-issue` for the root cause (do not patch here unless the user asks).
@@ -36,8 +36,8 @@ A short report in the user's language stating what passed, with command output a
 
 ## Test creation policy
 
-- Tests are opt-in at Phase 1 (Q7). If enabled, the suite (`flutter_test` + `mocktail`) was delivered in its dedicated batch — run it (`flutter test`).
-- **Do not create a test suite if the project has none** (Q7 = No). Run only what exists under `test/`.
+- Tests are opt-in at Phase 1 (Q8). If enabled, the suite (`flutter_test` + `mocktail`) was delivered in its dedicated batch — run it (`flutter test`).
+- **Do not create a test suite if the project has none** (Q8 = No). Run only what exists under `test/`.
 - If the user **explicitly asks** to add tests later: follow `@rules/tests.md` (`flutter_test` + `mocktail`, `ProviderContainer` overrides, widget smoke, in-memory/temp DB). Confirm scope, then add `mocktail` to `dev_dependencies`.
 
 ## Anti-patterns — what NOT to do

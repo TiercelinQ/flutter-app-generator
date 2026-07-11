@@ -74,8 +74,8 @@ In native mode the generated tree changes only in `presentation/` + `application
 
 ## 8. Verification deltas (vs `rules/verification.md`)
 
-- §B6 (design-system compliance): in native mode = colors come from `Theme.of(context).colorScheme` (no raw hex except `seedColor`); spacing/sizes from `AppTokens`; Material components used; **flat-design checks do not apply**.
-- §B8 (errors): in native mode `SnackBar` / `MaterialBanner` / `AlertDialog` are the **expected** surfaces (not forbidden). The escalation rule still holds: business exceptions caught in `application`, surfaced via the messenger.
+- §B item 6 (design-system compliance): in native mode = colors come from `Theme.of(context).colorScheme` (no raw hex except `seedColor`); spacing/sizes from `AppTokens`; Material components used; **flat-design checks do not apply**.
+- §B item 8 (errors): in native mode `SnackBar` / `MaterialBanner` / `AlertDialog` are the **expected** surfaces (not forbidden). The escalation rule still holds: business exceptions caught in `application`, surfaced via the messenger.
 
 ## 9. Unchanged across both modes
 
