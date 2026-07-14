@@ -1,7 +1,12 @@
-# Layout System — v1.1 (Flutter / Android)
+# Layout System — v2.0 (Flutter / Android)
 
-> The **structural** parts (global structure, AppShell, AppBar, NavigationBar, content area, secondary panel, recurring components, gestures) apply in **both** design-system modes. The **skin/feedback** parts that reference framework tokens or the custom toast system (notably §6 Toast) apply in `framework` mode only — in `native` mode (`rules/native-design.md`), feedback uses native `SnackBar`/`MaterialBanner` and Material default shapes.
-> Binding reference for all Flutter/Dart Android applications.
+> The **structural defaults** (global structure, AppShell, AppBar, NavigationBar, content area, secondary panel, recurring components, gestures) are shared by **both** design-system modes. The **skin/feedback** parts that reference framework tokens or the custom toast system (notably §6 Toast) apply in `framework` mode only — in `native` mode (`rules/native-design.md`), feedback uses native `SnackBar`/`MaterialBanner` and Material default shapes.
+> Companion layout reference — not a constraint. This file provides: (1) a **proposed default
+> composition** that Claude submits in Phase 3 and that the user may amend or replace freely;
+> (2) the **feedback spec** (toasts, dialogs) serving the error contract; (3) **defaults and
+> technical recommendations** (dimensions, behaviors) — never a composition restriction.
+> The retained composition is the one validated in `docs/specs/03-surfaces.md` and locked in
+> `docs/specs/04-architect.md`.
 > Built on `design-system.md v1.6 (Flutter)`. The two files are inseparable.
 > Validated mobile transposition of the desktop layout: AppBar ↔ topbar, NavigationBar ↔ tabs, custom overlay toasts kept, status bar removed.
 
@@ -9,12 +14,15 @@
 
 | Version | Date       | Main change                                                            |
 | ------- | ---------- | --------------------------------------------------------------------- |
+| v2.0    | 2026-07-13 | Non-binding composition: mandatory AppShell becomes the proposed default; destination cap becomes a technical recommendation |
 | v1.1    | 2026-06-14 | coherent dark toasts · tree chevron `textSubtle` (WCAG) · overlay layering reference |
 | v1.0    | initial    | Mobile transposition: AppBar, NavigationBar, overlay toasts, components |
 
 ---
 
 ## 1. GLOBAL STRUCTURE
+
+Proposed default composition — submitted in Phase 3, amendable or replaceable by the user.
 
 ```
 ┌─────────────────────────────────────┐
@@ -31,7 +39,7 @@
 └─────────────────────────────────────┘
 ```
 
-Mandatory skeleton (`AppShell` — `lib/presentation/screens/app_shell.dart`):
+Proposed default skeleton (`AppShell` — `lib/presentation/screens/app_shell.dart`):
 
 ```
 Scaffold
@@ -42,7 +50,7 @@ Root overlay: ToastOverlay       # stacked toasts, independent of the Scaffold
 ```
 
 - 1 destination only → no NavigationBar (AppBar + body only).
-- 2 to 5 destinations → NavigationBar. Beyond 5 → 4 destinations + "More" (list screen).
+- 2 to 5 destinations → NavigationBar. Technical recommendation: beyond 5, the Material `NavigationBar` degrades (labels truncate, touch targets shrink); the suggested pattern is 4 destinations + "More" (list screen), not an imposed rule.
 
 **Toast** (overlaid, top of screen):
 
@@ -64,7 +72,9 @@ Root overlay: ToastOverlay       # stacked toasts, independent of the Scaffold
 
 ## 2. APPLICATION
 
-| Token / option        | Value                                                       |
+Default values — customizable in Phase 3.
+
+| Token / option        | Default                                                     |
 | --------------------- | ------------------------------------------------------------ |
 | orientation           | portrait only (default) — landscape on Phase 1 request        |
 | theme on launch       | follows the OS theme (`ThemeMode.system`) if no preference    |
@@ -77,7 +87,7 @@ Root overlay: ToastOverlay       # stacked toasts, independent of the Scaffold
 
 ## 3. APPBAR
 
-| Token              | Value                  |
+| Token              | Default                 |
 | ------------------ | ----------------------- |
 | height             | `appbarHeight` = 56     |
 | light/dark bg      | `bg`                    |
@@ -105,12 +115,12 @@ Root overlay: ToastOverlay       # stacked toasts, independent of the Scaffold
 
 ## 4. NAVIGATIONBAR (Material 3)
 
-| Token               | Value                          |
+| Token               | Default                         |
 | ------------------- | ------------------------------- |
 | height              | `navbarHeight` = 80             |
 | bg                  | `bg`                            |
 | top border          | 1 `border` — `elevation: 0`     |
-| destinations        | 2 to 5 max                      |
+| destinations        | 2 to 5 recommended (NavigationBar ergonomics) |
 | active indicator    | `primaryBg` background (indicator), `primary` icon + label |
 | inactive destination| `textSubtle` icon + label       |
 | label               | `weightMedium` `fontXs`, always visible |
@@ -123,7 +133,7 @@ Root overlay: ToastOverlay       # stacked toasts, independent of the Scaffold
 
 ## 5. MAIN CONTENT AREA
 
-| Token             | Value                                  |
+| Token             | Default                                |
 | ----------------- | ---------------------------------------- |
 | bg                | `bg`                                     |
 | inner padding     | `spacing4` = 16 (mobile — full width)    |
@@ -200,11 +210,11 @@ Layering: the `ToastOverlay` is mounted at the root (above modal routes) so a pe
 
 ## 7. SECONDARY PANEL
 
-Chosen in Phase 3: `endDrawer` or `BottomSheet`. Opened by explicit action only. Never automatically.
+Chosen in Phase 3: `endDrawer` or `BottomSheet`. Opened by explicit action only. Never automatically. Default values below.
 
 ### endDrawer (right side)
 
-| Token          | Value                                       |
+| Token          | Default                                     |
 | -------------- | --------------------------------------------- |
 | width          | 85% screen, max 360                           |
 | animation      | slide from the right, `transitionSlow`        |
@@ -219,7 +229,7 @@ Chosen in Phase 3: `endDrawer` or `BottomSheet`. Opened by explicit action only.
 
 ### Modal BottomSheet
 
-| Token        | Value                                   |
+| Token        | Default                                 |
 | ------------ | ---------------------------------------- |
 | width        | full width                               |
 | height       | content, max 90% screen                  |
@@ -246,7 +256,7 @@ On mobile, a data table becomes a vertical list of structured items (`ListView.s
 - Group header (if grouping): `bgSubtle` bg, `weightSemibold` `fontSm`, `textSubtle`, bottom border 2 `borderStrong`.
 - Selected item: `primaryBg` bg. Pressed: `bgMuted`.
 - Row alternation: disabled (flat design).
-- **Long lists: native lazy loading (`ListView.builder`) + pagination in batches of 50 on scroll** (replaces desktop button pagination). Loading indicator at the list footer.
+- **Long lists: native lazy loading (`ListView.builder`) + pagination recommended in batches of ~50 on scroll** (replaces desktop button pagination). Loading indicator at the list footer.
 - Per-item actions: swipe (`Dismissible`) for deletion with confirmation, or context menu — chosen in Phase 3.
 
 ### Input form
@@ -293,7 +303,7 @@ On mobile, a data table becomes a vertical list of structured items (`ListView.s
 
 `AppDialog` component (`showDialog` + custom widget) — never a raw `AlertDialog`.
 
-| Token        | Value                           |
+| Token        | Default                          |
 | ------------ | -------------------------------- |
 | width        | screen width − 2×`spacing6`      |
 | bg           | `bg` — `radius` 0, `elevation` 0 |
@@ -310,6 +320,8 @@ On mobile, a data table becomes a vertical list of structured items (`ListView.s
 ---
 
 ## 9. GESTURES & SYSTEM NAVIGATION
+
+Default behaviors — customizable in Phase 3.
 
 | Gesture / button        | Action                                                    |
 | ----------------------- | ---------------------------------------------------------- |

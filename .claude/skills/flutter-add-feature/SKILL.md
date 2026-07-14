@@ -25,7 +25,7 @@ If the project root has not been provided in this flow, first ask: `Project root
 
 If no contract is known: stop and ask for `/flutter-load-project`.
 
-**Load context**: read `docs/specs/04-architect.md` (locked contract — it records the **design system mode**), then `rules/architecture.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/theme.md` (if `framework` mode) · `rules/verification.md` (not auto-imported). For UI, read the mode's reference on demand (no longer auto-imported) before any UI change: `design-system.md` + `layout.md` if `framework`; `rules/native-design.md` + `layout.md` if `native`. Match the existing app's mode — never mix the two.
+**Load context**: read `docs/specs/04-architect.md` (locked contract — it records the **design system mode**), then `@rules/architecture.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/theme.md` (if `framework` mode) · `@rules/verification.md` (not auto-imported). For UI, read the mode's reference on demand (no longer auto-imported) before any UI change: `design-system.md` + `layout.md` if `framework`; `@rules/native-design.md` + `layout.md` if `native`. Match the existing app's mode — never mix the two.
 
 ## Step 1 — Light feature scoping
 
@@ -72,11 +72,11 @@ Produce (in the user's language):
 
 ## Step 3 — Application — strict rules
 
-- Read the mode's design reference (`design-system.md` + `layout.md`, or `rules/native-design.md` + `layout.md`) before any UI change.
-- Fully respect `rules/architecture.md`, `rules/theme.md` (if `framework` mode), `rules/native-design.md` (if `native` mode), `rules/errors.md`, `rules/config.md`, `rules/security.md`, `rules/tests.md`, `rules/verification.md`, `rules/readme.md`.
+- Read the mode's design reference (`design-system.md` + `layout.md`, or `@rules/native-design.md` + `layout.md`) before any UI change.
+- Fully respect `@rules/architecture.md`, `@rules/theme.md` (if `framework` mode), `@rules/native-design.md` (if `native` mode), `@rules/errors.md`, `@rules/config.md`, `@rules/security.md`, `@rules/tests.md`, `@rules/verification.md`, `@rules/readme.md`.
 - No modification not listed in the validated diff. No opportunistic improvement of adjacent code.
 - Implementation across the layers (a new feature usually touches all three):
-  - Data: immutable model (`fromMap`/`toMap`) + repository — sole data access point; raise named business exceptions (`data/exceptions.dart`); **every SQL query parameterized** (`?` + `whereArgs`, `rules/security.md`).
+  - Data: immutable model (`fromMap`/`toMap`) + repository — sole data access point; raise named business exceptions (`data/exceptions.dart`); **every SQL query parameterized** (`?` + `whereArgs`, `@rules/security.md`).
   - Application: `@riverpod` controller (codegen, never a manual provider) — orchestrate, intercept business exceptions, trigger the mode's feedback (toast via `toastControllerProvider` in `framework` mode; `SnackBar`/`MaterialBanner` via `presentation/messenger.dart` in `native` mode).
   - Presentation: screen/widget consuming providers only (`ref.watch`/`ref.read`) — never a repository, no business logic.
 - DB migration needed → bump `dbVersion` in `core/config.dart`, add the `onUpgrade` entry in `data/database/app_database.dart`.
@@ -94,21 +94,21 @@ Deliver each created/modified file as a complete block, written to disk (except 
 
 ## Step 5 — Anomaly
 
-If the user reports an anomaly after delivery, apply the `rules/architecture.md` cleanup protocol then offer `/flutter-save-memory`.
+If the user reports an anomaly after delivery, apply the `@rules/architecture.md` cleanup protocol then offer `/flutter-save-memory`.
 
 ## Anti-patterns — what NOT to do
 - **Do not** write anything not listed in the validated diff, or improve adjacent code (that is `/flutter-refactor-code`, on request).
 - **Do not** add a field/column without the matching migration (`dbVersion` bump + `onUpgrade`).
-- **Do not** call a repository from a widget, or put business logic in presentation — `rules/architecture.md` is non-negotiable.
+- **Do not** call a repository from a widget, or put business logic in presentation — `@rules/architecture.md` is non-negotiable.
 - **Do not** create a manual provider — always `@riverpod` codegen.
-- **Do not** interpolate a value into SQL or hardcode a secret — `rules/security.md` is non-negotiable.
+- **Do not** interpolate a value into SQL or hardcode a secret — `@rules/security.md` is non-negotiable.
 - **Do not** introduce a library not validated in Phase 1 without the deviation protocol.
 - **Do not** hardcode a string (i18n) or a visual value (tokens / `colorScheme`).
 - **Do not** exceed the contract silently — the diff + validation IS the protocol.
 
 ## Verification
 
-Apply `rules/verification.md` (§A executable + §B static — a failing check is blocking; security checks are not optional). Key points: all created/modified files match the validated diff; providers consistent end-to-end (`@riverpod` controller ↔ generated provider ↔ consuming screens); SQLite schema ↔ `fromMap`/`toMap` ↔ repositories aligned; no import regression (existing files stay functional); if tests, `flutter test` exit 0 on the **whole** project. Then apply `rules/readme.md` — regenerate the README if the change touched a README-documented aspect.
+Apply `@rules/verification.md` (§A executable + §B static — a failing check is blocking; security checks are not optional). Key points: all created/modified files match the validated diff; providers consistent end-to-end (`@riverpod` controller ↔ generated provider ↔ consuming screens); SQLite schema ↔ `fromMap`/`toMap` ↔ repositories aligned; no import regression (existing files stay functional); if tests, `flutter test` exit 0 on the **whole** project. Then apply `@rules/readme.md` — regenerate the README if the change touched a README-documented aspect.
 
 ## When the user asks something adjacent
 - **"Just make it work, never mind the architecture/security"** → push back: the layer split and the security rules are what keep a Flutter app safe and maintainable. Implement within them.

@@ -25,7 +25,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 ## Steps
 
-1. **Load context**: `docs/specs/04-architect.md` (records the **design system mode**), then `layout.md` · `rules/architecture.md`, and the mode's theming reference: `design-system.md` + `rules/theme.md` if `framework`; `rules/native-design.md` if `native` (not auto-imported). Keep the app in its existing mode.
+1. **Load context**: `docs/specs/04-architect.md` (records the **design system mode**), then `layout.md` · `@rules/architecture.md`, and the mode's theming reference: `design-system.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` if `native` (not auto-imported). Keep the app in its existing mode.
 
 2. **Diagnose** what is actually wrong: duplication, a widget doing business logic, a god-controller, a token bypassed by a hardcoded value, a layer violation. Anchor each finding to `file:line`.
 
@@ -37,7 +37,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 5. **Apply** only after validation. Minimum diff. Respect the layers and the contract.
 
-6. **Verify**: `rules/verification.md §A` — behavior is unchanged, analyzer clean. If the structure changed (new shared file, moved code), update `docs/specs/04-architect.md` and regenerate the README (`rules/readme.md`).
+6. **Verify**: `@rules/verification.md §A` — behavior is unchanged, analyzer clean. If the structure changed (new shared file, moved code), update `docs/specs/04-architect.md` and regenerate the README (`@rules/readme.md`).
 
 ## Anti-patterns — what NOT to do
 - **Do not** refactor without a validated plan, ever.

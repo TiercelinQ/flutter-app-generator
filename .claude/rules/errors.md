@@ -1,6 +1,6 @@
 # Error handling rules
 
-> **Mode.** The escalation `data → application → presentation` is identical in both design-system modes — only the **UI sink** differs. In `designSystem: framework` (default), `application` triggers a **custom toast** via `toastControllerProvider` (this file). In `designSystem: native`, it surfaces a **`SnackBar`** (success/info/warning) or a **`MaterialBanner`** (persistent danger) via the global `ScaffoldMessengerState` helper (`presentation/messenger.dart`), and destructive confirmations use a native `AlertDialog` — see `rules/native-design.md §6`. Everywhere below, read "toast" as "the mode's feedback surface".
+> **Mode.** The escalation `data → application → presentation` is identical in both design-system modes — only the **UI sink** differs. In `designSystem: framework` (default), `application` triggers a **custom toast** via `toastControllerProvider` (this file). In `designSystem: native`, it surfaces a **`SnackBar`** (success/info/warning) or a **`MaterialBanner`** (persistent danger) via the global `ScaffoldMessengerState` helper (`presentation/messenger.dart`), and destructive confirmations use a native `AlertDialog` — see `@rules/native-design.md §6`. Everywhere below, read "toast" as "the mode's feedback surface".
 
 ## Data → Application → Presentation escalation convention
 
@@ -60,7 +60,7 @@ Future<void> save(Record record) async {
 }
 ```
 
-> **i18n-consistent.** With i18n enabled, every user-facing toast **message** is a localization key — `t.recordSaved`, `t.databaseError` (`t` = `AppLocalizations.of(context)`, `rules/config.md`); the `description` carries the untranslated technical detail (`e.message`). With i18n **off**, the message reads from the centralized `AppStrings.*` in `core/strings.dart` (`rules/architecture.md`) — never a bare FR literal (`'Erreur base de données'`) in the controller. `e.message` is used as the message only for an exception that already carries a user-ready, localized string.
+> **i18n-consistent.** With i18n enabled, every user-facing toast **message** is a localization key — `t.recordSaved`, `t.databaseError` (`t` = `AppLocalizations.of(context)`, `@rules/config.md`); the `description` carries the untranslated technical detail (`e.message`). With i18n **off**, the message reads from the centralized `AppStrings.*` in `core/strings.dart` (`@rules/architecture.md`) — never a bare FR literal (`'Erreur base de données'`) in the controller. `e.message` is used as the message only for an exception that already carries a user-ready, localized string.
 
 ## Rules
 
@@ -78,3 +78,7 @@ Future<void> save(Record record) async {
 - **Do not** put a `try/catch` that triggers a toast inside a widget. Error-to-toast mapping is an `application` responsibility.
 - **Do not** throw a bare `Exception('...')` from a repository — define a named business exception in `exceptions.dart`.
 - **Do not** build the user-facing message in `data`. The repository raises a typed exception; the controller decides the toast wording (via i18n).
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`. Key points: named business exceptions defined in `lib/data/exceptions.dart` and raised by the repositories; caught in `application`, never propagated to `presentation`; surfaced through the mode's feedback sink (`framework`: custom toasts via `toastControllerProvider`, no `SnackBar`/raw `AlertDialog`; `native`: `SnackBar`/`MaterialBanner`/`AlertDialog` via `presentation/messenger.dart`, `@rules/native-design.md §6`); `FlutterError.onError` + `PlatformDispatcher.instance.onError` wired in `main.dart`; no silently swallowed exception; user-facing messages localized when i18n is on, from `core/strings.dart` otherwise.

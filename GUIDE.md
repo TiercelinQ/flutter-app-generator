@@ -14,7 +14,7 @@ claude-flutter-framework/
 ├── LICENSE
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (tokens Dart) — mode framework
-    ├── layout.md             # Référence layout contraignante — AppShell, AppBar, NavigationBar, toasts
+    ├── layout.md             # Cadre layout d'accompagnement — composition par défaut (AppShell, AppBar, NavigationBar) + spec toasts
     ├── rules/
     │   ├── architecture.md   # Couches data / application / presentation, livraison par lots
     │   ├── theme.md          # tokens.dart + app_theme.dart, ThemeExtension, mode sombre (mode framework)
@@ -47,7 +47,7 @@ claude-flutter-framework/
     └── settings.local.json   # Overrides locaux (non versionné)
 ```
 
-> Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/` (lus à la demande par les skills UI, non auto-importés). `design-system.md` vaut pour le mode framework ; en mode natif, la référence visuelle contraignante est `rules/native-design.md`. `layout.md` (parties structurelles) s'applique aux deux modes.
+> Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/` (lus à la demande par les skills UI, non auto-importés). `design-system.md` vaut pour le mode framework ; en mode natif, la référence visuelle contraignante est `rules/native-design.md`. Les défauts structurels de `layout.md` valent pour les deux modes ; la composition est un défaut modifiable, co-défini en Phase 3.
 
 > Dossiers locaux **non versionnés** (gitignorés) : `tasks/` (plan de travail — `todo.md`, `lessons.md`) et `incidents-reports/`, dossier **optionnel** pour tes propres notes d'incidents/anomalies pendant la maintenance. Rien ne l'alimente automatiquement (aucun skill n'y écrit) ; c'est un espace de notes personnel. Supprime l'entrée du `.gitignore` si tu ne t'en sers pas.
 
@@ -96,7 +96,7 @@ flutter --version     # Flutter stable · Dart 3 (pour générer/exécuter les a
 
 ### Phase 1 — Scoping
 
-9 questions : objectif · **design system** (framework par défaut / Material 3 natif) · base de données (SQLite sqflite / JSON local / aucune) · édition de texte riche (flutter_quill) · i18n FR/EN · icône PNG 1024×1024 · orientation (portrait / portrait+paysage) · tests (flutter_test + mocktail) · méthode d'installation (USB direct / APK debug / APK release signé / AAB Play Store). Puis les couleurs, branchées sur le design system :
+9 questions : objectif · base de données (SQLite sqflite / JSON local / aucune) · édition de texte riche (flutter_quill) · i18n FR/EN · orientation (portrait / portrait+paysage) · **design system** (framework par défaut / Material 3 natif) · icône PNG 1024×1024 · tests (flutter_test + mocktail) · méthode d'installation (USB direct / APK debug / APK release signé / AAB Play Store). Puis les couleurs, branchées sur le design system :
 
 - **Framework** : choix de la **palette** — 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti). Sémantiques figées.
 - **Natif** : une **seed** unique (presets + hex personnalisé) → `ColorScheme.fromSeed` génère les schémas clair + sombre. Pas de palette 5 rôles, pas de dynamic color ; contraste garanti par Material 3. Profil : `rules/native-design.md`.
@@ -116,7 +116,7 @@ Fiche structurée + calibrage figé. Validation bloquante avant Phase 3. Écrit 
 
 ### Phase 3 — Surfaces
 
-Proposition issue de `layout.md` + personnalisation (destinations NavigationBar, panneau secondaire endDrawer/BottomSheet, actions sur listes, pull-to-refresh). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
+Proposition issue de `layout.md`, composition librement amendable + personnalisation (destinations NavigationBar, panneau secondaire endDrawer/BottomSheet, actions sur listes, pull-to-refresh). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
 
 ### Phase 4 — Architect
 
@@ -240,7 +240,7 @@ mon_app/
 ## Points de vigilance
 
 - Le design system est choisi en phase 1 : **framework** (`design-system.md` + `layout.md`) ou **natif** Material 3 (`rules/native-design.md`). Option Flutter only.
-- `.claude/design-system.md` et `.claude/layout.md` sont la **source de vérité** du mode framework — ne pas les dupliquer.
+- `.claude/design-system.md` et `.claude/layout.md` sont la **source de vérité** du mode framework — ne pas les dupliquer. La composition portée par `layout.md` est un défaut modifiable (retenue validée en Phase 3) ; le skin de `design-system.md` reste contraignant.
 - Zéro valeur visuelle en dur dans les widgets — mode framework : tout dans `tokens.dart` / `app_theme.dart` ; mode natif : couleurs via `Theme.of(context).colorScheme`, dimensions via `AppTokens`.
 - Couches strictes : `presentation` n'importe jamais `data` ; `data` n'importe jamais Flutter UI ni Riverpod.
 - Toute requête SQL est paramétrée (`?` + `whereArgs`) — zéro interpolation.

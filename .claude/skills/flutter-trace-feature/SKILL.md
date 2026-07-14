@@ -31,7 +31,7 @@ A structured report (in the user's language) with `file:line` references. Option
    - Data: `lib/data/models/`, `lib/data/repositories/`, `lib/data/database/app_database.dart`, `lib/data/exceptions.dart`.
    - Application: `lib/application/[entity]_controller.dart`, `theme_controller.dart`, `toast_controller.dart`.
    - Presentation: `lib/presentation/screens/app_shell.dart`, `screens/[entity]_screen.dart`, `widgets/`, `theme/tokens.dart`, `theme/app_theme.dart`.
-   - Binding refs (read on demand, not auto-imported) per the design system mode in `docs/specs/04-architect.md`: `design-system.md` + `layout.md` if `framework`; `rules/native-design.md` + `layout.md` if `native` — for design-system/layout deviations.
+   - Binding refs (read on demand, not auto-imported) per the design system mode in `docs/specs/04-architect.md`: `design-system.md` + `layout.md` if `framework`; `@rules/native-design.md` + `layout.md` if `native` — for design-system/layout deviations.
    - Core: `lib/core/config.dart`, `core/utils/helpers.dart`, `core/strings.dart`.
 
 4. **Trace the flow** following the unidirectional path: `presentation` (`ref.watch`/`ref.read`) → `application` (notifier) → `data` (repository → SQLite). For errors (framework mode): `data` raises → `application` catches → `toastControllerProvider` → `ToastOverlay`; in native mode the sink is `presentation/messenger.dart` (`ScaffoldMessengerKey` → `SnackBar`/`MaterialBanner`). For theming: framework → token → `app_theme.dart` → `context.colors`/`AppTokens`; native → `ColorScheme.fromSeed` → `Theme.of(context).colorScheme`/`AppTokens`.
@@ -39,7 +39,7 @@ A structured report (in the user's language) with `file:line` references. Option
 5. **Report** (in the user's language):
    - What the code does (behavior).
    - How it connects across layers (dependencies, data flow).
-   - Any inconsistency vs the contract or the rules (`rules/*`), with the rule named — **including security** (`rules/security.md`).
+   - Any inconsistency vs the contract or the rules (`rules/*`), with the rule named — **including security** (`@rules/security.md`).
    - `file:line` references.
    - **Flag any unverified assumption explicitly** — do not fabricate a runtime behavior you could not read.
 
@@ -61,4 +61,4 @@ Offer 2–4 concrete options, recommended one first. Do not ask when the scope i
 
 ## When the user asks something adjacent
 - **"And fix it"** → switch to `/flutter-fix-issue` (bug) or `/flutter-add-feature` (change), carrying the analysis findings.
-- **"Is this secure / well-architected?"** → compare against `rules/security.md`, `docs/specs/04-architect.md`, and `rules/architecture.md`; report deviations, do not refactor (that is `/flutter-refactor-code`, on request).
+- **"Is this secure / well-architected?"** → compare against `@rules/security.md`, `docs/specs/04-architect.md`, and `@rules/architecture.md`; report deviations, do not refactor (that is `/flutter-refactor-code`, on request).

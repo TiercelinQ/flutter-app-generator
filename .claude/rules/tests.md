@@ -74,7 +74,7 @@ void main() {
 
 ## Controller test pattern — native design system (if `designSystem: native`)
 
-The pattern above assumes the default `framework` mode (`toastControllerProvider`). When `designSystem: native` (Phase 1), there is **no `toastControllerProvider`**: feedback surfaces as a `SnackBar` / `MaterialBanner` through the global `ScaffoldMessengerKey` in `presentation/messenger.dart` (`rules/native-design.md §6`). A bare `ProviderContainer` cannot observe it (the key has no mounted `ScaffoldMessengerState`), so assert at the **widget level** — mount the messenger key, drive the controller through the mounted scope, then find the surface:
+The pattern above assumes the default `framework` mode (`toastControllerProvider`). When `designSystem: native` (Phase 1), there is **no `toastControllerProvider`**: feedback surfaces as a `SnackBar` / `MaterialBanner` through the global `ScaffoldMessengerKey` in `presentation/messenger.dart` (`@rules/native-design.md §6`). A bare `ProviderContainer` cannot observe it (the key has no mounted `ScaffoldMessengerState`), so assert at the **widget level** — mount the messenger key, drive the controller through the mounted scope, then find the surface:
 
 ```dart
 class MockRecordRepository extends Mock implements RecordRepository {}

@@ -1,18 +1,32 @@
-# Claude Code — personnel par machine
+# Local Claude Code settings - personal, never committed
 .claude/settings.local.json
 
-# Notes d'incidents/anomalies locales (personnelles, non versionnées) — voir GUIDE.md
-incidents-reports/
+# Claude Code auto memory - personal, never committed
+.claude/agent-memory/
 
-# Plan de travail local
-tasks/
-
-# Flutter / Dart
+# Generated app artifacts - a test app scaffolded here during generation testing
 build/
 .dart_tool/
 *.g.dart
 
-# Signature release — jamais commitée
+# Release signing - never committed
 android/key.properties
 *.jks
 *.keystore
+
+# Local incident notes (personal, not versioned) - see GUIDE.md
+incidents-reports/
+
+# Local work plan
+tasks/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

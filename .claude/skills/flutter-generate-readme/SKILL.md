@@ -65,7 +65,7 @@ flutter pub get
 dart run build_runner build --delete-conflicting-outputs   # .g.dart
 dart run custom_lint                                       # Riverpod lints
 dart run flutter_launcher_icons                            # if an icon was provided
-[Then the 4 install methods, USB direct first — see rules/config.md §Installation methods.
+[Then the 4 install methods, USB direct first — see @rules/config.md §Installation methods.
  Highlight the one chosen in Phase 1 (Q9). Signing/keystore steps only for Signed release APK / Play Store AAB.
  Uninstall: clean removal (app + private data) — both cases documented (dev/sideload A/B/C vs Play Store D); highlight the one matching Q9.]
 

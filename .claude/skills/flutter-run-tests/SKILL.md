@@ -21,7 +21,7 @@ A short report in the user's language stating what passed, with command output a
 
 ## Steps
 
-1. **Apply `rules/verification.md §A`** in order:
+1. **Apply `@rules/verification.md §A`** in order:
    ```
    flutter pub get
    dart run build_runner build --delete-conflicting-outputs
@@ -32,7 +32,7 @@ A short report in the user's language stating what passed, with command output a
    ```
 2. **Capture output**. A non-zero exit or any reported issue is a failure — quote the relevant lines.
 3. **Report** (in the user's language): which commands passed, with proof. On failure: name the command, the `file:line`, and hand off to `/flutter-fix-issue` for the root cause (do not patch here unless the user asks).
-4. If the **Flutter SDK is not available** in the environment: say so plainly, do the static read-through (`rules/verification.md §B`), and list the exact commands the user must run themselves. Never claim a clean analyzer you could not execute.
+4. If the **Flutter SDK is not available** in the environment: say so plainly, do the static read-through (`@rules/verification.md §B`), and list the exact commands the user must run themselves. Never claim a clean analyzer you could not execute.
 
 ## Test creation policy
 

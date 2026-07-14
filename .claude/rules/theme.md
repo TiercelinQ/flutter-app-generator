@@ -1,6 +1,6 @@
 # Theme rules — tokens, ThemeData, dark mode
 
-> **Mode.** This file describes `designSystem: framework` (Phase 1 default). If `designSystem: native` was chosen, follow `rules/native-design.md` instead: `app_theme.dart` = `ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor, brightness: …))` for light + dark, `tokens.dart` keeps `AppTokens` (spacing/sizes/durations) + a single `seedColor`, no `LightColors`/`DarkColors`, no `AppColors` `ThemeExtension`; colors are read from `Theme.of(context).colorScheme`, never `context.colors`. The rules below (token color classes, `context.colors`, flat overrides) do not apply in native mode.
+> **Mode.** This file describes `designSystem: framework` (Phase 1 default). If `designSystem: native` was chosen, follow `@rules/native-design.md` instead: `app_theme.dart` = `ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor, brightness: …))` for light + dark, `tokens.dart` keeps `AppTokens` (spacing/sizes/durations) + a single `seedColor`, no `LightColors`/`DarkColors`, no `AppColors` `ThemeExtension`; colors are read from `Theme.of(context).colorScheme`, never `context.colors`. The rules below (token color classes, `context.colors`, flat overrides) do not apply in native mode.
 
 ## Files
 
@@ -51,3 +51,7 @@ In Phase 1 the project picks a **palette** (named or custom) = 5 light roles: fo
 - **Do not** add `elevation`, `BoxShadow`, `borderRadius > 0`, or a gradient "just here". Flat design is global.
 - **Do not** copy a token value (e.g. `16`) as a magic number — reference the token (`AppTokens.spacing4`).
 - **Do not** keep a `Theme.of(context)` result and then override one of its properties with a local constant — that silently breaks theming.
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`. Key points (framework mode): zero hardcoded visual value in widgets — every color through `context.colors`, every size/duration/text style through `AppTokens` / the theme; recurring styles centralized in `app_theme.dart` (no local `ButtonStyle`/`BoxDecoration`/`InputDecoration` in a screen); dark mode = complete `AppTheme.dark` from `DarkColors` (no `brightness ==` / `isDark` branch in a screen); flat design held (`elevation: 0`, `BorderRadius.zero`, no `BoxShadow`, no gradient); `tokens.dart` sections in the documented order. Native mode: `@rules/native-design.md §8`.

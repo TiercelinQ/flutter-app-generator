@@ -12,7 +12,7 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 A structured prompt system that generates complete, production-ready Flutter/Android applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** - 9 questions (objective, **design system**, DB, rich text, i18n, icon, orientation, tests, installation method) + colors: framework mode → color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check); native mode → a single seed color (`ColorScheme.fromSeed`)
+1. **Scoping** - 9 questions (objective, DB, rich text, i18n, orientation, **design system**, icon, tests, installation method) + colors: framework mode → color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check); native mode → a single seed color (`ColorScheme.fromSeed`)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
 3. **Surfaces** - NavigationBar destinations, secondary panel, list actions, pull-to-refresh
 4. **Architect** - full file tree, providers table, SQLite schema, tokens→theme table - locked before any code is written
@@ -153,7 +153,7 @@ Chosen in Phase 1. Two modes; both keep the same structural layout (AppShell, Ap
 
 - [GUIDE.md](GUIDE.md) - full usage guide (FR)
 - `.claude/design-system.md` - visual token reference (framework mode)
-- `.claude/layout.md` - layout reference (AppShell, AppBar, NavigationBar, toasts) - structural parts apply in both modes
+- `.claude/layout.md` - layout companion (proposed default composition — AppShell, AppBar, NavigationBar, toasts) - structural defaults shared by both modes
 - `.claude/rules/` - domain rules:
   - `architecture.md` · `theme.md` · `errors.md` · `config.md` · `security.md` · `tests.md`
   - `native-design.md` - native Material 3 profile (when native mode is chosen)

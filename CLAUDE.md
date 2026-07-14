@@ -81,9 +81,9 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 ## BINDING REFERENCES
 
-`design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) - the UI skills (`/flutter-p3-surfaces`, `/flutter-p4-architect`, `/flutter-p5-development`, `/flutter-add-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-trace-feature`) read them on demand before producing or altering any UI.
+`design-system.md` is the binding reference for every generated interface (skin: tokens, flat design). `layout.md` is a **companion layout reference** (proposed default composition + feedback spec) - the composition itself is co-defined with the user in Phase 3 and locked in `docs/specs/04-architect.md`. Both are **not** auto-imported (to keep the session context lean) - the UI skills (`/flutter-p3-surfaces`, `/flutter-p4-architect`, `/flutter-p5-development`, `/flutter-add-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-trace-feature`) read them on demand before producing or altering any UI.
 
-In `designSystem: native` mode (Phase 1), the binding visual reference is `rules/native-design.md` **instead of** `design-system.md` (and `rules/theme.md`); the structural parts of `layout.md` still apply in both modes. The UI skills read the reference matching the mode recorded in `docs/specs/04-architect.md`.
+In `designSystem: native` mode (Phase 1), the binding visual reference is `rules/native-design.md` **instead of** `design-system.md` (and `rules/theme.md`); the structural **defaults** of `layout.md` are shared by both modes. The UI skills read the reference matching the mode recorded in `docs/specs/04-architect.md`.
 
 ---
 
@@ -103,7 +103,7 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 | Internationalization | FR/EN - FR default - `flutter_localizations` + `gen-l10n` (ARB)  |
 | Preferences          | `shared_preferences`                                            |
 | Quality              | `flutter_lints` · clean analyzer · DartDoc on classes and public API |
-| Deliverable          | On-device install, method chosen in Phase 1 (Q9): USB direct by default (no signing); Debug APK file; Signed release APK (sideload) or Play Store AAB if selected — see rules/config.md |
+| Deliverable          | On-device install, method chosen in Phase 1 (Q9): USB direct by default (no signing); Debug APK file; Signed release APK (sideload) or Play Store AAB if selected — see `rules/config.md` |
 
 ---
 
@@ -123,7 +123,7 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/flutter-p5-development`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/flutter-save-memory`"
 - NEVER read and write the generator's own `.claude/settings.json` — ONLY read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
-Per-domain rule detail (loaded on demand by the skills `/flutter-p4-architect`, `/flutter-p5-development`, and the maintenance skills - not auto-imported): `rules/architecture.md` · `rules/theme.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` · `rules/verification.md` · `rules/readme.md`
+Per-domain rule detail (loaded on demand by the skills `/flutter-p4-architect`, `/flutter-p5-development`, and the maintenance skills - not auto-imported): `rules/architecture.md` · `rules/theme.md` · `rules/native-design.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` · `rules/verification.md` · `rules/readme.md`
 
 ---
 

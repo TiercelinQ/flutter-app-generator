@@ -32,13 +32,13 @@ Rules:
 ### Every batch / every change
 1. Valid Dart, analyzer-clean (mentally, then confirmed by §A when the SDK is available).
 2. Imports: all used, none missing, unidirectional direction respected (`presentation → application → data`; `core` importable by all).
-3. Layer responsibilities respected (zero UI in data/application, zero data access in presentation). See `rules/architecture.md` anti-patterns.
+3. Layer responsibilities respected (zero UI in data/application, zero data access in presentation). See `@rules/architecture.md` anti-patterns.
 4. Zero `// TODO`, zero unjustified empty implementation, zero unjustified `dynamic`.
 5. Dart 3 · stable Flutter API · zero deprecated API.
-6. Design-system compliance — depends on the mode (`docs/specs/01-scoping.md` / `04-architect.md`). `framework`: `design-system.md` + `layout.md`, zero hardcoded visual value (tokens / `context.colors`), flat design. `native`: `rules/native-design.md` — colors from `Theme.of(context).colorScheme` (no raw hex except `seedColor`), spacing/sizes from `AppTokens`, Material components; flat-design checks do not apply. See `rules/theme.md` / `rules/native-design.md`.
+6. Design-system compliance — depends on the mode (`docs/specs/01-scoping.md` / `04-architect.md`). `framework`: `design-system.md` + the composition validated in `docs/specs/03-surfaces.md`/`04-architect.md` + the retained `layout.md` specs (toasts, dialogs), zero hardcoded visual value (tokens / `context.colors`), flat design. `native`: `@rules/native-design.md` — colors from `Theme.of(context).colorScheme` (no raw hex except `seedColor`), spacing/sizes from `AppTokens`, Material components; flat-design checks do not apply. See `@rules/theme.md` / `@rules/native-design.md`.
 7. SQL: 100% parameterized (`?` + `whereArgs`).
-8. Errors: business exceptions caught in `application`, surfaced via the mode's feedback sink. `framework`: custom toasts only, no `SnackBar`/raw `AlertDialog`. `native`: `SnackBar`/`MaterialBanner`/`AlertDialog` are the expected surfaces (via `presentation/messenger.dart`). See `rules/errors.md` / `rules/native-design.md §6`.
-9. Security: no hardcoded secret; SQL parameterized; secrets via `flutter_secure_storage`; minimal Android permissions; no cleartext traffic. See `rules/security.md`.
+8. Errors: business exceptions caught in `application`, surfaced via the mode's feedback sink. `framework`: custom toasts only, no `SnackBar`/raw `AlertDialog`. `native`: `SnackBar`/`MaterialBanner`/`AlertDialog` are the expected surfaces (via `presentation/messenger.dart`). See `@rules/errors.md` / `@rules/native-design.md §6`.
+9. Security: no hardcoded secret; SQL parameterized; secrets via `flutter_secure_storage`; minimal Android permissions; no cleartext traffic. See `@rules/security.md`.
 
 ### Last batch only — cross-file
 10. Every referenced provider exists; `@riverpod` annotations consistent with usages (`.g.dart` to generate listed in instructions).
@@ -48,7 +48,7 @@ Rules:
 14. `docs/specs/` present and consistent with the delivered code (the contract describes what was built).
 
 ### Per-domain (conditional — see the matching rule for detail)
-- **tests** (`rules/tests.md`): if enabled, each source module has a matching `_test.dart` (Phase 4 mapping); `flutter test` exit 0; `mocktail` in `dev_dependencies`.
+- **tests** (`@rules/tests.md`): if enabled, each source module has a matching `_test.dart` (Phase 4 mapping); `flutter test` exit 0; `mocktail` in `dev_dependencies`.
 
 ---
 

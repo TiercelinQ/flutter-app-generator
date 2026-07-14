@@ -41,5 +41,5 @@ Specs: [docs/specs present: yes/no]
 
 Generator rules applied. Ready for: development · fixes · improvements · adjustments.
 
-5. Read and apply all rules (`CLAUDE.md`, `rules/architecture.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` (if tests present) · `rules/verification.md`, `layout.md`) to any later change, plus the **design system mode** recorded in `docs/specs/04-architect.md`: `design-system.md` + `rules/theme.md` if `framework`; `rules/native-design.md` if `native`. The `rules/*` are not auto-imported: read them before any code change. Keep the loaded app in its existing mode.
+5. Read and apply all rules (`CLAUDE.md`, `@rules/architecture.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests present) · `@rules/verification.md`, `layout.md`) to any later change, plus the **design system mode** recorded in `docs/specs/04-architect.md`: `design-system.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` if `native`. The `rules/*` are not auto-imported: read them before any code change. Keep the loaded app in its existing mode.
 6. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/flutter-fix-issue` or `/flutter-refactor-code`).

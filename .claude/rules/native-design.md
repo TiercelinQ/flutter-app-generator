@@ -1,8 +1,8 @@
 # Native design system — Material 3 (Flutter only)
 
 > Binding reference **only when `designSystem: native` was chosen in Phase 1** (recorded in `docs/specs/01-scoping.md` and `docs/specs/04-architect.md`).
-> Counterpart to `design-system.md` (framework mode). When `designSystem: framework`, ignore this file and follow `design-system.md` + `rules/theme.md` as before.
-> The **structural** layout (`AppShell`: AppBar + NavigationBar + IndexedStack, 2-5 destinations) from `layout.md` applies in both modes. This file overrides only the **skin** (colors, shapes, components, feedback).
+> Counterpart to `design-system.md` (framework mode). When `designSystem: framework`, ignore this file and follow `design-system.md` + `@rules/theme.md` as before.
+> The **structural defaults** (`AppShell`: AppBar + NavigationBar + IndexedStack, 2-5 destinations) from `layout.md` are shared by both modes. This file overrides only the **skin** (colors, shapes, components, feedback).
 
 ## 1. Principle
 
@@ -47,7 +47,7 @@ This mode is **Flutter only**. The other generators (electron, python) keep thei
 
 ## 6. Feedback contract (replaces the toast system)
 
-Error escalation `data → application → presentation` is **unchanged** (`rules/errors.md`): `data` raises named exceptions, `application` catches them. Only the UI sink changes.
+Error escalation `data → application → presentation` is **unchanged** (`@rules/errors.md`): `data` raises named exceptions, `application` catches them. Only the UI sink changes.
 
 - A `GlobalKey<ScaffoldMessengerState>` is set on `MaterialApp(scaffoldMessengerKey: …)` so `application` controllers can surface feedback **without a `BuildContext`**.
 - Helper `lib/presentation/messenger.dart`: holds the key + `showAppSnackBar(...)` / `showAppBanner(...)`. Controllers call these (they import `presentation/messenger.dart` only for the messenger entry point — the key is UI infrastructure, not business logic).
@@ -63,7 +63,7 @@ Error escalation `data → application → presentation` is **unchanged** (`rule
 - `MaterialBanner` is the Material idiom for a persistent message; it stays below the AppBar until dismissed — the native equivalent of the persistent `danger` toast. No fake "long-duration SnackBar".
 - Destructive confirmations: `AlertDialog` with the confirm button styled as danger (`colorScheme.error`).
 
-## 7. Architecture deltas (vs `rules/architecture.md`)
+## 7. Architecture deltas (vs `@rules/architecture.md`)
 
 In native mode the generated tree changes only in `presentation/` + `application/`:
 
@@ -72,7 +72,7 @@ In native mode the generated tree changes only in `presentation/` + `application
 - `presentation/theme/tokens.dart`: `AppTokens` + `seedColor` only. `app_theme.dart`: `fromSeed` light/dark, no `AppColors` extension.
 - Everything else (`core/`, `data/`, other `application/` controllers, screens) is identical.
 
-## 8. Verification deltas (vs `rules/verification.md`)
+## 8. Verification deltas (vs `@rules/verification.md`)
 
 - §B item 6 (design-system compliance): in native mode = colors come from `Theme.of(context).colorScheme` (no raw hex except `seedColor`); spacing/sizes from `AppTokens`; Material components used; **flat-design checks do not apply**.
 - §B item 8 (errors): in native mode `SnackBar` / `MaterialBanner` / `AlertDialog` are the **expected** surfaces (not forbidden). The escalation rule still holds: business exceptions caught in `application`, surfaced via the messenger.
@@ -80,3 +80,7 @@ In native mode the generated tree changes only in `presentation/` + `application
 ## 9. Unchanged across both modes
 
 Layers (`data`/`application`/`presentation`), Riverpod codegen, SQLite + migrations, security (parameterized SQL, secrets, permissions), i18n, calibration, packaging/install methods, and the structural layout (`AppShell`).
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`, with the native deltas of §8 above. Key points (native mode only): colors read from `Theme.of(context).colorScheme` — no raw hex outside the single `seedColor` in `tokens.dart`, no `AppColors` `ThemeExtension`; spacing/sizes from `AppTokens` (no magic number); Material components used, flat-design checks not applied; feedback through `presentation/messenger.dart` (`SnackBar` / `MaterialBanner` / `AlertDialog`), with the `data → application → presentation` escalation unchanged; the tree deltas of §7 applied (no `toast_overlay.dart` / `app_dialog.dart` / `app_button.dart` / `toast_controller.dart`, `font_awesome_flutter` dropped from `pubspec.yaml`).
