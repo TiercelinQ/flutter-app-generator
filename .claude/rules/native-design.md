@@ -2,7 +2,7 @@
 
 > Binding reference **only when `designSystem: native` was chosen in Phase 1** (recorded in `docs/specs/01-scoping.md` and `docs/specs/04-architect.md`).
 > Counterpart to `design-system.md` (framework mode). When `designSystem: framework`, ignore this file and follow `design-system.md` + `@rules/theme.md` as before.
-> The **structural defaults** (`AppShell`: AppBar + NavigationBar + IndexedStack, 2-5 destinations) from `layout.md` are shared by both modes. This file overrides only the **skin** (colors, shapes, components, feedback).
+> The **structural defaults and the retained composition pattern** (`layout.md`, default `AppShell`: AppBar + NavigationBar + IndexedStack; alternatives in §12) are shared by both modes. This file overrides only the **skin** (colors, shapes, components, feedback).
 
 ## 1. Principle
 
@@ -79,7 +79,7 @@ In native mode the generated tree changes only in `presentation/` + `application
 
 ## 9. Unchanged across both modes
 
-Layers (`data`/`application`/`presentation`), Riverpod codegen, SQLite + migrations, security (parameterized SQL, secrets, permissions), i18n, calibration, packaging/install methods, and the structural layout (`AppShell`).
+Layers (`data`/`application`/`presentation`), Riverpod codegen, SQLite + migrations, security (parameterized SQL, secrets, permissions), i18n, calibration, packaging/install methods, and the structural layout (retained composition).
 
 ## Integrity verification
 

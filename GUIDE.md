@@ -14,7 +14,7 @@ claude-flutter-framework/
 ├── LICENSE
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (tokens Dart) — mode framework
-    ├── layout.md             # Cadre layout d'accompagnement — composition par défaut (AppShell, AppBar, NavigationBar) + spec toasts
+    ├── layout.md             # Cadre layout d'accompagnement — catalogue de patterns + composition par défaut + spec toasts
     ├── rules/
     │   ├── architecture.md   # Couches data / application / presentation, livraison par lots
     │   ├── theme.md          # tokens.dart + app_theme.dart, ThemeExtension, mode sombre (mode framework)
@@ -116,7 +116,7 @@ Fiche structurée + calibrage figé. Validation bloquante avant Phase 3. Écrit 
 
 ### Phase 3 — Surfaces
 
-Proposition issue de `layout.md`, composition librement amendable + personnalisation (destinations NavigationBar, panneau secondaire endDrawer/BottomSheet, actions sur listes, pull-to-refresh). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
+Co-conception guidée. Questionnaire structurant (navigation, organisation du contenu, formulaires et actions) appuyé sur le catalogue de patterns de `layout.md` §12 : NavigationBar basse (défaut), Navigation Drawer, TabBar haute, NavigationRail. Patterns structurels, valables dans les deux modes design system. Puis proposition sur mesure, composition librement amendable, et questions de détail (items de navigation, panneau secondaire endDrawer/BottomSheet, actions sur listes, pull-to-refresh). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
 
 ### Phase 4 — Architect
 

@@ -81,7 +81,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 ## BINDING REFERENCES
 
-`design-system.md` is the binding reference for every generated interface (skin: tokens, flat design). `layout.md` is a **companion layout reference** (proposed default composition + feedback spec) - the composition itself is co-defined with the user in Phase 3 and locked in `docs/specs/04-architect.md`. Both are **not** auto-imported (to keep the session context lean) - the UI skills (`/flutter-p3-surfaces`, `/flutter-p4-architect`, `/flutter-p5-development`, `/flutter-add-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-trace-feature`) read them on demand before producing or altering any UI.
+`design-system.md` is the binding reference for every generated interface (skin: tokens, flat design). `layout.md` is a **companion layout reference** (composition pattern catalog + proposed default + feedback spec) - the composition itself is co-defined with the user in Phase 3 and locked in `docs/specs/04-architect.md`. Both are **not** auto-imported (to keep the session context lean) - the UI skills (`/flutter-p3-surfaces`, `/flutter-p4-architect`, `/flutter-p5-development`, `/flutter-add-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-trace-feature`) read them on demand before producing or altering any UI.
 
 In `designSystem: native` mode (Phase 1), the binding visual reference is `rules/native-design.md` **instead of** `design-system.md` (and `rules/theme.md`); the structural **defaults** of `layout.md` are shared by both modes. The UI skills read the reference matching the mode recorded in `docs/specs/04-architect.md`.
 
@@ -138,7 +138,7 @@ All commands below are Claude Code skills invocable with `/`:
 | `/flutter-app`          | `skills/flutter-app/`          | Start / resume / maintenance menu            |
 | `/flutter-p1-scoping`       | `skills/flutter-p1-scoping/`       | Scoping - 9 questions (incl. design system) + palette/seed |
 | `/flutter-p2-featuring`       | `skills/flutter-p2-featuring/`       | App name + features (MoSCoW) + v1.0 scope + locked sizing |
-| `/flutter-p3-surfaces`        | `skills/flutter-p3-surfaces/`        | Layout proposal                              |
+| `/flutter-p3-surfaces`        | `skills/flutter-p3-surfaces/`        | Layout co-design                             |
 | `/flutter-p4-architect`       | `skills/flutter-p4-architect/`       | Locked architectural contract                |
 | `/flutter-p5-development` | `skills/flutter-p5-development/` | Batch delivery                               |
 

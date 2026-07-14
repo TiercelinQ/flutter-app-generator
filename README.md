@@ -153,7 +153,7 @@ Chosen in Phase 1. Two modes; both keep the same structural layout (AppShell, Ap
 
 - [GUIDE.md](GUIDE.md) - full usage guide (FR)
 - `.claude/design-system.md` - visual token reference (framework mode)
-- `.claude/layout.md` - layout companion (proposed default composition — AppShell, AppBar, NavigationBar, toasts) - structural defaults shared by both modes
+- `.claude/layout.md` - layout companion (pattern catalog + proposed default composition — structural defaults shared by both modes)
 - `.claude/rules/` - domain rules:
   - `architecture.md` · `theme.md` · `errors.md` · `config.md` · `security.md` · `tests.md`
   - `native-design.md` - native Material 3 profile (when native mode is chosen)

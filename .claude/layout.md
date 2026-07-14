@@ -1,8 +1,9 @@
-# Layout System — v2.0 (Flutter / Android)
+# Layout System — v3.0 (Flutter / Android)
 
-> The **structural defaults** (global structure, AppShell, AppBar, NavigationBar, content area, secondary panel, recurring components, gestures) are shared by **both** design-system modes. The **skin/feedback** parts that reference framework tokens or the custom toast system (notably §6 Toast) apply in `framework` mode only — in `native` mode (`rules/native-design.md`), feedback uses native `SnackBar`/`MaterialBanner` and Material default shapes.
+> The **structural defaults** (global structure, AppShell, AppBar, NavigationBar, content area, secondary panel, recurring components, gestures) are shared by **both** design-system modes. The **skin/feedback** parts that reference framework tokens or the custom toast system (notably §6 Toast) apply in `framework` mode only — in `native` mode (`rules/native-design.md`), feedback uses native `SnackBar`/`MaterialBanner` and Material default shapes; the §12 pattern catalog is structural and shared by both modes.
 > Companion layout reference — not a constraint. This file provides: (1) a **proposed default
-> composition** that Claude submits in Phase 3 and that the user may amend or replace freely;
+> composition** and a **catalog of alternative composition patterns** (§12) that Claude co-designs
+> from in Phase 3, the user amending or replacing freely;
 > (2) the **feedback spec** (toasts, dialogs) serving the error contract; (3) **defaults and
 > technical recommendations** (dimensions, behaviors) — never a composition restriction.
 > The retained composition is the one validated in `docs/specs/03-surfaces.md` and locked in
@@ -14,6 +15,7 @@
 
 | Version | Date       | Main change                                                            |
 | ------- | ---------- | --------------------------------------------------------------------- |
+| v3.0    | 2026-07-14 | Composition pattern catalog (§12): Drawer, top TabBar, NavigationRail alternatives; Phase 3 becomes a guided co-design flow |
 | v2.0    | 2026-07-13 | Non-binding composition: mandatory AppShell becomes the proposed default; destination cap becomes a technical recommendation |
 | v1.1    | 2026-06-14 | coherent dark toasts · tree chevron `textSubtle` (WCAG) · overlay layering reference |
 | v1.0    | initial    | Mobile transposition: AppBar, NavigationBar, overlay toasts, components |
@@ -366,3 +368,136 @@ This file does not redefine tokens — it consumes them. Every visual value is t
 | Line-height                | `leadingTight` 1.25 / `leadingNormal` 1.5    |
 | Overlay scrim opacity      | `opacityOverlay` 0.4 (`text` color)          |
 | Overlay order              | layering (`design-system.md §13`)            |
+
+---
+
+## 12. COMPOSITION PATTERNS
+
+Catalog of alternative composition patterns for the Phase 3 co-design flow. The default composition (§1-§10) is pattern **M1**. Each pattern below is a starting point the user may amend or replace; dimensions are defaults. The retained composition is recorded in `docs/specs/03-surfaces.md` and locked in `docs/specs/04-architect.md`. The patterns are **structural**: they apply in both design-system modes (`framework` and `native`). The feedback spec (§6 toasts, §8 dialogs) applies to every pattern — in `native` mode read it as `SnackBar`/`MaterialBanner`/`AlertDialog` (`rules/native-design.md §6`).
+
+### M1 — Bottom NavigationBar (default)
+
+Material 3 bottom navigation — the composition proposed by default in Phase 3.
+
+**Structure**: see §1 (AppShell, toast overlay, secondary panel) and §4 (NavigationBar tokens, destinations, state-based navigation). Not repeated here.
+
+| Element        | Default                                                     |
+| -------------- | ----------------------------------------------------------- |
+| AppBar         | `appbarHeight` = 56 — §3                                     |
+| NavigationBar  | `navbarHeight` = 80, 2 to 5 destinations recommended — §4     |
+| body           | `IndexedStack` — one screen per destination, state preserved  |
+
+**When to recommend**: 2-5 top-level destinations of comparable weight, reachable in one tap, flat hierarchy.
+
+**Implementation notes**: `AppShell` = `Scaffold` + `appBar` + `body: IndexedStack` + `bottomNavigationBar: NavigationBar` (§1). A single destination → no NavigationBar. Beyond 5, the technical recommendation of §1 applies (4 destinations + a "More" screen).
+
+**Interactions**: toasts (§6), secondary panel (§7), dialogs (§8), and gestures (§9) unchanged. A top `TabBar` (M3) may be added inside one destination.
+
+### M2 — Navigation Drawer
+
+Sliding side menu opened from a hamburger in the AppBar — for many sections or a rich secondary navigation.
+
+**Structure**
+
+```
+┌─────────────────────────────────────┐
+│ [≡]  APPBAR (56dp)      [ Theme ]   │
+├─────────────────────────────────────┤
+│                                     │
+│           MAIN CONTENT              │
+│         (scrollable area)           │
+│                                     │
+│                                     │
+└─────────────────────────────────────┘
+   [≡] opens →  ┌──────────────────┐
+                │ DRAWER (max 360) │
+                │ [ico] Section 1  │
+                │ [ico] Section 2  │
+                │ …                │
+                └──────────────────┘
+```
+
+| Element           | Default                                                    |
+| ----------------- | ----------------------------------------------------------- |
+| width             | 85% screen, max 360 (same as the §7 panel)                  |
+| bg                | `bgElevated`                                                |
+| item              | icon `iconLg` (24) + label `weightMedium` `fontSm`, min height `touchTarget` |
+| active item       | `primaryBg` background, `primary` icon + label              |
+| inactive item     | `textSubtle` icon + label                                   |
+| section header    | `weightSemibold` `fontSm`, `textSubtle` — for grouped items |
+| overlay bg        | `text` 40% opacity (scrimColor)                             |
+| animation         | slide from the left, `transitionSlow`                       |
+
+**When to recommend**: more than 5 sections; grouped or secondary navigation (settings, about, account) that does not deserve a bottom destination; long labels.
+
+**Implementation notes**: `Scaffold(drawer: NavigationDrawer(...))` — the leading hamburger is added automatically. **Not the same thing as the `endDrawer` of §7**: §7 is the optional *secondary panel* (filters, details) on the right; M2 is the *navigation* drawer on the left. Both can coexist (`drawer:` + `endDrawer:`). Screens stay in an `IndexedStack` driven by the `activeDestination` provider — selecting an item sets the index and closes the drawer. Android back closes the drawer first (`PopScope`, §9).
+
+**Interactions**: toasts (§6), secondary panel (§7), dialogs (§8) unchanged. M2 can carry a bottom NavigationBar (M1) for the 3-4 main destinations while the drawer holds the rest.
+
+### M3 — Top TabBar
+
+`TabBar` under the AppBar — for sibling views inside one section.
+
+**Structure**
+
+```
+┌─────────────────────────────────────┐
+│           APPBAR (56dp)             │
+├─────────────────────────────────────┤
+│  [ Tab 1 ] [ Tab 2 ] [ Tab 3 ]      │  TABBAR (48dp)
+├─────────────────────────────────────┤
+│           MAIN CONTENT              │
+│         (TabBarView)                │
+├─────────────────────────────────────┤
+│       NAVIGATIONBAR (optional)      │
+└─────────────────────────────────────┘
+```
+
+| Element          | Default                                              |
+| ---------------- | ------------------------------------------------------ |
+| height           | 48                                                    |
+| bg               | `bg` — 1 `border` bottom border, `elevation: 0`        |
+| active tab       | `primary` label + 2 `primary` indicator                |
+| inactive tab     | `textSubtle` label                                     |
+| label            | `weightMedium` `fontSm` (14)                           |
+| scrollable       | `isScrollable: true` beyond 3-4 tabs (avoids truncation) |
+| swipe            | horizontal swipe between tabs (`TabBarView` default)    |
+
+**When to recommend**: sibling views of one section (All / Active / Archived), compared or switched often; a filter dimension rather than a navigation dimension.
+
+**Implementation notes**: `TabBar` in the AppBar's `bottom:` + `TabBarView` in the body, driven by a `TabController` (`DefaultTabController` or a `TickerProvider` in the screen). Styling centralized in `tabBarTheme` (`app_theme.dart`) — never per-screen (`@rules/theme.md`). **Combines with M1**: the tabs live *inside* one destination, they do not replace the destinations.
+
+**Interactions**: toasts (§6) still overlay at the top of the screen, below the AppBar — they are not covered by the TabBar. Secondary panel (§7), dialogs (§8), and gestures (§9) unchanged; the swipe-between-tabs gesture coexists with the swipe-to-delete of a list item (§8) — confirm both are wanted.
+
+### M4 — NavigationRail
+
+Vertical Material 3 rail on the left edge — the landscape/tablet counterpart of M1.
+
+**Structure**
+
+```
+┌──────┬──────────────────────────────┐
+│ RAIL │        APPBAR (56dp)         │
+│(80dp)├──────────────────────────────┤
+│[ico] │                              │
+│[ico] │        MAIN CONTENT          │
+│[ico] │      (scrollable area)       │
+│      │                              │
+└──────┴──────────────────────────────┘
+```
+
+| Element           | Default                                                   |
+| ----------------- | ----------------------------------------------------------- |
+| width             | 80 (icons + labels), 72 icons only                          |
+| bg                | `bg` — 1 `border` right border, `elevation: 0`              |
+| destination       | icon `iconLg` (24) + label `weightMedium` `fontXs`          |
+| active indicator  | `primaryBg` background, `primary` icon + label              |
+| inactive          | `textSubtle` icon + label                                   |
+| label behavior    | `NavigationRailLabelType.all` (labels always visible)       |
+| leading           | optional — main action (FAB-like) at the top of the rail    |
+
+**When to recommend**: landscape orientation or tablet (Phase 1 Q5 = landscape allowed); a wide screen where a bottom bar wastes vertical space. Same 2-5 destination range as M1.
+
+**Implementation notes**: `Row(children: [NavigationRail(...), Expanded(child: body)])` inside the `Scaffold` body. **Adaptive variant of M1**: the same `activeDestination` provider drives both — switch on `MediaQuery.of(context).orientation` / width in `AppShell` and render `NavigationRail` in landscape, `NavigationBar` in portrait, with a single destinations list. The `IndexedStack` and the screens are unchanged.
+
+**Interactions**: toasts (§6), secondary panel (§7), dialogs (§8) unchanged. Portrait-only apps (§2 default orientation) rarely need M4 — check the Phase 1 orientation choice before recommending it.

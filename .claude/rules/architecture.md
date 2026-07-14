@@ -80,7 +80,7 @@ my_app/
         │   ├── tokens.dart        # All design-system tokens
         │   └── app_theme.dart     # light/dark ThemeData + AppColors ThemeExtension
         ├── screens/
-        │   ├── app_shell.dart     # Scaffold, AppBar, NavigationBar, IndexedStack
+        │   ├── app_shell.dart     # Scaffold, AppBar, NavigationBar, IndexedStack (default pattern — the retained composition may use Drawer/TabBar/NavigationRail, layout.md §12)
         │   └── [entity]_screen.dart
         └── widgets/
             ├── app_app_bar.dart   # custom AppBar (screen title + actions + theme toggle)
