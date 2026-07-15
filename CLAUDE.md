@@ -1,7 +1,7 @@
 # Flutter App Generator
 
 > Senior Flutter/Dart/Riverpod expert. Android mobile applications, layered architecture (data / application / presentation), personal and professional use.
-> The user has 11 years of Apex/Salesforce experience. Do not explain general programming concepts. Explain only the Dart/Flutter/Riverpod specifics that deviate from what an Apex developer would expect.
+> Do not explain general programming concepts. Explain only the Dart/Flutter/Riverpod specifics that deviate from what an generic senior developer would expect.
 > Framework version: 1.0.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
@@ -40,6 +40,7 @@ Each skill opens with an explicit **Role / Goal / Deliverable** header that scop
 The generation pipeline has 5 phases. Each phase skill **opens by displaying a visible banner** (rendered in the user's language) so the user knows where they are and follows the thread. This banner is the **visible counterpart** of the internal Role/Goal/Deliverable header (which stays hidden - see ROLE PER SKILL).
 
 Phases - user-facing name + one-line intent:
+
 1. **Scoping** - destination folder, project parameters, palette.
 2. **Features** - elicit, prioritize (MoSCoW), bound the v1.0 scope.
 3. **Surfaces** - map the validated features onto the layout.
@@ -47,15 +48,17 @@ Phases - user-facing name + one-line intent:
 5. **Development** - deliver the app in batches.
 
 Banner format - **output it as plain Markdown, never inside a code block / fenced block** (a fenced block shows raw code-fence markers to the user). Three blocks, each on its own line, in the user's language:
+
 - an H2 heading: `## Phase N/5 — [Name]`
-- the progress map: completed phases followed by `✓`, the current phase preceded by `▶`, upcoming phases plain, joined with ` · `
-- the one-line intent, in *italics*
+- the progress map: completed phases followed by `✓`, the current phase preceded by `▶`, upcoming phases plain, joined with `·`
+- the one-line intent, in _italics_
 
 Example for Phase 2 (renders as a heading + two lines, not a fenced block):
 
 > ## Phase 2/5 — Features
+>
 > Scoping ✓ · ▶ Features · Surfaces · Architecture · Development
-> *Elicit, prioritize (MoSCoW), and bound the v1.0 scope.*
+> _Elicit, prioritize (MoSCoW), and bound the v1.0 scope._
 
 - Progress map: completed phases marked `✓`, the current phase marked `▶`, upcoming phases plain. These are **intentional progress markers** (not decorative - the no-emoji rule does not strip them).
 - Render every phase label and intent in the user's language.
@@ -68,12 +71,12 @@ Example for Phase 2 (renders as a heading + two lines, not a fenced block):
 
 The generation pipeline writes a persisted spec file per phase into `docs/specs/` of the generated project, **in addition** to showing it on screen. **Spec files are written in the user's language** (for user review).
 
-| Phase | Spec file |
-| ----- | --------------------------------- |
-| 1 - Scoping    | `docs/specs/01-scoping.md`   |
-| 2 - Featuring  | `docs/specs/02-featuring.md`   |
-| 3 - Surfaces  | `docs/specs/03-surfaces.md`    |
-| 4 - Architect  | `docs/specs/04-architect.md` (locked architectural contract) |
+| Phase         | Spec file                                                    |
+| ------------- | ------------------------------------------------------------ |
+| 1 - Scoping   | `docs/specs/01-scoping.md`                                   |
+| 2 - Featuring | `docs/specs/02-featuring.md`                                 |
+| 3 - Surfaces  | `docs/specs/03-surfaces.md`                                  |
+| 4 - Architect | `docs/specs/04-architect.md` (locked architectural contract) |
 
 `docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/flutter-load-project`, `/flutter-show-contract`, `/flutter-add-feature`, and `/flutter-refactor-code`.
 
@@ -89,27 +92,27 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 
 ## STACK (NON-NEGOTIABLE)
 
-| Item                 | Value                                                           |
-| -------------------- | --------------------------------------------------------------- |
-| Target OS            | Android - `minSdkVersion 24`, latest stable `targetSdk`          |
-| Framework            | Flutter stable · Dart 3                                          |
-| State / Controllers  | Riverpod 3 with code generation (`@riverpod` + `riverpod_generator` + `build_runner`) |
-| Architecture         | Strict layers - `data` (Models) · `application` (Controllers) · `presentation` (Views) |
-| Design system        | Chosen in Phase 1: `framework` (default — opinionated flat, tokens, custom toasts/dialogs; `design-system.md` + `layout.md`) **or** `native` (Material 3 `ColorScheme.fromSeed`, native components, Material Icons; `rules/native-design.md`). Flutter-only option. |
+| Item                 | Value                                                                                                                                                                                                                                                                     |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Target OS            | Android - `minSdkVersion 24`, latest stable `targetSdk`                                                                                                                                                                                                                   |
+| Framework            | Flutter stable · Dart 3                                                                                                                                                                                                                                                   |
+| State / Controllers  | Riverpod 3 with code generation (`@riverpod` + `riverpod_generator` + `build_runner`)                                                                                                                                                                                     |
+| Architecture         | Strict layers - `data` (Models) · `application` (Controllers) · `presentation` (Views)                                                                                                                                                                                    |
+| Design system        | Chosen in Phase 1: `framework` (default — opinionated flat, tokens, custom toasts/dialogs; `design-system.md` + `layout.md`) **or** `native` (Material 3 `ColorScheme.fromSeed`, native components, Material Icons; `rules/native-design.md`). Flutter-only option.       |
 | Theme                | `framework`: centralized tokens `lib/presentation/theme/tokens.dart` + `app_theme.dart` (light/dark ThemeData). `native`: `app_theme.dart` with `ColorScheme.fromSeed` light/dark, `AppTokens` (spacing/sizes/durations) kept, colors via `Theme.of(context).colorScheme` |
-| SQLite database      | `sqflite` - raw SQL **always parameterized** (if selected in Phase 1) |
-| Rich text editing    | `flutter_quill` - only if enabled in Phase 1                    |
-| Icons                | `font_awesome_flutter`                                           |
-| Internationalization | FR/EN - FR default - `flutter_localizations` + `gen-l10n` (ARB)  |
-| Preferences          | `shared_preferences`                                            |
-| Quality              | `flutter_lints` · clean analyzer · DartDoc on classes and public API |
-| Deliverable          | On-device install, method chosen in Phase 1 (Q9): USB direct by default (no signing); Debug APK file; Signed release APK (sideload) or Play Store AAB if selected — see `rules/config.md` |
+| SQLite database      | `sqflite` - raw SQL **always parameterized** (if selected in Phase 1)                                                                                                                                                                                                     |
+| Rich text editing    | `flutter_quill` - only if enabled in Phase 1                                                                                                                                                                                                                              |
+| Icons                | `font_awesome_flutter`                                                                                                                                                                                                                                                    |
+| Internationalization | FR/EN - FR default - `flutter_localizations` + `gen-l10n` (ARB)                                                                                                                                                                                                           |
+| Preferences          | `shared_preferences`                                                                                                                                                                                                                                                      |
+| Quality              | `flutter_lints` · clean analyzer · DartDoc on classes and public API                                                                                                                                                                                                      |
+| Deliverable          | On-device install, method chosen in Phase 1 (Q9): USB direct by default (no signing); Debug APK file; Signed release APK (sideload) or Play Store AAB if selected — see `rules/config.md`                                                                                 |
 
 ---
 
 ## ABSOLUTE RULES
 
-- Zero hardcoded visual value in widgets - every color, size, duration, text style lives in `tokens.dart` / `app_theme.dart`. *(native mode: colors come from `Theme.of(context).colorScheme`, spacing/sizes from `AppTokens`, no raw hex except `seedColor` — `rules/native-design.md`.)*
+- Zero hardcoded visual value in widgets - every color, size, duration, text style lives in `tokens.dart` / `app_theme.dart`. _(native mode: colors come from `Theme.of(context).colorScheme`, spacing/sizes from `AppTokens`, no raw hex except `seedColor` — `rules/native-design.md`.)_
 - Dark mode: two complete `ThemeData` (`AppTheme.light` / `AppTheme.dark`) - never a scattered `isDark` test in widgets, never a `Theme.of(context)` bypassed by a local constant. (framework: built from tokens; native: from `ColorScheme.fromSeed` per brightness.)
 - **The next two rules apply in `framework` mode only.** If `designSystem: native` (Phase 1), they are replaced by `rules/native-design.md` (native `SnackBar`/`MaterialBanner`/`AlertDialog`, Material default shapes/elevation):
   - Zero native `SnackBar`, zero raw `AlertDialog`, zero inline banner for business errors - custom overlay toasts only (`layout.md §6`).
@@ -123,7 +126,7 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/flutter-p5-development`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/flutter-save-memory`"
 - NEVER read and write the generator's own `.claude/settings.json` — ONLY read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
-Per-domain rule detail (loaded on demand by the skills `/flutter-p4-architect`, `/flutter-p5-development`, and the maintenance skills - not auto-imported): `rules/architecture.md` · `rules/theme.md` · `rules/native-design.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` · `rules/verification.md` · `rules/readme.md`
+  Per-domain rule detail (loaded on demand by the skills `/flutter-p4-architect`, `/flutter-p5-development`, and the maintenance skills - not auto-imported): `rules/architecture.md` · `rules/theme.md` · `rules/native-design.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` · `rules/verification.md` · `rules/readme.md`
 
 ---
 
@@ -133,35 +136,35 @@ All commands below are Claude Code skills invocable with `/`:
 
 ### Generation pipeline
 
-| Command                 | Skill                          | Action                                       |
-| ----------------------- | ------------------------------ | -------------------------------------------- |
-| `/flutter-app`          | `skills/flutter-app/`          | Start / resume / maintenance menu            |
-| `/flutter-p1-scoping`       | `skills/flutter-p1-scoping/`       | Scoping - 9 questions (incl. design system) + palette/seed |
-| `/flutter-p2-featuring`       | `skills/flutter-p2-featuring/`       | App name + features (MoSCoW) + v1.0 scope + locked sizing |
-| `/flutter-p3-surfaces`        | `skills/flutter-p3-surfaces/`        | Layout co-design                             |
-| `/flutter-p4-architect`       | `skills/flutter-p4-architect/`       | Locked architectural contract                |
-| `/flutter-p5-development` | `skills/flutter-p5-development/` | Batch delivery                               |
+| Command                   | Skill                            | Action                                                     |
+| ------------------------- | -------------------------------- | ---------------------------------------------------------- |
+| `/flutter-app`            | `skills/flutter-app/`            | Start / resume / maintenance menu                          |
+| `/flutter-p1-scoping`     | `skills/flutter-p1-scoping/`     | Scoping - 9 questions (incl. design system) + palette/seed |
+| `/flutter-p2-featuring`   | `skills/flutter-p2-featuring/`   | App name + features (MoSCoW) + v1.0 scope + locked sizing  |
+| `/flutter-p3-surfaces`    | `skills/flutter-p3-surfaces/`    | Layout co-design                                           |
+| `/flutter-p4-architect`   | `skills/flutter-p4-architect/`   | Locked architectural contract                              |
+| `/flutter-p5-development` | `skills/flutter-p5-development/` | Batch delivery                                             |
 
 ### Post-delivery maintenance
 
-| Command       | Skill                | Action                                                  |
-| ------------- | -------------------- | ------------------------------------------------------- |
-| `/flutter-trace-feature`    | `skills/flutter-trace-feature/`    | Trace a feature across the layers, structured report    |
-| `/flutter-add-feature`  | `skills/flutter-add-feature/`  | Add a feature to a delivered app (contract-compliant)   |
-| `/flutter-fix-issue`        | `skills/flutter-fix-issue/`        | Fix a bug - decision tree, root cause                   |
-| `/flutter-refactor-code`   | `skills/flutter-refactor-code/`   | Refactor under explicit validation only                 |
-| `/flutter-run-tests`       | `skills/flutter-run-tests/`       | Run executable verification (analyze, lint, tests)      |
+| Command                  | Skill                           | Action                                                |
+| ------------------------ | ------------------------------- | ----------------------------------------------------- |
+| `/flutter-trace-feature` | `skills/flutter-trace-feature/` | Trace a feature across the layers, structured report  |
+| `/flutter-add-feature`   | `skills/flutter-add-feature/`   | Add a feature to a delivered app (contract-compliant) |
+| `/flutter-fix-issue`     | `skills/flutter-fix-issue/`     | Fix a bug - decision tree, root cause                 |
+| `/flutter-refactor-code` | `skills/flutter-refactor-code/` | Refactor under explicit validation only               |
+| `/flutter-run-tests`     | `skills/flutter-run-tests/`     | Run executable verification (analyze, lint, tests)    |
 
 ### State / utilities
 
-| Command            | Skill                     | Action                                          |
-| ------------------ | ------------------------- | ----------------------------------------------- |
-| `/flutter-load-project`  | `skills/flutter-load-project/`  | Load an existing delivered project              |
-| `/flutter-generate-readme` | `skills/flutter-generate-readme/` | Generate the README.md of an existing project   |
-| `/flutter-save-session`         | `skills/flutter-save-session/`         | Generate the session save file                  |
-| `/flutter-show-state`          | `skills/flutter-show-state/`          | Current project state                           |
-| `/flutter-show-contract`         | `skills/flutter-show-contract/`         | Validated contract tree                         |
-| `/flutter-save-memory`       | `skills/flutter-save-memory/`       | Memorize an error, decision, or preference      |
+| Command                    | Skill                             | Action                                        |
+| -------------------------- | --------------------------------- | --------------------------------------------- |
+| `/flutter-load-project`    | `skills/flutter-load-project/`    | Load an existing delivered project            |
+| `/flutter-generate-readme` | `skills/flutter-generate-readme/` | Generate the README.md of an existing project |
+| `/flutter-save-session`    | `skills/flutter-save-session/`    | Generate the session save file                |
+| `/flutter-show-state`      | `skills/flutter-show-state/`      | Current project state                         |
+| `/flutter-show-contract`   | `skills/flutter-show-contract/`   | Validated contract tree                       |
+| `/flutter-save-memory`     | `skills/flutter-save-memory/`     | Memorize an error, decision, or preference    |
 
 ---
 
@@ -186,10 +189,10 @@ Which command(s) to run for a given intent. The **generation pipeline** (p1→p5
 
 Canonical source of the calibration. Skills refer to it - do not duplicate this table elsewhere.
 
-| Size          | Files    | Features        | Batches (no tests) | Batches (with tests) |
-| ------------- | -------- | --------------- | ------------------ | -------------------- |
-| Small         | < 10     | ≤ 5             | 3                  | 4                    |
-| Medium / Large| ≥ 10     | > 5             | 4                  | 5                    |
+| Size           | Files | Features | Batches (no tests) | Batches (with tests) |
+| -------------- | ----- | -------- | ------------------ | -------------------- |
+| Small          | < 10  | ≤ 5      | 3                  | 4                    |
+| Medium / Large | ≥ 10  | > 5      | 4                  | 5                    |
 
 The extra batch corresponds to the test suite + dev dependencies (see `rules/tests.md`).
 
