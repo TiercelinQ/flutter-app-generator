@@ -12,7 +12,7 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 A structured prompt system that generates complete, production-ready Flutter/Android applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** - 9 questions (objective, DB, rich text, i18n, orientation, **design system**, icon, tests, installation method) + colors: framework mode → color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check); native mode → a single seed color (`ColorScheme.fromSeed`)
+1. **Scoping** - 9 questions (objective, DB, rich text, i18n, orientation, **design system**, icon, tests, installation method) + colors: framework mode → color palette (named or custom; accent + optional overrides, neutrals and semantics derived, WCAG AA check); native mode → a single seed color (`ColorScheme.fromSeed`)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
 3. **Surfaces** - NavigationBar destinations, secondary panel, list actions, pull-to-refresh
 4. **Architect** - full file tree, providers table, SQLite schema, tokens→theme table - locked before any code is written
@@ -20,9 +20,9 @@ A structured prompt system that generates complete, production-ready Flutter/And
 
 Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/flutter-add-feature` (add a feature after a validated contract diff), `/flutter-trace-feature` (trace behavior), `/flutter-fix-issue` (root-cause debugging with a decision tree), `/flutter-refactor-code` (validated, behavior-preserving), `/flutter-run-tests` (executable verification). Plus `/flutter-load-project` and `/flutter-generate-readme` to load/document existing apps.
+**Maintenance commands**: `/flutter-add-feature` (add a feature after a validated contract diff), `/flutter-trace-feature` (trace behavior), `/flutter-fix-issue` (root-cause debugging with a decision tree), `/flutter-refactor-code` (validated, behavior-preserving), `/flutter-migrate-design` (convert a v1.x framework-mode app to design system v2.0), `/flutter-run-tests` (executable verification). Plus `/flutter-load-project` and `/flutter-generate-readme` to load/document existing apps.
 
-Every generated app enforces a strict layered architecture and one of two visual design systems chosen in Phase 1: the **framework** design system (default, opinionated flat) or **native Material 3** (`ColorScheme.fromSeed`, native components) — a Flutter-only option.
+Every generated app enforces a strict layered architecture and one of two visual design systems chosen in Phase 1: the **framework** design system (default, opinionated stroke-based skin) or **native Material 3** (`ColorScheme.fromSeed`, native components) — a Flutter-only option.
 
 ---
 
@@ -38,7 +38,7 @@ Every generated app enforces a strict layered architecture and one of two visual
 | Theme          | framework: centralized tokens `tokens.dart` + `app_theme.dart` (light/dark) · native: `ColorScheme.fromSeed` light/dark, `AppTokens` kept |
 | DB             | sqflite - raw SQL always parameterized (opt-in)             |
 | Rich editing   | flutter_quill (opt-in)                                      |
-| Icons          | font_awesome_flutter (framework) · Material Icons (native)  |
+| Icons          | Lucide `lucide_icons_flutter` (framework) · Material Icons (native) |
 | i18n           | flutter_localizations + gen-l10n FR/EN (opt-in)             |
 | Preferences    | shared_preferences                                          |
 | Tests          | flutter_test + mocktail (opt-in)                            |
@@ -87,6 +87,7 @@ Then in Claude Code:
 | `/flutter-trace-feature`              | Trace a feature across the layers                  |
 | `/flutter-fix-issue`                  | Fix a bug - decision tree, root cause              |
 | `/flutter-refactor-code`             | Refactor under explicit validation only            |
+| `/flutter-migrate-design`            | Convert a v1.x app to design system v2.0           |
 | `/flutter-run-tests`                 | Executable verification (analyze, lint, tests)     |
 | `/flutter-load-project`       | Load an existing project from its specs/README     |
 | `/flutter-generate-readme`      | Generate README.md for an existing project         |
@@ -126,19 +127,20 @@ my_app/
 
 Chosen in Phase 1. Two modes; both keep the same structural layout (AppShell, AppBar, NavigationBar) and architecture — only the skin and feedback differ.
 
-### Framework mode (default) — `.claude/design-system.md`
+### Framework mode (default) — `.claude/design-system.md` (v2.0)
 
-- **Flat design** - `borderRadius: 0`, `elevation: 0`, zero shadow, zero gradient
+- **Depth by stroke** - borders express hierarchy and elevation, `elevation: 0`, zero shadow, zero gradient; soft radius 5
 - **Token-driven theme** - every color, size, duration lives in `tokens.dart`; light/dark are two complete `ThemeData` built from tokens, toggled via `themeMode`
-- **Roboto** typography (Android native)
-- **Color palette** - 5 roles (main background, secondary background, accent, text, details) chosen for the light theme; dark theme and all supporting tokens derived. Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette; semantic colors stay fixed
+- **System font** typography (Android native face, no pinned family)
+- **Color palette** - one mandatory accent (+ up to 4 optional role overrides); accent-tinted neutrals, accent stops, and per-project semantic colors all derived from it (info = accent). Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette
+- **Lucide icons** (`lucide_icons_flutter`) and one signature gesture: the sliding TabBar underline indicator
 - **Custom overlay toasts only** - no native `SnackBar`, no raw `AlertDialog`, no inline banner
 
 ### Native mode (Flutter only) — `.claude/rules/native-design.md`
 
 - **Standard Material 3** - `ThemeData(useMaterial3: true)`, default Material shapes/elevation/ripples
 - **`ColorScheme.fromSeed`** - a single seed color drives the full light + dark schemes; colors read from `Theme.of(context).colorScheme`. `AppTokens` (spacing/sizes/durations) kept; no color token classes
-- **Material Icons** instead of font_awesome_flutter
+- **Material Icons** instead of the framework's Lucide set
 - **Native feedback** - `SnackBar` (transient) + `MaterialBanner` (persistent danger) + `AlertDialog` (confirmations), via a global `ScaffoldMessengerKey`
 
 ---

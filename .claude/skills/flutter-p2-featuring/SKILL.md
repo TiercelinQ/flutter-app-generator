@@ -76,7 +76,7 @@ Produce the sheet (in the user's language):
 - Design system: [framework | native]
 - Installation method: [USB direct | Debug APK file | Signed release APK | Play Store AAB]
 - Validated libraries: [Phase 1 list]
-- Palette or seed: [framework: palette name or custom, 5 roles | native: seed preset or hex]
+- Palette or seed: [framework: preset name or custom accent + optional overrides | native: seed preset or hex]
 
 **Calibration (confirmed here, from the v1.0 feature count)**
 - Counted v1.0 features: [N]

@@ -37,7 +37,7 @@ dependencies:
   sqflite: ^2.4.0              # if SQLite DB
   path: ^1.9.0                 # if SQLite DB
   shared_preferences: ^2.5.0   # if preferences
-  font_awesome_flutter: ^11.0.0     # framework design system only — in native mode, drop this dep and use Material Icons (`Icons.*`, in SDK)
+  lucide_icons_flutter: ^3.1.15    # framework design system only (Lucide icon set — verified 2026-07-16, re-confirm at generation); in native mode, drop this dep and use Material Icons (`Icons.*`, in SDK)
   flutter_quill: ^11.5.0       # if rich editing enabled in Phase 1 — requires sdk ^3.12.0 / Flutter ≥ 3.44
   flutter_localizations: { sdk: flutter }   # if i18n
   intl: any                                  # if i18n — `any` imposed by flutter_localizations (the only tolerated exception to the caret rule above)
@@ -114,7 +114,7 @@ kotlin.incremental=false
 flutter_launcher_icons:
   android: true
   image_path: assets/icon/icon.png
-  adaptive_icon_background: "#FFFFFF"   # token: bg
+  adaptive_icon_background: "#FDFEFF"   # token: bg (default palette light value — a custom palette changes it)
   adaptive_icon_foreground: assets/icon/icon.png
 ```
 

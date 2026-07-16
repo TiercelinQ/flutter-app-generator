@@ -41,7 +41,7 @@ Next batch: [X+1/total] (if Phase 5)
 - Preferences: always on (shared_preferences) · i18n: [Yes/No] · Tests: [Yes/No]
 - Icon: [provided/default] · Orientation: [portrait only / portrait + landscape]
 - Design system: [framework | native] · Installation method: [USB direct / Debug APK / Signed release APK / Play Store AAB]
-- Palette: [name or custom; 5 light roles + derived] (framework) — or Seed: [preset or hex] (native)
+- Palette: [preset name or custom accent + optional overrides; derived] (framework) — or Seed: [preset or hex] (native)
 - Calibration: [Small 3 batches / Medium-Large 4 batches] (+1 test batch if tests enabled)
 - Selected features: [list]
 - Out of scope: [list]

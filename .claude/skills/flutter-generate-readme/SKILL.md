@@ -74,7 +74,7 @@ dart run flutter_launcher_icons                            # if an icon was prov
 flutter test
 
 ## Palette / Seed
-[framework: name or custom; 5 roles (main background, secondary background, accent, text, details) inferred from tokens.dart — otherwise default "Steel Blue" palette.
+[framework: name or custom accent (+ any explicit overrides) inferred from tokens.dart — neutrals and semantics derived from the accent (design-system v2.0); otherwise default "Steel Blue" palette.
  native: the single seedColor from tokens.dart (ColorScheme.fromSeed).]
 ```
 

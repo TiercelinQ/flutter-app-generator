@@ -1,4 +1,4 @@
-# Layout System — v3.0 (Flutter / Android)
+# Layout System — v3.1 (Flutter / Android)
 
 > The **structural defaults** (global structure, AppShell, AppBar, NavigationBar, content area, secondary panel, recurring components, gestures) are shared by **both** design-system modes. The **skin/feedback** parts that reference framework tokens or the custom toast system (notably §6 Toast) apply in `framework` mode only — in `native` mode (`rules/native-design.md`), feedback uses native `SnackBar`/`MaterialBanner` and Material default shapes; the §12 pattern catalog is structural and shared by both modes.
 > Companion layout reference — not a constraint. This file provides: (1) a **proposed default
@@ -8,13 +8,14 @@
 > technical recommendations** (dimensions, behaviors) — never a composition restriction.
 > The retained composition is the one validated in `docs/specs/03-surfaces.md` and locked in
 > `docs/specs/04-architect.md`.
-> Built on `design-system.md v1.6 (Flutter)`. The two files are inseparable.
+> Built on `design-system.md v2.0 (Flutter)`. The two files are inseparable.
 > Validated mobile transposition of the desktop layout: AppBar ↔ topbar, NavigationBar ↔ tabs, custom overlay toasts kept, status bar removed.
 
 ## Changelog
 
 | Version | Date       | Main change                                                            |
 | ------- | ---------- | --------------------------------------------------------------------- |
+| v3.1    | 2026-07-16 | design-system v2.0 alignment: TabBar indicator = signature underline · Lucide icon names · no toast entry/exit animations (motion policy) · radius 5 on sheets/dialogs · floating layers (drawer, sheet, dialog) marked by `borderStrong` · durations 160/240ms `easeOut` |
 | v3.0    | 2026-07-14 | Composition pattern catalog (§12): Drawer, top TabBar, NavigationRail alternatives; Phase 3 becomes a guided co-design flow |
 | v2.0    | 2026-07-13 | Non-binding composition: mandatory AppShell becomes the proposed default; destination cap becomes a technical recommendation |
 | v1.1    | 2026-06-14 | coherent dark toasts · tree chevron `textSubtle` (WCAG) · overlay layering reference |
@@ -109,7 +110,7 @@ Default values — customizable in Phase 3.
 
 ### Theme selector
 
-- Icon only (fa-sun / fa-moon), `iconLg` = 24, touch zone `touchTarget` = 48.
+- Icon only (Lucide `sun` / `moon`), `iconLg` = 24, touch zone `touchTarget` = 48.
 - Mandatory `tooltip`: "Passer en mode sombre" / "Passer en mode clair".
 - Instant toggle — `MaterialApp` `themeMode` (Riverpod provider) — persisted via `shared_preferences`.
 
@@ -126,10 +127,10 @@ Default values — customizable in Phase 3.
 | active indicator    | `primaryBg` background (indicator), `primary` icon + label |
 | inactive destination| `textSubtle` icon + label       |
 | label               | `weightMedium` `fontXs`, always visible |
-| icons               | `iconLg` = 24, FontAwesome      |
+| icons               | `iconLg` = 24, Lucide (`lucide_icons_flutter`) |
 
 - State-based navigation (`IndexedStack` + `activeDestination` provider) — each screen's state is preserved on tab change.
-- Splash/ripple: disabled (flat) — `bgMuted` highlight.
+- Splash/ripple: disabled (`NoSplash`, `design-system.md §8`) — `bgMuted` pressed highlight.
 
 ---
 
@@ -167,8 +168,7 @@ Component: `presentation/widgets/toast_overlay.dart` + Riverpod controller `toas
 | top margin             | `spacing4` = 16 (below the AppBar)                   |
 | spacing between toasts | `spacing2` = 8                                       |
 | stacking               | Vertical, queue, no overlap                          |
-| enter animation        | Slide from top, `transitionSlow` = 250ms             |
-| exit animation         | Fade + slide up, `transitionSlow` = 250ms            |
+| enter / exit           | Instant — no entry/exit animation, the stack reflows without animation (motion policy, `design-system.md §6`) |
 | gesture                | Swipe up = dismiss (dismissible types)               |
 
 ### Display durations
@@ -198,12 +198,12 @@ Component: `presentation/widgets/toast_overlay.dart` + Riverpod controller `toas
 | description font   | `weightNormal` `fontXs` (12), `textSubtle`   |
 | icon               | `iconMd` = 20                                |
 
-| Type      | Bg          | Border       | Icon (FontAwesome)         |
-| --------- | ----------- | ------------ | -------------------------- |
-| `success` | `success50` | `success600` | `circleCheck`              |
-| `warning` | `warning50` | `warning600` | `triangleExclamation`      |
-| `danger`  | `danger50`  | `danger600`  | `circleExclamation`        |
-| `info`    | `info50`    | `info600`    | `circleInfo`               |
+| Type      | Bg          | Border       | Icon (Lucide)          |
+| --------- | ----------- | ------------ | ---------------------- |
+| `success` | `success50` | `success600` | `circleCheck`          |
+| `warning` | `warning50` | `warning600` | `triangleAlert`        |
+| `danger`  | `danger50`  | `danger600`  | `circleX`              |
+| `info`    | `info50`    | `info600`    | `info`                 |
 
 Dark mode: the toast uses one coherent palette per theme, all from the active `*Colors` class — bg `*50` (deep tint in dark, see `design-system.md §2`), text `text`, left border + icon `*600`. No mixing of light bg with dark accent. Icons use the matching `icon*` token (`iconSuccess`/`iconWarning`/`iconDanger`/`iconInfo`).
 Layering: the `ToastOverlay` is mounted at the root (above modal routes) so a persistent `danger` toast stays visible over a dialog/sheet (`design-system.md §13`).
@@ -219,9 +219,9 @@ Chosen in Phase 3: `endDrawer` or `BottomSheet`. Opened by explicit action only.
 | Token          | Default                                     |
 | -------------- | --------------------------------------------- |
 | width          | 85% screen, max 360                           |
-| animation      | slide from the right, `transitionSlow`        |
+| animation      | slide from the right, `transitionSlow` = 240ms `easeOut` |
 | bg             | `bgElevated`                                  |
-| left border    | 1 `border`                                    |
+| left border    | 1 `borderStrong` (floating layer, `design-system.md §5`) |
 | padding        | `spacing6` = 24                               |
 | overlay bg     | `text` 40% opacity (scrimColor)               |
 
@@ -235,9 +235,9 @@ Chosen in Phase 3: `endDrawer` or `BottomSheet`. Opened by explicit action only.
 | ------------ | ---------------------------------------- |
 | width        | full width                               |
 | height       | content, max 90% screen                  |
-| animation    | slide from the bottom, `transitionSlow`  |
-| bg           | `bgElevated` — `radius` 0 (flat)          |
-| top border   | 1 `border`                                |
+| animation    | slide from the bottom, `transitionSlow` = 240ms `easeOut` |
+| bg           | `bgElevated` — `radius` 5 on the top corners |
+| top border   | 1 `borderStrong` (floating layer, `design-system.md §5`) |
 | padding      | `spacing6` = 24 + bottom SafeArea         |
 | overlay bg   | `text` 40% opacity                        |
 
@@ -257,7 +257,7 @@ On mobile, a data table becomes a vertical list of structured items (`ListView.s
 - Separator: 1 `borderSubtle`.
 - Group header (if grouping): `bgSubtle` bg, `weightSemibold` `fontSm`, `textSubtle`, bottom border 2 `borderStrong`.
 - Selected item: `primaryBg` bg. Pressed: `bgMuted`.
-- Row alternation: disabled (flat design).
+- Row alternation: disabled (uniform surfaces — depth by stroke).
 - **Long lists: native lazy loading (`ListView.builder`) + pagination recommended in batches of ~50 on scroll** (replaces desktop button pagination). Loading indicator at the list footer.
 - Per-item actions: swipe (`Dismissible`) for deletion with confirmation, or context menu — chosen in Phase 3.
 
@@ -273,7 +273,7 @@ On mobile, a data table becomes a vertical list of structured items (`ListView.s
 ### Tree view
 
 - Indentation per level: `spacing4` = 16.
-- Expand/collapse icon: FontAwesome chevron, `iconSm` = 16, `textSubtle` (interactive control — `textMuted` fails AA contrast).
+- Expand/collapse icon: Lucide `chevronRight` / `chevronDown`, `iconSm` = 16, `textSubtle` (interactive control — `textMuted` fails AA contrast).
 - Item: vertical padding `spacing1` (4), min touch height `touchTarget`.
 - Selected item: `primaryBg` bg.
 
@@ -308,8 +308,8 @@ On mobile, a data table becomes a vertical list of structured items (`ListView.s
 | Token        | Default                          |
 | ------------ | -------------------------------- |
 | width        | screen width − 2×`spacing6`      |
-| bg           | `bg` — `radius` 0, `elevation` 0 |
-| border       | 1 `border`                       |
+| bg           | `bg` — `radius` 5, `elevation` 0 |
+| border       | 1 `borderStrong` (floating layer, `design-system.md §5`) |
 | padding      | `spacing6` = 24                  |
 | overlay bg   | `text` 40% opacity (barrierColor)|
 
@@ -349,7 +349,7 @@ Default behaviors — customizable in Phase 3.
 
 ## 11. DESIGN SYSTEM CROSS-REFERENCE
 
-This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.6 (Flutter)`.
+This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v2.0 (Flutter)`.
 
 | Need                       | Token                                        |
 | -------------------------- | -------------------------------------------- |
@@ -361,10 +361,11 @@ This file does not redefine tokens — it consumes them. Every visual value is t
 | Borders                    | `border` / `borderSubtle` / `borderStrong`   |
 | Active / selection color   | `primary` / `primaryBg`                      |
 | Minimum touch surface      | `touchTarget` = 48                           |
-| Panel transitions          | `transitionSlow` = 250ms                     |
-| State transitions          | `transitionDefault` = 150ms                  |
-| Shape                      | `radius` = 0 (flat design)                   |
-| Shadows                    | `elevation` = 0 (flat design)                |
+| Easing                     | `easeOut` (`Curves.easeOutCubic`)            |
+| Panel transitions          | `transitionSlow` = 240ms                     |
+| State transitions          | `transitionDefault` = 160ms                  |
+| Shape                      | `radius` = 5 (nested: 3)                     |
+| Shadows                    | `elevation` = 0 — floating layers marked by `borderStrong` |
 | Line-height                | `leadingTight` 1.25 / `leadingNormal` 1.5    |
 | Overlay scrim opacity      | `opacityOverlay` 0.4 (`text` color)          |
 | Overlay order              | layering (`design-system.md §13`)            |
@@ -457,7 +458,7 @@ Sliding side menu opened from a hamburger in the AppBar — for many sections or
 | ---------------- | ------------------------------------------------------ |
 | height           | 48                                                    |
 | bg               | `bg` — 1 `border` bottom border, `elevation: 0`        |
-| active tab       | `primary` label + 2 `primary` indicator                |
+| active tab       | `primary` label + the **signature underline** — 2 `primary` `UnderlineTabIndicator` that slides natively between tabs (`design-system.md §8`) |
 | inactive tab     | `textSubtle` label                                     |
 | label            | `weightMedium` `fontSm` (14)                           |
 | scrollable       | `isScrollable: true` beyond 3-4 tabs (avoids truncation) |

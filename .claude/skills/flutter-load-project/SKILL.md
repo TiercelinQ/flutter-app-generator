@@ -36,10 +36,11 @@ DB : [value]
 Entities detected: [list]
 Providers: [count]
 Tests : [present ([N] files) | absent]
-Design system: [framework | native]
+Design system: [framework v2.0 | framework v1.x (legacy) | native]
 Specs: [docs/specs present: yes/no]
 
 Generator rules applied. Ready for: development · fixes · improvements · adjustments.
 
-5. Read and apply all rules (`CLAUDE.md`, `@rules/architecture.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests present) · `@rules/verification.md`, `layout.md`) to any later change, plus the **design system mode** recorded in `docs/specs/04-architect.md`: `design-system.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` if `native`. The `rules/*` are not auto-imported: read them before any code change. Keep the loaded app in its existing mode.
-6. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/flutter-fix-issue` or `/flutter-refactor-code`).
+5. **Design system version check (framework mode only — native apps are not concerned).** Read the design-system version the app's `README.md` references (every generated app records it); confirm with legacy markers if needed (`font_awesome_flutter` in `pubspec.yaml`, `radius = 0` in `tokens.dart`). If the app is on **v1.x** and its README carries no "v2.0 conversion declined" note, propose **once**, right after the confirmation block: convert to v2.0 with `/flutter-migrate-design` (recommended). If the user declines, append `(v2.0 conversion declined on [date])` to the README's design-system reference line and do not re-propose — only on explicit request. **A v1.x app is maintained in its own v1.x conventions** (its `tokens.dart`/`app_theme.dart` and existing widgets are the visual reference); never mix v2.0 visuals into it.
+6. Read and apply all rules (`CLAUDE.md`, `@rules/architecture.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests present) · `@rules/verification.md`, `layout.md`) to any later change, plus the **design system mode** recorded in `docs/specs/04-architect.md`: `design-system.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` if `native`. The `rules/*` are not auto-imported: read them before any code change. Keep the loaded app in its existing mode; on a framework v1.x app (step 5), the app's own design system version wins over the framework's `design-system.md` for visual conventions.
+7. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/flutter-fix-issue` or `/flutter-refactor-code`).

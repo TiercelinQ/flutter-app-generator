@@ -30,8 +30,8 @@ Present (in the user's language, as plain Markdown — never inside a code block
 
 | design-system.md token | Light value | Dark value | Target theme element |
 | ---------------------- | ----------- | ---------- | -------------------- |
-| `bg`                   | #FFFFFF     | #1C1C1C    | scaffoldBackgroundColor, appBarTheme |
-| `primary600`           | #4682B4     | #4682B4    | filledButtonTheme, navigationBarTheme (selected) |
+| `bg`                   | #FDFEFF     | #181C20    | scaffoldBackgroundColor, appBarTheme |
+| `primary600`           | #4682B4     | #4682B4    | filledButtonTheme, navigationBarTheme (selected), tabBarTheme (underline indicator) |
 | …                      | …           | …          | …                    |
 
    The example rows use the **default composition** (bottom NavigationBar). The theme elements and the shell widgets always follow **the retained composition from `docs/specs/03-surfaces.md`** — another pattern (`layout.md` §12) replaces them with its own (`drawerTheme`, `tabBarTheme`, `navigationRailTheme`).

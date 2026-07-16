@@ -25,7 +25,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 ## Steps
 
-1. **Load context**: `docs/specs/04-architect.md` (records the **design system mode**), then `layout.md` · `@rules/architecture.md`, and the mode's theming reference: `design-system.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` if `native` (not auto-imported). Keep the app in its existing mode.
+1. **Load context**: `docs/specs/04-architect.md` (records the **design system mode**), then `layout.md` · `@rules/architecture.md`, and the mode's theming reference: `design-system.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` if `native` (not auto-imported). Keep the app in its existing mode. If the app is on framework design system v1.x (README reference — see `/flutter-load-project` step 5), refactor within the app's own v1.x conventions; the upgrade path is `/flutter-migrate-design`, on request.
 
 2. **Diagnose** what is actually wrong: duplication, a widget doing business logic, a god-controller, a token bypassed by a hardcoded value, a layer violation. Anchor each finding to `file:line`.
 

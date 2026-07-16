@@ -36,6 +36,7 @@ claude-flutter-framework/
     │   ├── flutter-trace-feature/   # Tracer une fonctionnalité presentation→application→data
     │   ├── flutter-fix-issue/       # Corriger un bug — arbre de décision, cause racine
     │   ├── flutter-refactor-code/   # Restructurer sous validation explicite uniquement
+    │   ├── flutter-migrate-design/  # Convertir une app v1.x vers le design system v2.0 (mode framework)
     │   ├── flutter-run-tests/       # Vérification exécutable (analyze, custom_lint, tests)
     │   ├── flutter-load-project/    # Chargement d'un projet existant
     │   ├── flutter-generate-readme/ # Génération README.md projet existant
@@ -60,7 +61,7 @@ claude-flutter-framework/
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (dans la langue de l'utilisateur). |
 | **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/flutter-load-project`, `/flutter-show-contract`, `/flutter-add-feature`, `/flutter-refactor-code`. |
-| **Skills de maintenance**     | `flutter-trace-feature`, `flutter-add-feature`, `flutter-fix-issue`, `flutter-refactor-code`, `flutter-run-tests` avec arbres de décision et anti-patterns. |
+| **Skills de maintenance**     | `flutter-trace-feature`, `flutter-add-feature`, `flutter-fix-issue`, `flutter-refactor-code`, `flutter-migrate-design`, `flutter-run-tests` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : analyze, custom_lint, build_runner, tests — échec bloquant. |
 | **Mémoire native**            | `/flutter-save-memory` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
 
@@ -98,8 +99,8 @@ flutter --version     # Flutter stable · Dart 3 (pour générer/exécuter les a
 
 9 questions : objectif · base de données (SQLite sqflite / JSON local / aucune) · édition de texte riche (flutter_quill) · i18n FR/EN · orientation (portrait / portrait+paysage) · **design system** (framework par défaut / Material 3 natif) · icône PNG 1024×1024 · tests (flutter_test + mocktail) · méthode d'installation (USB direct / APK debug / APK release signé / AAB Play Store). Puis les couleurs, branchées sur le design system :
 
-- **Framework** : choix de la **palette** — 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti). Sémantiques figées.
-- **Natif** : une **seed** unique (presets + hex personnalisé) → `ColorScheme.fromSeed` génère les schémas clair + sombre. Pas de palette 5 rôles, pas de dynamic color ; contraste garanti par Material 3. Profil : `rules/native-design.md`.
+- **Framework** : choix de la **palette** — un accent obligatoire + jusqu'à 4 rôles optionnels (fond principal, fond secondaire, texte, détails) en override. Tout le reste est dérivé de l'accent : neutres teintés (les deux thèmes), stops d'accent, couleurs sémantiques harmonisées vers l'accent (info = accent). Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti), y compris sur les paires sémantiques dérivées.
+- **Natif** : une **seed** unique (presets + hex personnalisé) → `ColorScheme.fromSeed` génère les schémas clair + sombre. Pas de palette du mode framework, pas de dynamic color ; contraste garanti par Material 3. Profil : `rules/native-design.md`.
 
 Calibrage annoncé.
 
@@ -155,6 +156,7 @@ Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le c
 | Comprendre / tracer le code     | `/flutter-trace-feature`     |
 | Corriger un bug                 | `/flutter-fix-issue`         |
 | Restructurer (sous validation)  | `/flutter-refactor-code`    |
+| Convertir une app v1.x vers le design system v2.0 | `/flutter-migrate-design` |
 | Vérifier le build / lancer les checks | `/flutter-run-tests`  |
 
 ---
@@ -202,6 +204,7 @@ Après correction (`/flutter-fix-issue` ou Phase 5), Claude produit un bilan de 
 | `/flutter-trace-feature`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
 | `/flutter-fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/flutter-refactor-code`             | Sonnet | Restructurer sous validation                         |
+| `/flutter-migrate-design`            | Sonnet | Convertir une app v1.x vers le design system v2.0    |
 | `/flutter-run-tests`                 | Sonnet | Vérification exécutable                               |
 | `/flutter-load-project`       | Sonnet | Charger un projet existant                           |
 | `/flutter-generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
@@ -246,5 +249,5 @@ mon_app/
 - Toute requête SQL est paramétrée (`?` + `whereArgs`) — zéro interpolation.
 - Les fichiers `.g.dart` ne sont jamais livrés — générés par `dart run build_runner build`.
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/flutter-add-feature` (diff de contrat validé avant écriture) ou le protocole de déclaration d'écart.
-- `/flutter-load-project`, `/flutter-generate-readme`, `/flutter-add-feature`, `/flutter-trace-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-run-tests` s'invoquent depuis la racine du projet cible.
+- `/flutter-load-project`, `/flutter-generate-readme`, `/flutter-add-feature`, `/flutter-trace-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-migrate-design`, `/flutter-run-tests` s'invoquent depuis la racine du projet cible.
 - Livrable : installation sur le téléphone, méthode choisie en phase 1 (Q9) — USB direct par défaut (`flutter run` / `flutter install`, sans signature ni "sources inconnues") ; fichier APK debug ; APK release signé (sideload) ou AAB Play Store si sélectionné. Signature/keystore opt-in (livrés seulement pour release/AAB). Détail : `rules/config.md §Installation methods`.

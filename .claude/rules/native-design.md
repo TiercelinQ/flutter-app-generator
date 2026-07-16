@@ -15,7 +15,7 @@ This mode is **Flutter only**. The other generators (electron, python) keep thei
 - `ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor: <seed>, brightness: …))` — one `ColorScheme` per brightness (light + dark), both derived from the **single seed** chosen in Phase 1.
 - `AppTheme.light` / `AppTheme.dark` in `app_theme.dart`, toggled by `themeMode` on `MaterialApp` (`themeControllerProvider`, persisted) — same mechanism as framework mode.
 - **No `AppColors` `ThemeExtension`, no `LightColors`/`DarkColors`.** Colors are read from `Theme.of(context).colorScheme` (`primary`, `surface`, `error`, `onSurface`, `outline`…).
-- No flat override: Material default shapes, elevation, ripples, and `TextTheme` apply. Do **not** force `elevation: 0` / `borderRadius: 0`.
+- No framework-skin override: Material default shapes, elevation, ripples, and `TextTheme` apply. Do **not** force `elevation: 0` or the framework radius/border model.
 
 ## 3. Seed color
 
@@ -26,7 +26,7 @@ This mode is **Flutter only**. The other generators (electron, python) keep thei
 ## 4. Tokens kept / dropped
 
 - **Kept** in `tokens.dart` (`AppTokens`): spacing scale, fixed sizes (`touchTarget`, icon sizes), durations. These are layout rhythm, not skin — keep them to avoid magic numbers (`AppTokens.spacing4`, never a literal `16`).
-- **Dropped**: all color token classes, the `AppColors` `ThemeExtension`, the flat-design tokens (`radius`/`elevation` = 0), and the framework typography token scale (use the Material `TextTheme` via `Theme.of(context).textTheme`).
+- **Dropped**: all color token classes, the `AppColors` `ThemeExtension`, the framework's stroke-based skin tokens (`radius` 5 / `elevation` 0 / border model), and the framework typography token scale (use the Material `TextTheme` via `Theme.of(context).textTheme`).
 - `seedColor` is the only color constant in `tokens.dart`.
 
 ## 5. Components — native mapping
@@ -37,7 +37,7 @@ This mode is **Flutter only**. The other generators (electron, python) keep thei
 | Secondary button  | `OutlinedButton`                                                               |
 | Ghost button      | `TextButton`                                                                   |
 | Danger button     | `FilledButton.styleFrom(backgroundColor: colorScheme.error, foregroundColor: colorScheme.onError)` |
-| Icons             | Material `Icons.*` (`font_awesome_flutter` removed from `pubspec.yaml`)        |
+| Icons             | Material `Icons.*` (the framework icon dependency `lucide_icons_flutter` removed from `pubspec.yaml` — Material Icons ship with the SDK) |
 | Transient message | `SnackBar` (via `ScaffoldMessenger`)                                           |
 | Persistent danger | `MaterialBanner` (via `ScaffoldMessenger`)                                     |
 | Confirmation / modal | `AlertDialog` via `showDialog` (triggered from `presentation`)              |
@@ -83,4 +83,4 @@ Layers (`data`/`application`/`presentation`), Riverpod codegen, SQLite + migrati
 
 ## Integrity verification
 
-Detailed in `@rules/verification.md`, with the native deltas of §8 above. Key points (native mode only): colors read from `Theme.of(context).colorScheme` — no raw hex outside the single `seedColor` in `tokens.dart`, no `AppColors` `ThemeExtension`; spacing/sizes from `AppTokens` (no magic number); Material components used, flat-design checks not applied; feedback through `presentation/messenger.dart` (`SnackBar` / `MaterialBanner` / `AlertDialog`), with the `data → application → presentation` escalation unchanged; the tree deltas of §7 applied (no `toast_overlay.dart` / `app_dialog.dart` / `app_button.dart` / `toast_controller.dart`, `font_awesome_flutter` dropped from `pubspec.yaml`).
+Detailed in `@rules/verification.md`, with the native deltas of §8 above. Key points (native mode only): colors read from `Theme.of(context).colorScheme` — no raw hex outside the single `seedColor` in `tokens.dart`, no `AppColors` `ThemeExtension`; spacing/sizes from `AppTokens` (no magic number); Material components used, flat-design checks not applied; feedback through `presentation/messenger.dart` (`SnackBar` / `MaterialBanner` / `AlertDialog`), with the `data → application → presentation` escalation unchanged; the tree deltas of §7 applied (no `toast_overlay.dart` / `app_dialog.dart` / `app_button.dart` / `toast_controller.dart`, the framework icon dependency `lucide_icons_flutter` dropped from `pubspec.yaml`).

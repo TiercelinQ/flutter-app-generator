@@ -84,7 +84,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 ## BINDING REFERENCES
 
-`design-system.md` is the binding reference for every generated interface (skin: tokens, flat design). `layout.md` is a **companion layout reference** (composition pattern catalog + proposed default + feedback spec) - the composition itself is co-defined with the user in Phase 3 and locked in `docs/specs/04-architect.md`. Both are **not** auto-imported (to keep the session context lean) - the UI skills (`/flutter-p3-surfaces`, `/flutter-p4-architect`, `/flutter-p5-development`, `/flutter-add-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-trace-feature`) read them on demand before producing or altering any UI.
+`design-system.md` is the binding reference for every generated interface (skin: tokens, depth by stroke). `layout.md` is a **companion layout reference** (composition pattern catalog + proposed default + feedback spec) - the composition itself is co-defined with the user in Phase 3 and locked in `docs/specs/04-architect.md`. Both are **not** auto-imported (to keep the session context lean) - the UI skills (`/flutter-p3-surfaces`, `/flutter-p4-architect`, `/flutter-p5-development`, `/flutter-add-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-trace-feature`) read them on demand before producing or altering any UI.
 
 In `designSystem: native` mode (Phase 1), the binding visual reference is `rules/native-design.md` **instead of** `design-system.md` (and `rules/theme.md`); the structural **defaults** of `layout.md` are shared by both modes. The UI skills read the reference matching the mode recorded in `docs/specs/04-architect.md`.
 
@@ -98,11 +98,11 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 | Framework            | Flutter stable · Dart 3                                                                                                                                                                                                                                                   |
 | State / Controllers  | Riverpod 3 with code generation (`@riverpod` + `riverpod_generator` + `build_runner`)                                                                                                                                                                                     |
 | Architecture         | Strict layers - `data` (Models) · `application` (Controllers) · `presentation` (Views)                                                                                                                                                                                    |
-| Design system        | Chosen in Phase 1: `framework` (default — opinionated flat, tokens, custom toasts/dialogs; `design-system.md` + `layout.md`) **or** `native` (Material 3 `ColorScheme.fromSeed`, native components, Material Icons; `rules/native-design.md`). Flutter-only option.       |
+| Design system        | Chosen in Phase 1: `framework` (default — opinionated stroke-based skin, tokens, custom toasts/dialogs; `design-system.md` + `layout.md`) **or** `native` (Material 3 `ColorScheme.fromSeed`, native components, Material Icons; `rules/native-design.md`). Flutter-only option. |
 | Theme                | `framework`: centralized tokens `lib/presentation/theme/tokens.dart` + `app_theme.dart` (light/dark ThemeData). `native`: `app_theme.dart` with `ColorScheme.fromSeed` light/dark, `AppTokens` (spacing/sizes/durations) kept, colors via `Theme.of(context).colorScheme` |
 | SQLite database      | `sqflite` - raw SQL **always parameterized** (if selected in Phase 1)                                                                                                                                                                                                     |
 | Rich text editing    | `flutter_quill` - only if enabled in Phase 1                                                                                                                                                                                                                              |
-| Icons                | `font_awesome_flutter`                                                                                                                                                                                                                                                    |
+| Icons                | Lucide (`lucide_icons_flutter`) in framework mode · Material `Icons.*` in native mode                                                                                                                                                                                      |
 | Internationalization | FR/EN - FR default - `flutter_localizations` + `gen-l10n` (ARB)                                                                                                                                                                                                           |
 | Preferences          | `shared_preferences`                                                                                                                                                                                                                                                      |
 | Quality              | `flutter_lints` · clean analyzer · DartDoc on classes and public API                                                                                                                                                                                                      |
@@ -116,7 +116,7 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 - Dark mode: two complete `ThemeData` (`AppTheme.light` / `AppTheme.dark`) - never a scattered `isDark` test in widgets, never a `Theme.of(context)` bypassed by a local constant. (framework: built from tokens; native: from `ColorScheme.fromSeed` per brightness.)
 - **The next two rules apply in `framework` mode only.** If `designSystem: native` (Phase 1), they are replaced by `rules/native-design.md` (native `SnackBar`/`MaterialBanner`/`AlertDialog`, Material default shapes/elevation):
   - Zero native `SnackBar`, zero raw `AlertDialog`, zero inline banner for business errors - custom overlay toasts only (`layout.md §6`).
-  - Strict flat design: `borderRadius: 0`, `elevation: 0`, zero shadow, zero gradient.
+  - Depth by stroke: `borderRadius` only via `AppTokens.radius` (5, nested 3), `elevation: 0`, zero shadow, zero gradient - floating layers marked by `borderStrong` (`design-system.md §5`).
 - Every SQL query is prepared/parameterized (`whereArgs`, `?`) - zero value interpolation in SQL.
 - Zero `// TODO`, zero unjustified empty implementation, zero unjustified `dynamic`. Clean analyzer.
 - Strict layers: `presentation` never imports `data`; `data` never imports Flutter UI or Riverpod.
@@ -153,6 +153,7 @@ All commands below are Claude Code skills invocable with `/`:
 | `/flutter-add-feature`   | `skills/flutter-add-feature/`   | Add a feature to a delivered app (contract-compliant) |
 | `/flutter-fix-issue`     | `skills/flutter-fix-issue/`     | Fix a bug - decision tree, root cause                 |
 | `/flutter-refactor-code` | `skills/flutter-refactor-code/` | Refactor under explicit validation only               |
+| `/flutter-migrate-design` | `skills/flutter-migrate-design/` | Convert a v1.x app to design system v2.0 (framework mode, validated plan) |
 | `/flutter-run-tests`     | `skills/flutter-run-tests/`     | Run executable verification (analyze, lint, tests)    |
 
 ### State / utilities
@@ -178,6 +179,7 @@ Which command(s) to run for a given intent. The **generation pipeline** (p1→p5
   - Add a feature — `/flutter-add-feature` → `/flutter-run-tests`
   - Fix a bug — `/flutter-fix-issue` → `/flutter-run-tests`
   - Refactor (behavior-preserving, plan validated first) — `/flutter-refactor-code` → `/flutter-run-tests`
+  - Convert a legacy framework-mode app to design system v2.0 (proposed by load-project on detection) — `/flutter-migrate-design` → `/flutter-run-tests`
   - Understand / audit the code — `/flutter-trace-feature`
   - Refresh the README — `/flutter-generate-readme`
 - **Verify on demand** — `/flutter-run-tests` (pub get · build_runner · analyze · custom_lint · build).

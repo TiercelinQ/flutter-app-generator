@@ -41,7 +41,7 @@ Start with the objective, then establish the project root (folder name → locat
    - **FR/EN i18n** (FR by default): `No` (recommended, unless a real EN need) · `Yes`.
    - **Orientation**: `portrait only` (recommended) · `portrait + landscape`.
 3. **`AskUserQuestion` — call 2** (4 questions):
-   - **Design system**: `Framework` (recommended — opinionated flat design, tokens, custom toasts/dialogs) · `Material 3 native` (standard Material: `ColorScheme.fromSeed`, native components, Material Icons). Drives Phase 1 §2 (palette vs seed) and the whole UI of the build. Native mode is **Flutter only** and defined in `@rules/native-design.md`. Recorded as `designSystem: framework | native` in the spec.
+   - **Design system**: `Framework` (recommended — opinionated stroke-based skin: tokens, accent-tinted neutrals, Lucide icons, custom toasts/dialogs) · `Material 3 native` (standard Material: `ColorScheme.fromSeed`, native components, Material Icons). Drives Phase 1 §2 (palette vs seed) and the whole UI of the build. Native mode is **Flutter only** and defined in `@rules/native-design.md`. Recorded as `designSystem: framework | native` in the spec.
    - **Application icon**: `No` (recommended — Flutter default, can be added later) · `Yes`. If `Yes`, ask the 1024×1024 PNG path as free-form text.
    - **Automated tests** (flutter_test + mocktail): `Yes` (recommended, pro use) · `No`.
    - **Install method** (how the app reaches the phone): `USB direct` (recommended — `flutter run` / `flutter install`, no signing, no "install unknown apps") · `Debug APK file` · `Signed release APK (sideload)` · `Play Store AAB`. The **Other** option covers a custom case. Drives the final build/install instructions and the keystore delivery (signing opt-in: keystore delivered only for `Signed release APK` / `Play Store AAB`). All four methods are documented in the README regardless; the chosen one is highlighted. Detail: `@rules/config.md` (Installation methods).
@@ -54,12 +54,12 @@ No 5-role palette. Ask a **single seed color** with `AskUserQuestion`: presets (
 
 ### If `designSystem: framework`
 
-After the answers, propose the **palette** with `AskUserQuestion` (single question; clickable options from the catalog, recommended default first; the **Other** option covers a remaining named palette and the custom palette). A palette = 5 **light** roles (main background, secondary background, accent, text, details); the dark theme and all supporting tokens are derived (`design-system.md §2`).
+After the answers, propose the **palette** with `AskUserQuestion` (single question; clickable options from the catalog, recommended default first; the **Other** option covers a remaining named palette and the custom palette). A palette = **1 mandatory accent** + up to 4 **optional overrides** (main background, secondary background, text, details); every neutral token, the accent stops, and the semantic colors derive from the accent (`design-system.md §2`).
 
-- **Palette — `AskUserQuestion`**, options (≤ 4): `Steel Blue` (default, recommended) · `Teal` · `Forest` · `Slate`. The **Other** option covers `Amber`, `Ruby` and a **custom palette**. If the user picks a custom palette, ask the 5 light hex values as free-form text (main background, secondary background, accent, text, details). Catalog + hex values: `design-system.md §2`.
+- **Palette — `AskUserQuestion`**, options (≤ 4): `Steel Blue` (default, recommended) · `Teal` · `Forest` · `Slate`. The **Other** option covers `Amber`, `Ruby` and a **custom palette**. If the user picks a custom palette, ask the accent hex as free-form text, then offer the 4 optional overrides (free-form, skippable — most projects need the accent only). Catalog + accents: `design-system.md §2`.
 - Steel Blue is the recommended default; the named-palette values are canonical — do not improvise them. If no answer: default palette.
-- From the 5 light roles, Claude **derives** and announces: supporting light tokens (`bgMuted`, `bgElevated`, `textSubtle`, `textMuted`, `borderSubtle`, `borderStrong`), the 5 accent stops (`primary50/400/700/800/900`), `onPrimary`, and the **whole dark theme** (`DarkColors`, lightness targets in `design-system.md §2`). Written to `tokens.dart` (`LightColors`/`DarkColors`). Semantic and icon tokens stay fixed.
-- **Contrast check (WCAG AA, non-blocking)**: compute text/bg, textSubtle/bg, accent/bg, onPrimary/accent; if a ratio fails AA, report it (`color — ratio — target`) and ask the user to confirm or adjust before continuing.
+- From the accent (+ any overrides), Claude **derives** and announces: the 5 accent stops (`primary50/400/700/800/900`), `onPrimary`, the **accent-tinted neutrals** for both themes (`LightColors`/`DarkColors`, HSL targets in `design-system.md §2`), and the **per-project semantic colors** (hue anchors harmonized ±6° toward the accent; info = accent; `*50` surface mixes; danger 700/800 stops). Explicit overrides win over the tinted targets. Written as literal `Color(0xFF…)` to `tokens.dart`. The `icon*` tokens are aliases of the derived tokens — nothing to derive for them.
+- **Contrast check (WCAG AA, non-blocking)**: compute text/bg, textSubtle/bg, accent/bg, onPrimary/accent, and each derived semantic pair (`*600` vs `bg` and vs its `*50`); if a ratio fails AA, report it (`color — ratio — target`) and ask the user to confirm or adjust before continuing.
 - The global `design-system.md` stays unchanged.
 
 ## 3. Provisional calibration — announced at the end of Phase 1
@@ -80,7 +80,7 @@ Any library outside the stack (charts fl_chart, flutter_secure_storage, logging,
 ## 5. Write the spec
 
 Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, **design system** (`designSystem: framework | native`), DB choice, rich editing, i18n, icon, orientation, tests (Q8), **install method** (Q9), validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). For the colors, branch on the design system:
-- `framework`: the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + onPrimary; semantic kept fixed) and the contrast-check result.
+- `framework`: the **palette** (preset name or custom accent; any explicit overrides; the derived accent stops, tinted neutrals for both themes, onPrimary, and per-project semantic colors) and the contrast-check result.
 - `native`: the **seed color** (preset name or custom hex); note "Material 3 `ColorScheme.fromSeed`, Material Icons, native `SnackBar`/`MaterialBanner`/`AlertDialog`" — profile in `@rules/native-design.md`.
 
 If `docs/specs/` does not exist yet, create it (it will live in the generated project root).

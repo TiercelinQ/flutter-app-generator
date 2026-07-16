@@ -72,7 +72,7 @@ Produce (in the user's language):
 
 ## Step 3 — Application — strict rules
 
-- Read the mode's design reference (`design-system.md` + `layout.md`, or `@rules/native-design.md` + `layout.md`) before any UI change.
+- Read the mode's design reference (`design-system.md` + `layout.md`, or `@rules/native-design.md` + `layout.md`) before any UI change. **Legacy design system**: if the app is on framework v1.x (README reference — see `/flutter-load-project` step 5), new UI follows the app's own v1.x conventions (its `tokens.dart` and existing widgets), never the framework's v2.0 files; the upgrade path is `/flutter-migrate-design`, on request.
 - Fully respect `@rules/architecture.md`, `@rules/theme.md` (if `framework` mode), `@rules/native-design.md` (if `native` mode), `@rules/errors.md`, `@rules/config.md`, `@rules/security.md`, `@rules/tests.md`, `@rules/verification.md`, `@rules/readme.md`.
 - No modification not listed in the validated diff. No opportunistic improvement of adjacent code.
 - Implementation across the layers (a new feature usually touches all three):
