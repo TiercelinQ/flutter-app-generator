@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready Flutter/And
 
 Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/flutter-add-feature` (add a feature after a validated contract diff), `/flutter-trace-feature` (trace behavior), `/flutter-fix-issue` (root-cause debugging with a decision tree), `/flutter-refactor-code` (validated, behavior-preserving), `/flutter-migrate-design` (convert a v1.x framework-mode app to design system v2.0), `/flutter-run-tests` (executable verification). Plus `/flutter-load-project` and `/flutter-generate-readme` to load/document existing apps.
+**Maintenance commands**: `/flutter-add-feature` (add a feature after a validated contract diff), `/flutter-trace-feature` (trace behavior), `/flutter-fix-issue` (root-cause debugging with a decision tree), `/flutter-refactor-code` (validated, behavior-preserving), `/flutter-migrate-design` (convert a v1.x framework-mode app to design system v2.0), `/flutter-release` (cut a SemVer release from the accumulated changelog), `/flutter-run-tests` (executable verification). Plus `/flutter-load-project` and `/flutter-generate-readme` to load/document existing apps.
 
 Every generated app enforces a strict layered architecture and one of two visual design systems chosen in Phase 1: the **framework** design system (default, opinionated stroke-based skin) or **native Material 3** (`ColorScheme.fromSeed`, native components) — a Flutter-only option.
 
@@ -88,6 +88,7 @@ Then in Claude Code:
 | `/flutter-fix-issue`                  | Fix a bug - decision tree, root cause              |
 | `/flutter-refactor-code`             | Refactor under explicit validation only            |
 | `/flutter-migrate-design`            | Convert a v1.x app to design system v2.0           |
+| `/flutter-release`                   | Cut a SemVer release from the accumulated changelog|
 | `/flutter-run-tests`                 | Executable verification (analyze, lint, tests)     |
 | `/flutter-load-project`       | Load an existing project from its specs/README     |
 | `/flutter-generate-readme`      | Generate README.md for an existing project         |
@@ -107,6 +108,7 @@ my_app/
 ├── CLAUDE.md                      # Project identity (origin, business context, deviations)
 ├── .claude/settings.json          # Guardrails + verification hook (self-enforced app)
 ├── docs/specs/                    # Generation specs (user's language): 01-scoping … 04-architect
+├── docs/release/CHANGELOG.md      # SemVer changelog (Keep a Changelog, English)
 ├── android/                       # minSdk 24, release signing
 └── lib/
     ├── main.dart                  # ProviderScope, MaterialApp, themeMode, root ToastOverlay
@@ -120,6 +122,10 @@ my_app/
 ```
 
 > Tree shown for **framework** mode. In **native** mode `presentation/` drops `toast_overlay`/`app_dialog`/`app_button` and `application/` drops `toast_controller`; a `presentation/messenger.dart` (global `ScaffoldMessengerKey`) drives native `SnackBar`/`MaterialBanner`/`AlertDialog`, and `theme/` holds `AppTokens` + a single `seedColor`.
+
+### Versioning & changelog
+
+Every generated app carries a SemVer version and a changelog at `docs/release/CHANGELOG.md` (Keep a Changelog format, written in English). Maintenance skills (`add-feature`, `fix-issue`, `refactor-code`, `migrate-design`) accumulate entries under `## [Unreleased]`; `/flutter-release` freezes them into a dated version block and bumps the version source (`pubspec.yaml` `version: x.y.z+N`, where the Android build number `N` is incremented on each bump, mirrored in `lib/core/config.dart`). The version is never bumped silently. See `rules/versioning.md`.
 
 ---
 

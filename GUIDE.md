@@ -37,6 +37,7 @@ claude-flutter-framework/
     │   ├── flutter-fix-issue/       # Corriger un bug — arbre de décision, cause racine
     │   ├── flutter-refactor-code/   # Restructurer sous validation explicite uniquement
     │   ├── flutter-migrate-design/  # Convertir une app v1.x vers le design system v2.0 (mode framework)
+    │   ├── flutter-release/         # Figer une version SemVer depuis le changelog cumulé
     │   ├── flutter-run-tests/       # Vérification exécutable (analyze, custom_lint, tests)
     │   ├── flutter-load-project/    # Chargement d'un projet existant
     │   ├── flutter-generate-readme/ # Génération README.md projet existant
@@ -61,7 +62,7 @@ claude-flutter-framework/
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (dans la langue de l'utilisateur). |
 | **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/flutter-load-project`, `/flutter-show-contract`, `/flutter-add-feature`, `/flutter-refactor-code`. |
-| **Skills de maintenance**     | `flutter-trace-feature`, `flutter-add-feature`, `flutter-fix-issue`, `flutter-refactor-code`, `flutter-migrate-design`, `flutter-run-tests` avec arbres de décision et anti-patterns. |
+| **Skills de maintenance**     | `flutter-trace-feature`, `flutter-add-feature`, `flutter-fix-issue`, `flutter-refactor-code`, `flutter-migrate-design`, `flutter-release`, `flutter-run-tests` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : analyze, custom_lint, build_runner, tests — échec bloquant. |
 | **Mémoire native**            | `/flutter-save-memory` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
 
@@ -157,6 +158,7 @@ Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le c
 | Corriger un bug                 | `/flutter-fix-issue`         |
 | Restructurer (sous validation)  | `/flutter-refactor-code`    |
 | Convertir une app v1.x vers le design system v2.0 | `/flutter-migrate-design` |
+| Figer une version SemVer (changelog cumulé) | `/flutter-release` |
 | Vérifier le build / lancer les checks | `/flutter-run-tests`  |
 
 ---
@@ -205,6 +207,7 @@ Après correction (`/flutter-fix-issue` ou Phase 5), Claude produit un bilan de 
 | `/flutter-fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/flutter-refactor-code`             | Sonnet | Restructurer sous validation                         |
 | `/flutter-migrate-design`            | Sonnet | Convertir une app v1.x vers le design system v2.0    |
+| `/flutter-release`                   | Sonnet | Figer une version SemVer depuis le changelog cumulé  |
 | `/flutter-run-tests`                 | Sonnet | Vérification exécutable                               |
 | `/flutter-load-project`       | Sonnet | Charger un projet existant                           |
 | `/flutter-generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
@@ -224,6 +227,7 @@ mon_app/
 ├── CLAUDE.md                      # Identité projet (origine, contexte, écarts) — généré en fin de Phase 5
 ├── .claude/settings.json          # Garde-fous + hook de vérification (app auto-contrôlée)
 ├── docs/specs/                    # Specs de génération (langue utilisateur)
+├── docs/release/CHANGELOG.md      # Changelog SemVer (Keep a Changelog, anglais)
 ├── android/                       # minSdk 24, signature release
 └── lib/
     ├── main.dart                  # ProviderScope, MaterialApp, themeMode, ToastOverlay
@@ -238,6 +242,10 @@ mon_app/
 
 > Arbre en mode **framework**. En mode **natif** : `presentation/` sans `toast_overlay`/`app_dialog`/`app_button`, `application/` sans `toast_controller` ; ajout de `presentation/messenger.dart` (clé globale `ScaffoldMessengerKey` → `SnackBar`/`MaterialBanner`/`AlertDialog`) ; `theme/` = `AppTokens` + une `seedColor` (`ColorScheme.fromSeed`).
 
+### Versioning & changelog
+
+Chaque app générée porte une version SemVer et un changelog `docs/release/CHANGELOG.md` (format Keep a Changelog, rédigé en anglais). Les skills de maintenance (`add-feature`, `fix-issue`, `refactor-code`, `migrate-design`) accumulent leurs entrées sous `## [Unreleased]` ; `/flutter-release` les fige en un bloc de version daté et incrémente la source de version (`pubspec.yaml` `version: x.y.z+N`, où le build number Android `N` est incrémenté à chaque bump, miroir `lib/core/config.dart`). La version n'est jamais incrémentée en silence. Voir `rules/versioning.md`.
+
 ---
 
 ## Points de vigilance
@@ -249,5 +257,5 @@ mon_app/
 - Toute requête SQL est paramétrée (`?` + `whereArgs`) — zéro interpolation.
 - Les fichiers `.g.dart` ne sont jamais livrés — générés par `dart run build_runner build`.
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/flutter-add-feature` (diff de contrat validé avant écriture) ou le protocole de déclaration d'écart.
-- `/flutter-load-project`, `/flutter-generate-readme`, `/flutter-add-feature`, `/flutter-trace-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-migrate-design`, `/flutter-run-tests` s'invoquent depuis la racine du projet cible.
+- `/flutter-load-project`, `/flutter-generate-readme`, `/flutter-add-feature`, `/flutter-trace-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-migrate-design`, `/flutter-release`, `/flutter-run-tests` s'invoquent depuis la racine du projet cible.
 - Livrable : installation sur le téléphone, méthode choisie en phase 1 (Q9) — USB direct par défaut (`flutter run` / `flutter install`, sans signature ni "sources inconnues") ; fichier APK debug ; APK release signé (sideload) ou AAB Play Store si sélectionné. Signature/keystore opt-in (livrés seulement pour release/AAB). Détail : `rules/config.md §Installation methods`.
