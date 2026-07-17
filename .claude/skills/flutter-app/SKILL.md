@@ -44,6 +44,7 @@ Project root to maintain? (folder path, e.g. C:\projects\MyApp)
 - add a feature → `/flutter-add-feature`
 - fix a bug → `/flutter-fix-issue`
 - restructure existing code → `/flutter-refactor-code`
+- cut a release / bump the version → `/flutter-release`
 - verify the build / run checks → `/flutter-run-tests`
 
 If `/flutter-app` is typed mid-project: show the menu only, without resetting the current state.

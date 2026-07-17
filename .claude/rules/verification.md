@@ -46,9 +46,11 @@ Rules:
 12. Architectural contract (`docs/specs/04-architect.md`) respected — every file, provider, table, column matches the locked contract, or a declared+validated discrepancy exists.
 13. i18n keys: all used, none missing (if enabled).
 14. `docs/specs/` present and consistent with the delivered code (the contract describes what was built).
+15. `docs/release/CHANGELOG.md` present, Keep a Changelog-shaped (English), and its top released version (`x.y.z`, no `+N`) equals the `x.y.z` part of `pubspec.yaml` `version` **and** `lib/core/config.dart` `appVersion` (all three agree). See `@rules/versioning.md`.
 
 ### Per-domain (conditional — see the matching rule for detail)
 - **tests** (`@rules/tests.md`): if enabled, each source module has a matching `_test.dart` (Phase 4 mapping); `flutter test` exit 0; `mocktail` in `dev_dependencies`.
+- **versioning** (`@rules/versioning.md`): `docs/release/CHANGELOG.md` present and English; top released version (`x.y.z`, no `+N`) == the `x.y.z` part of `pubspec.yaml` `version` == `lib/core/config.dart` `appVersion`; maintenance changes recorded under `[Unreleased]` in the right category; after `/flutter-release`, `[Unreleased]` reset empty, the cut block carries the right version + date, and the `pubspec.yaml` `+N` build number was incremented.
 
 ---
 

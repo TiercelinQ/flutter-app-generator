@@ -2,7 +2,7 @@
 
 > Senior Flutter/Dart/Riverpod expert. Android mobile applications, layered architecture (data / application / presentation), personal and professional use.
 > Do not explain general programming concepts. Explain only the Dart/Flutter/Riverpod specifics that deviate from what an generic senior developer would expect.
-> Framework version: 1.0.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.1.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
@@ -123,10 +123,11 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 - Security mandatory in every app: validated inputs, parameterized SQL only, secrets via `flutter_secure_storage` (never hardcoded), strict Android permissions - see `rules/security.md`
 - If tests enabled in Phase 1 (Q8): test suite mandatory (`flutter_test` + `mocktail`) - see `rules/tests.md`
 - No library that was not validated in Phase 1.
-- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/flutter-p5-development`.
+- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations - and seed `docs/release/CHANGELOG.md` (Keep a Changelog, English, initial `1.0.0`). See `/flutter-p5-development` and `rules/versioning.md`.
+- Maintenance changes (`add-feature`/`fix-issue`/`refactor-code`/`migrate-design`) append an entry under `## [Unreleased]` in `docs/release/CHANGELOG.md`; the version is bumped only by `/flutter-release`. Never bump the version silently. See `rules/versioning.md`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/flutter-save-memory`"
 - NEVER read and write the generator's own `.claude/settings.json` — ONLY read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
-  Per-domain rule detail (loaded on demand by the skills `/flutter-p4-architect`, `/flutter-p5-development`, and the maintenance skills - not auto-imported): `rules/architecture.md` · `rules/theme.md` · `rules/native-design.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` · `rules/verification.md` · `rules/readme.md`
+  Per-domain rule detail (loaded on demand by the skills `/flutter-p4-architect`, `/flutter-p5-development`, and the maintenance skills - not auto-imported): `rules/architecture.md` · `rules/theme.md` · `rules/native-design.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/tests.md` · `rules/versioning.md` · `rules/verification.md` · `rules/readme.md`
 
 ---
 
@@ -154,6 +155,7 @@ All commands below are Claude Code skills invocable with `/`:
 | `/flutter-fix-issue`     | `skills/flutter-fix-issue/`     | Fix a bug - decision tree, root cause                 |
 | `/flutter-refactor-code` | `skills/flutter-refactor-code/` | Refactor under explicit validation only               |
 | `/flutter-migrate-design` | `skills/flutter-migrate-design/` | Convert a v1.x app to design system v2.0 (framework mode, validated plan) |
+| `/flutter-release`       | `skills/flutter-release/`       | Cut a SemVer release from the accumulated changelog   |
 | `/flutter-run-tests`     | `skills/flutter-run-tests/`     | Run executable verification (analyze, lint, tests)    |
 
 ### State / utilities
@@ -182,6 +184,7 @@ Which command(s) to run for a given intent. The **generation pipeline** (p1→p5
   - Convert a legacy framework-mode app to design system v2.0 (proposed by load-project on detection) — `/flutter-migrate-design` → `/flutter-run-tests`
   - Understand / audit the code — `/flutter-trace-feature`
   - Refresh the README — `/flutter-generate-readme`
+  - Cut a release / prepare a release build — `/flutter-release` (turns the accumulated `docs/release/CHANGELOG.md` `[Unreleased]` entries into a dated SemVer version)
 - **Verify on demand** — `/flutter-run-tests` (pub get · build_runner · analyze · custom_lint · build).
 - **End of session** — `/flutter-save-session`; remember a lesson not to repeat — `/flutter-save-memory`.
 

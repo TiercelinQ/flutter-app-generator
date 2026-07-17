@@ -54,7 +54,8 @@ Read the design reference for the app's mode (`docs/specs/04-architect.md`) on d
 3. **Ask: "knowing what I know now, what is the clean fix?"** Implement that, not the quickest patch. If the clean fix is larger than expected, say so before applying.
 4. Apply the minimum correct change. Respect the layers and the contract (`docs/specs/04-architect.md`).
 5. **Verify**: re-run `@rules/verification.md §A` for the affected area; confirm the targeted failure is gone and nothing else broke. Then apply `@rules/readme.md` — if the fix changed a README-documented aspect (DB schema/migration, dependency, structure), regenerate the README.
-6. If it took several attempts: produce the **cleanup report** (`@rules/architecture.md` — list every dead element added during failed attempts), then offer `Do you want to remember this point? /flutter-save-memory`.
+6. **Changelog**: append a `### Fixed` entry under `## [Unreleased]` in `docs/release/CHANGELOG.md` (`@rules/versioning.md`) — in English, one concise line, no version bump (the bump happens at `/flutter-release`). If the file is absent (legacy app), skip silently and suggest `/flutter-load-project` to initialize it. Skip for a non-code fix with no user-visible effect (e.g. a doc typo).
+7. If it took several attempts: produce the **cleanup report** (`@rules/architecture.md` — list every dead element added during failed attempts), then offer `Do you want to remember this point? /flutter-save-memory`.
 
 ## Anti-patterns — what NOT to do
 - **Do not** silence an analyzer/lint finding with `// ignore:` instead of fixing the cause (unless the lint is wrong and you say why).
