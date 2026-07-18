@@ -11,6 +11,7 @@ claude-flutter-framework/
 ├── CLAUDE.md                 # Instructions core (EN) · persona · communication FR · index commandes · calibrage
 ├── GUIDE.md                  # Ce fichier
 ├── README.md                 # Présentation du repo GitHub (EN)
+├── CHANGELOG.md              # Changelog du générateur (distinct de celui des apps générées)
 ├── LICENSE
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (tokens Dart) — mode framework
@@ -55,7 +56,7 @@ claude-flutter-framework/
 
 ---
 
-## Nouveautés de la version unifiée
+## Spécificités de ce framework
 
 | Apport                        | Détail                                                                          |
 | ----------------------------- | ------------------------------------------------------------------------------- |
@@ -186,9 +187,17 @@ flutter build apk            # smoke de compilation (debug) ; --release / appbun
 
 ---
 
+## Sécurité
+
+`rules/security.md` est non négociable et appliqué à 100% : entrées validées dans la couche `data` ; SQL 100% paramétré (`?` + `whereArgs`) ; secrets uniquement dans `flutter_secure_storage` (Android Keystore, jamais en prefs/DB) ; permissions Android minimales ; pas de trafic en clair ; données de l'app dans le bac à sable privé. `/flutter-fix-issue` et `/flutter-add-feature` y renvoient.
+
+---
+
 ## Gestion des anomalies et mémoire
 
 Après correction (`/flutter-fix-issue` ou Phase 5), Claude produit un bilan de nettoyage puis propose `Veux-tu mémoriser ce point ? /flutter-save-memory`. `/flutter-save-memory` catégorise et écrit dans la **mémoire native Claude Code** (+ `MEMORY.md`).
+
+Prérequis : la mémoire auto doit être activée (`/config → Memory → Enable auto memory → On`). Sans cette activation, `/flutter-save-memory` formule les notes mais ne les persiste pas entre sessions.
 
 ---
 

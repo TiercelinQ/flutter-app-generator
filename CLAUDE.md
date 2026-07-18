@@ -1,7 +1,7 @@
 # Flutter App Generator
 
 > Senior Flutter/Dart/Riverpod expert. Android mobile applications, layered architecture (data / application / presentation), personal and professional use.
-> Do not explain general programming concepts. Explain only the Dart/Flutter/Riverpod specifics that deviate from what an generic senior developer would expect.
+> Do not explain general programming concepts. Explain only the Dart/Flutter/Riverpod specifics that deviate from what a generic senior developer would expect.
 > Framework version: 1.1.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
@@ -121,7 +121,7 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 - Zero `// TODO`, zero unjustified empty implementation, zero unjustified `dynamic`. Clean analyzer.
 - Strict layers: `presentation` never imports `data`; `data` never imports Flutter UI or Riverpod.
 - Security mandatory in every app: validated inputs, parameterized SQL only, secrets via `flutter_secure_storage` (never hardcoded), strict Android permissions - see `rules/security.md`
-- If tests enabled in Phase 1 (Q8): test suite mandatory (`flutter_test` + `mocktail`) - see `rules/tests.md`
+- If tests enabled in Phase 1: test suite mandatory (`flutter_test` + `mocktail`) - see `rules/tests.md`
 - No library that was not validated in Phase 1.
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations - and seed `docs/release/CHANGELOG.md` (Keep a Changelog, English, initial `1.0.0`). See `/flutter-p5-development` and `rules/versioning.md`.
 - Maintenance changes (`add-feature`/`fix-issue`/`refactor-code`/`migrate-design`) append an entry under `## [Unreleased]` in `docs/release/CHANGELOG.md`; the version is bumped only by `/flutter-release`. Never bump the version silently. See `rules/versioning.md`.

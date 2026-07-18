@@ -1,9 +1,8 @@
 # Changelog
 
-All notable changes to the Flutter app generator are documented in this file.
+All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
-
-## [Unreleased]
+(This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
 ## [1.1.0] - 2026-07-17
 ### Added

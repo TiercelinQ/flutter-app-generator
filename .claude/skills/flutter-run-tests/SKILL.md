@@ -36,8 +36,8 @@ A short report in the user's language stating what passed, with command output a
 
 ## Test creation policy
 
-- Tests are opt-in at Phase 1 (Q8). If enabled, the suite (`flutter_test` + `mocktail`) was delivered in its dedicated batch — run it (`flutter test`).
-- **Do not create a test suite if the project has none** (Q8 = No). Run only what exists under `test/`.
+- Tests are opt-in at Phase 1. If enabled, the suite (`flutter_test` + `mocktail`) was delivered in its dedicated batch — run it (`flutter test`).
+- **Do not create a test suite if the project has none** (Phase 1 tests = No). Run only what exists under `test/`.
 - If the user **explicitly asks** to add tests later: follow `@rules/tests.md` (`flutter_test` + `mocktail`, `ProviderContainer` overrides, widget smoke, in-memory/temp DB). Confirm scope, then add `mocktail` to `dev_dependencies`.
 
 ## Anti-patterns — what NOT to do

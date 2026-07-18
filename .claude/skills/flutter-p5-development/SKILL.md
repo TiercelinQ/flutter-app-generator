@@ -122,7 +122,7 @@ If a database was selected, deliver a standalone seed script `tool/seed.dart` th
 
 Announce `Batch [final]/[total] — tool/seed.dart` (before the tests batch if both apply). See `@rules/architecture.md`.
 
-## Test batch — only if Phase 1 Q8 = Yes
+## Test batch — only if Phase 1 tests = Yes
 
 Add a final dedicated batch: announce `Batch [final]/[total] — test/ + dev dependencies`. Deliver `test/` mirroring `lib/` (per `@rules/tests.md`: controller tests via `ProviderContainer` + overrides and `mocktail`, widget smoke tests, no network/real-DB), and add `mocktail` (+ `sqflite_common_ffi` if DB) to `dev_dependencies` in `pubspec.yaml`. Append the `flutter test` instruction to the README.
 
@@ -148,7 +148,4 @@ The summary points to the documents; it does not restate them.
 
 Isolated fix on the affected file + direct dependencies. Deliver the complete fixed file.
 After resolving an anomaly: cleanup report (`@rules/architecture.md`) then offer `Do you want to remember this point? /flutter-save-memory`.
-
-## Finalization — post-delivery adjustments (explicit request only)
-
-Theme touch-ups · optimizations (const, rebuilds) · compliance with the composition validated in `docs/specs/03-surfaces.md`/`04-architect.md` and the retained `layout.md` specs · design-system compliance (`design-system.md` if framework, `@rules/native-design.md` if native).
+On explicit request only: theme touch-ups · optimizations (const, rebuilds) · compliance with the composition validated in `docs/specs/03-surfaces.md`/`04-architect.md` and the retained `layout.md` specs · design-system compliance (`design-system.md` if framework, `@rules/native-design.md` if native).

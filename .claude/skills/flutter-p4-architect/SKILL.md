@@ -37,7 +37,7 @@ Present (in the user's language, as plain Markdown — never inside a code block
    The example rows use the **default composition** (bottom NavigationBar). The theme elements and the shell widgets always follow **the retained composition from `docs/specs/03-surfaces.md`** — another pattern (`layout.md` §12) replaces them with its own (`drawerTheme`, `tabBarTheme`, `navigationRailTheme`).
 
    `native` mode: short `ColorScheme.fromSeed(seedColor)` mapping (seed → light/dark `ColorScheme`, `useMaterial3: true`) + the `AppTokens` retained for spacing/sizes/durations.
-5. **Source → test mapping** (only if tests enabled in Phase 1 Q8): each source module → its `_test.dart` file. See `@rules/tests.md`.
+5. **Source → test mapping** (only if tests enabled in Phase 1): each source module → its `_test.dart` file. See `@rules/tests.md`.
 
 **→ Validation required. This contract is locked.**
 

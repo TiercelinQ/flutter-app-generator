@@ -49,7 +49,7 @@ dev_dependencies:
   riverpod_lint: ^3.1.0             # Riverpod-specific lints (via custom_lint)
   custom_lint: ^0.8.0              # engine for riverpod_lint
   flutter_launcher_icons: ^0.14.4   # launcher icon — validated by default
-  mocktail: ^1.0.0                  # tests only (Phase 1 Q8 = Yes) — see @rules/tests.md
+  mocktail: ^1.0.0                  # tests only (Phase 1 tests = Yes) — see @rules/tests.md
   # sqflite_common_ffi: ^2.3.0      # tests only, if DB — in-memory SQLite
 
 flutter:
