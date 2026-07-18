@@ -73,7 +73,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   # [nom-app]
 
   ## Origin
-  Framework: flutter v1.1.0
+  Framework: flutter v1.2.0
 
   ## Business context
   [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
@@ -87,7 +87,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   - Verify: `/flutter-run-tests`
   - Publish a version: `/flutter-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
-  `[nom-app]` = the app name (`appName`). The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.1.0) — not the app's own version (which starts at 1.0.0 in `pubspec.yaml` `version: 1.0.0+1` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+  `[nom-app]` = the app name (`appName`). The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.2.0) — not the app's own version (which starts at 1.0.0 in `pubspec.yaml` `version: 1.0.0+1` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json
