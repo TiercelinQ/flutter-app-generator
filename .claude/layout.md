@@ -254,6 +254,7 @@ On mobile, a data table becomes a vertical list of structured items (`ListView.s
 
 - Item: full width, vertical padding `spacing2` (8) + horizontal `spacing4`, min height `touchTarget`.
 - Item structure: main line `weightMedium` `fontSm` `text` + secondary line `fontXs` `textSubtle` + value/action on the right.
+- Sorting: a mobile list has no clickable column headers, so expose a **sort control** in the section header — a dropdown or segmented control picking the sort field, plus a toggle for ascending / descending. The list reorders in place; the control shows the active field and direction. (If a genuine `DataTable` is used instead of the list, sort via `DataColumn.onSort` with its ascending flag — same ascending/descending behavior.)
 - Separator: 1 `borderSubtle`.
 - Group header (if grouping): `bgSubtle` bg, `weightSemibold` `fontSm`, `textSubtle`, bottom border 2 `borderStrong`.
 - Selected item: `primaryBg` bg. Pressed: `bgMuted`.
@@ -423,6 +424,7 @@ Sliding side menu opened from a hamburger in the AppBar — for many sections or
 | width             | 85% screen, max 360 (same as the §7 panel)                  |
 | bg                | `bgElevated`                                                |
 | item              | icon `iconLg` (24) + label `weightMedium` `fontSm`, min height `touchTarget` |
+| item label        | word-wraps within the drawer width (`Text(softWrap: true, overflow: TextOverflow.visible)`), never ellipsized, so long labels stay fully visible |
 | active item       | `primaryBg` background, `primary` icon + label              |
 | inactive item     | `textSubtle` icon + label                                   |
 | section header    | `weightSemibold` `fontSm`, `textSubtle` — for grouped items |
@@ -495,6 +497,7 @@ Vertical Material 3 rail on the left edge — the landscape/tablet counterpart o
 | active indicator  | `primaryBg` background, `primary` icon + label              |
 | inactive          | `textSubtle` icon + label                                   |
 | label behavior    | `NavigationRailLabelType.all` (labels always visible)       |
+| label wrapping    | destination label word-wraps within the 80 rail width (`NavigationRailDestination(label: Text(..., softWrap: true, overflow: TextOverflow.visible, textAlign: TextAlign.center))`), never truncated, so it stays fully visible |
 | leading           | optional — main action (FAB-like) at the top of the rail    |
 
 **When to recommend**: landscape orientation or tablet (Phase 1 Q5 = landscape allowed); a wide screen where a bottom bar wastes vertical space. Same 2-5 destination range as M1.
