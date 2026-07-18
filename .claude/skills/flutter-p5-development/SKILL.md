@@ -80,6 +80,12 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
   ## Deviations from the framework
   - None
+
+  ## Maintenance
+  - Load the project first: `/flutter-load-project`
+  - Change it: `/flutter-add-feature` · `/flutter-fix-issue` · `/flutter-refactor-code` (each records the change under `[Unreleased]` in `docs/release/CHANGELOG.md`; the version does not move)
+  - Verify: `/flutter-run-tests`
+  - Publish a version: `/flutter-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
   `[nom-app]` = the app name (`appName`). The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.1.0) — not the app's own version (which starts at 1.0.0 in `pubspec.yaml` `version: 1.0.0+1` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
@@ -141,6 +147,8 @@ Once the last batch (plus the seed/test batches if any) is delivered, close Phas
   dart run build_runner build --delete-conflicting-outputs
   ```
   then the install method chosen in Phase 1 (USB direct by default: `flutter run` or `flutter install`). Other methods: `@rules/config.md §Installation methods`. (+ `dart run tool/seed.dart` if a DB was selected; `flutter test` if tests enabled.)
+
+- **Maintenance & release** — after delivery: `/flutter-load-project` first, then `/flutter-add-feature` · `/flutter-fix-issue` · `/flutter-refactor-code` to change it, `/flutter-run-tests` to verify, and `/flutter-release` to publish a version (it turns the accumulated `[Unreleased]` changelog into a dated version and raises the number). The same reminder is recorded in the generated `CLAUDE.md`.
 
 The summary points to the documents; it does not restate them.
 
