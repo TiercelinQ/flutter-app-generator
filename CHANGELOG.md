@@ -4,6 +4,13 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [1.3.0] - 2026-07-25
+### Added
+- Generated apps now ship a `.gitignore` **appended** to the one `flutter create` generates (never overwritten): the Android signing/data secrets it leaves out (`*.jks`, `key.properties`, `*.db`) plus the Claude Code repo-hygiene socle (`.claude/settings.local.json` + `.claude/agent-memory/`, `tasks/`, private `docs/specs/`), while keeping `docs/release/CHANGELOG.md`, `.claude/settings.json`, `CLAUDE.md`, `test/`, and `tool/` tracked (`rules/config.md §.gitignore`, batch tables, `rules/verification.md` §16).
+
+### Changed
+- The generated `README.md` is now always written in English (public-facing document), regardless of the user's interface language; specs under `docs/specs/` stay in the user's language (`rules/readme.md`, `flutter-generate-readme`, `rules/versioning.md`).
+
 ## [1.2.0] - 2026-07-18
 ### Added
 - Data lists gain a sort control (sort field + ascending/descending toggle); `DataColumn.onSort` when a Material `DataTable` is used.

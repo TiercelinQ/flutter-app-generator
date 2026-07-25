@@ -47,6 +47,7 @@ Rules:
 13. i18n keys: all used, none missing (if enabled).
 14. `docs/specs/` present and consistent with the delivered code (the contract describes what was built).
 15. `docs/release/CHANGELOG.md` present, Keep a Changelog-shaped (English), and its top released version (`x.y.z`, no `+N`) equals the `x.y.z` part of `pubspec.yaml` `version` **and** `lib/core/config.dart` `appVersion` (all three agree). See `@rules/versioning.md`.
+16. `.gitignore` present at the project root and correct (`@rules/config.md §.gitignore`): the framework block was **appended** to the one `flutter create` generated (not overwritten). The appended block ignores the Android signing/data secrets `flutter create` omits (`*.jks`, `key.properties`, `*.db`), `tasks/`, `.claude/settings.local.json` + `.claude/agent-memory/`, and `docs/specs/`; it **never** ignores `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `test/`, or `tool/`, and does not duplicate what `flutter create` already ignores (`build/`, `.dart_tool/`, …). Verify with `git add -A` + `git status`, not only `git check-ignore` (the negation rules mislead it).
 
 ### Per-domain (conditional — see the matching rule for detail)
 - **tests** (`@rules/tests.md`): if enabled, each source module has a matching `_test.dart` (Phase 4 mapping); `flutter test` exit 0; `mocktail` in `dev_dependencies`.

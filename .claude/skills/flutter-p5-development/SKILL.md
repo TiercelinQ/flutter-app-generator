@@ -65,6 +65,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   - **Signed release APK / Play Store AAB** (only if selected): deliver the commented keystore (`keytool`), `android/key.properties`, and the `signingConfigs` block in `android/app/build.gradle`, plus `flutter build apk --release` / `flutter build appbundle --release`.
   The README documents all four methods regardless; highlight the chosen one.
 - Uninstall steps for the chosen method (`@rules/config.md §Installation methods → Uninstall`): clean removal (app + private data), both cases documented (dev/sideload A/B/C vs Play Store D), the one matching the chosen install method highlighted.
+- **`.gitignore`** — `flutter create` **already generated** one; **append** the framework block to it, do **not** overwrite it (template in `@rules/config.md §.gitignore`). The appended block adds the Android signing/data secrets `flutter create` leaves out (`*.jks`, `key.properties`, `*.db`) plus the Claude Code repo-hygiene socle (`.claude/settings.local.json` + `.claude/agent-memory/`, `tasks/`, the private `docs/specs/`), while **never** ignoring `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `test/`, or `tool/`. Do not duplicate what `flutter create` already ignores (`build/`, `.dart_tool/`, …).
 - **`docs/release/CHANGELOG.md`** written at the project root (create `docs/release/`), seeded per `@rules/versioning.md` — **in English**, Keep a Changelog shape: the preamble, an empty `## [Unreleased]`, and the initial `## [1.0.0] - <YYYY-MM-DD>` block with `### Added` / `- Initial release.`. The changelog `1.0.0` (no `+N`) matches the `x.y.z` part of the app version in `pubspec.yaml` (`version: 1.0.0+1`) / `config.dart appVersion`. Later releases are cut with `/flutter-release`.
 - `README.md` written automatically at the project root: objective, stack, tree, providers, DB schema, conventions, build/installation, uninstall.
 - **`CLAUDE.md`** written at the generated project root (in the user's language), recording the app's identity for future sessions:
@@ -73,7 +74,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   # [nom-app]
 
   ## Origin
-  Framework: flutter v1.2.0
+  Framework: flutter v1.3.0
 
   ## Business context
   [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
@@ -87,7 +88,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   - Verify: `/flutter-run-tests`
   - Publish a version: `/flutter-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
-  `[nom-app]` = the app name (`appName`). The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.2.0) — not the app's own version (which starts at 1.0.0 in `pubspec.yaml` `version: 1.0.0+1` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+  `[nom-app]` = the app name (`appName`). The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.3.0) — not the app's own version (which starts at 1.0.0 in `pubspec.yaml` `version: 1.0.0+1` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json

@@ -26,7 +26,7 @@ Use the native Claude Code tools (no shell — Windows-compatible):
    - Read `pubspec.yaml`, `lib/core/` (config, strings, utils), `lib/data/` (exceptions, database, models, repositories), `lib/application/`, `lib/presentation/` (theme, screens, widgets), `l10n.yaml` (if present).
    - Detect `test/` via `Glob` `test/**/*_test.dart`.
    - When specs and code disagree, the code is what shipped — describe the code and note the divergence.
-2. Generate `README.md` at the root via `Write`:
+2. Generate `README.md` at the root via `Write`. Write the README in English (public-facing document) — see `rules/readme.md`:
 
 ```markdown
 # [APP_NAME] — v[VERSION]
