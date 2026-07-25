@@ -1,4 +1,4 @@
-# Security rules — Flutter/Android
+# Security rules — Flutter/Android — NON-NEGOTIABLE
 
 Applied to 100% of generated applications. Any deviation requires the contract declaration protocol (stop → declare → validate).
 

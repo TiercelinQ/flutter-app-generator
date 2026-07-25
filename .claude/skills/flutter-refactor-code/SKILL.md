@@ -25,7 +25,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 ## Steps
 
-1. **Load context**: `docs/specs/04-architect.md` (records the **design system mode**), then `layout.md` · `@rules/architecture.md`, and the mode's theming reference: `design-system.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` if `native` (not auto-imported). Keep the app in its existing mode. If the app is on framework design system v1.x (README reference — see `/flutter-load-project` step 5), refactor within the app's own v1.x conventions; the upgrade path is `/flutter-migrate-design`, on request.
+1. **Load context**: `docs/specs/04-architect.md` (records the **design system mode**), then `layout.md` · `@rules/architecture.md` · `@rules/security.md`, and the mode's theming reference: `design-system.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` if `native` (not auto-imported). Keep the app in its existing mode. If the app is on framework design system v1.x (README reference — see `/flutter-load-project` step 5), refactor within the app's own v1.x conventions; the upgrade path is `/flutter-migrate-design`, on request.
 
 2. **Diagnose** what is actually wrong: duplication, a widget doing business logic, a god-controller, a token bypassed by a hardcoded value, a layer violation. Anchor each finding to `file:line`.
 
@@ -33,9 +33,9 @@ A validated plan, then the refactored files on disk + a passing verification + a
    - **Factorize** when the blocks express the **same intent** (same domain operation, same data shape), are non-trivial (> ~5 meaningful lines of real logic), and a natural home exists (a `core/utils/` helper, an existing widget, a shared mixin) **without** forcing a long bag of options or a `mode`/`kind` flag to fork behavior.
    - **Leave** when the blocks are coincidentally similar but conceptually independent, when factoring would thread state across layer boundaries just to share a few lines, or when the shape will diverge soon. When in doubt, leave it — an unnecessary abstraction costs more than the duplication.
 
-4. **Propose the plan** (in the user's language): the findings, the proposed change per finding (factorize/leave + where the helper lives), the files touched, and the explicit promise of **zero behavior change**. Wait for validation.
+4. **Propose the plan** (in the user's language): the findings, the proposed change per finding (factorize/leave + where the helper lives), the files touched, and the explicit promise of **zero behavior change** and **zero security regression**. Wait for validation.
 
-5. **Apply** only after validation. Minimum diff. Respect the layers and the contract.
+5. **Apply** only after validation. Minimum diff. Respect the layers, the contract, and `@rules/security.md`.
 
 6. **Verify**: `@rules/verification.md §A` — behavior is unchanged, analyzer clean. If the structure changed (new shared file, moved code), update `docs/specs/04-architect.md` and regenerate the README (`@rules/readme.md`).
 
@@ -46,6 +46,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 - **Do not** factorize two blocks into a helper that takes a `mode`/`type` flag and forks inside — that is two functions sharing a body.
 - **Do not** create a shared abstraction "for the future" before a second real caller exists.
 - **Do not** change behavior under the cover of a refactor — if behavior must change, that is `/flutter-add-feature`, declared separately.
+- **Do not** weaken security while "cleaning up" (e.g. interpolating a value into a SQL string, loosening input validation, broadening an Android permission).
 - **Do not** touch pre-existing dead code unless the user asked to remove it.
 - **Do not** move a value out of `tokens.dart`/`config.dart` into a local constant — refactors keep the centralization.
 
