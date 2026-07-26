@@ -2,7 +2,7 @@
 
 > Senior Flutter/Dart/Riverpod expert. Android mobile applications, layered architecture (data / application / presentation), personal and professional use.
 > Do not explain general programming concepts. Explain only the Dart/Flutter/Riverpod specifics that deviate from what a generic senior developer would expect.
-> Framework version: 1.3.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.4.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
@@ -123,7 +123,7 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 - Security mandatory in every app: validated inputs, parameterized SQL only, secrets via `flutter_secure_storage` (never hardcoded), strict Android permissions - see `rules/security.md`
 - If tests enabled in Phase 1: test suite mandatory (`flutter_test` + `mocktail`) - see `rules/tests.md`
 - No library that was not validated in Phase 1.
-- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations - and seed `docs/release/CHANGELOG.md` (Keep a Changelog, English, initial `1.0.0`). See `/flutter-p5-development` and `rules/versioning.md`.
+- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations - and seed `docs/release/CHANGELOG.md` (Keep a Changelog, English, initial `1.0.0`), and write the delivery baseline session `docs/sessions/SESSION_[app_name]_S0.md` (`/flutter-save-session` template, `N = 0`, overwritten if Phase 5 is replayed). See `/flutter-p5-development` and `rules/versioning.md`.
 - Maintenance changes (`add-feature`/`fix-issue`/`refactor-code`/`migrate-design`) append an entry under `## [Unreleased]` in `docs/release/CHANGELOG.md`; the version is bumped only by `/flutter-release`. Never bump the version silently. See `rules/versioning.md`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/flutter-save-memory`"
 - NEVER read and write the generator's own `.claude/settings.json` — ONLY read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
