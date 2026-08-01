@@ -15,7 +15,7 @@ dart run build_runner build --delete-conflicting-outputs   # .g.dart generated, 
 flutter analyze                                       # MUST report "No issues found"
 dart run custom_lint                                  # Riverpod lints clean (not covered by flutter analyze)
 flutter test                                          # ONLY if tests enabled in Phase 1 / test/ exists — otherwise skip
-flutter build apk                                     # compile smoke (debug) — last batch; use --release / `appbundle` only if a Signed release APK / Play Store AAB was selected (Phase 1 Q9)
+flutter build apk                                     # compile smoke (debug) — last batch; use --release / `appbundle` only if a Signed release APK / Play Store AAB was selected (Phase 1)
 ```
 
 Rules:

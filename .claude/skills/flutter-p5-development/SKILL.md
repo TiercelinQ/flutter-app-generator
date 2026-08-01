@@ -45,7 +45,8 @@ Critical reminders:
 - Create the folders and write the files **directly to disk** — no manual action required. Project initialized by `flutter create` if absent (or `lib/` structure written into an existing project).
 - Announcement (in the user's language): `Batch N/[total] — [content]`
 - Automatic chaining between batches without confirmation.
-- Batch split: tables in `@rules/architecture.md` (3 batches Small / 4 batches Medium-Large, frozen in Phase 1).
+- After each delivered batch, if the session is running long or the context is heavily loaded, offer `/flutter-save-session` before starting the next batch — the automatic chaining above stays the default.
+- Batch split: tables in `@rules/architecture.md` (3 batches Small / 4 batches Medium-Large, frozen in Phase 2).
 
 ## Verification
 
@@ -53,7 +54,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
 ## Last batch — mandatory extra deliverables
 
-- Complete instructions — common build/codegen, then the install method chosen in Phase 1 (Q9):
+- Complete instructions — common build/codegen, then the install method chosen in Phase 1:
   ```
   flutter pub get
   dart run build_runner build --delete-conflicting-outputs
@@ -74,7 +75,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   # [nom-app]
 
   ## Origin
-  Framework: flutter v1.4.0
+  Framework: flutter v1.5.0
 
   ## Business context
   [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
@@ -88,7 +89,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   - Verify: `/flutter-run-tests`
   - Publish a version: `/flutter-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
-  `[nom-app]` = the app name (`appName`). The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.4.0) — not the app's own version (which starts at 1.0.0 in `pubspec.yaml` `version: 1.0.0+1` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+  `[nom-app]` = the app name (`appName`). The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.5.0) — not the app's own version (which starts at 1.0.0 in `pubspec.yaml` `version: 1.0.0+1` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json
@@ -117,10 +118,12 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
     stdout.write(r.stdout); stderr.write(r.stderr); exit(r.exitCode);
   }
   ```
+
+  **Deny anchoring (deliberate):** no deny pattern may ever match `docs/release/CHANGELOG.md` (written at delivery and by the maintenance/release skills). A build-output deny whose folder name could collide with it (e.g. `release/`) is **anchored to the project root** — `Write(release/**)`, never the unanchored `Write(**/release/**)`. Keep this anchoring when adding deny patterns.
 - **`docs/sessions/SESSION_[app_name]_S0.md`** written at the project root (create `docs/sessions/`) — the **delivery baseline** session, produced automatically here, no user action. Apply the `/flutter-save-session` template as-is (that skill stays the single source of the format) with `[N]` **forced to `0`**: `Completed phase: 5 — Development`, `Next phase: — (delivered — maintenance via /flutter-load-project)`, every delivered batch checked, locked decisions and open points filled. **Overwrite** it if it already exists (Phase 5 replayed). `S0` is reserved for this baseline; manual `/flutter-save-session` saves keep numbering from `1`.
 - Confirm `docs/specs/` is present and consistent with the delivered code.
 
-## Seed batch — only if DB ≠ none (Phase 1 Q2)
+## Seed script — only if DB ≠ none (Phase 1)
 
 If a database was selected, deliver a standalone seed script `tool/seed.dart` that inserts a coherent demo dataset:
 - Uses the repositories / `app_database` (`lib/data/`) — never raw SQL outside the data layer.
@@ -128,7 +131,7 @@ If a database was selected, deliver a standalone seed script `tool/seed.dart` th
 - Idempotent: insert only if the target tables are empty (count check first); re-running must not duplicate rows.
 - Runtime: a CLI script runs off-device, so it uses `sqflite_common_ffi` (add it to `dev_dependencies` and `sqfliteFfiInit()` + `databaseFactory = databaseFactoryFfi` at the top of the script). Run instruction added to the README: `dart run tool/seed.dart`. Never called from `main.dart`.
 
-Announce `Batch [final]/[total] — tool/seed.dart` (before the tests batch if both apply). See `@rules/architecture.md`.
+**No dedicated batch**: `tool/seed.dart` ships inside the **last code batch** (the one already carrying `main.dart` + root configs — `@rules/architecture.md` batch tables), before the tests batch when both apply. The announced batch total stays the calibration count (`## CALIBRATION` in `CLAUDE.md`). See `@rules/architecture.md`.
 
 ## Test batch — only if Phase 1 tests = Yes
 
@@ -136,7 +139,7 @@ Add a final dedicated batch: announce `Batch [final]/[total] — test/ + dev dep
 
 ## Final delivery summary
 
-Once the last batch (plus the seed/test batches if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). **Valid link syntax (mandatory)**: a Markdown link destination cannot contain spaces unless wrapped in angle brackets. When the path contains spaces (typical of absolute Windows paths), wrap the destination in `<…>` and use forward slashes, e.g. `[README.md](<D:/Documents/00 Mes Documents/.../markdown-reader/README.md>)`. Without spaces, a plain relative path is fine. List:
+Once the last batch (plus the tests batch if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). **Valid link syntax (mandatory)**: a Markdown link destination cannot contain spaces unless wrapped in angle brackets. When the path contains spaces (typical of absolute Windows paths), wrap the destination in `<…>` and use forward slashes, e.g. `[README.md](<D:/Documents/00 Mes Documents/.../markdown-reader/README.md>)`. Without spaces, a plain relative path is fine. List:
 
 - **Project folder** — the project root (clickable).
 - **README.md** — how to run, stack, tree, conventions (clickable).

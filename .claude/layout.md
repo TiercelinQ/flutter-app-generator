@@ -500,7 +500,7 @@ Vertical Material 3 rail on the left edge — the landscape/tablet counterpart o
 | label wrapping    | destination label word-wraps within the 80 rail width (`NavigationRailDestination(label: Text(..., softWrap: true, overflow: TextOverflow.visible, textAlign: TextAlign.center))`), never truncated, so it stays fully visible |
 | leading           | optional — main action (FAB-like) at the top of the rail    |
 
-**When to recommend**: landscape orientation or tablet (Phase 1 Q5 = landscape allowed); a wide screen where a bottom bar wastes vertical space. Same 2-5 destination range as M1.
+**When to recommend**: landscape orientation or tablet (landscape allowed in Phase 1); a wide screen where a bottom bar wastes vertical space. Same 2-5 destination range as M1.
 
 **Implementation notes**: `Row(children: [NavigationRail(...), Expanded(child: body)])` inside the `Scaffold` body. **Adaptive variant of M1**: the same `activeDestination` provider drives both — switch on `MediaQuery.of(context).orientation` / width in `AppShell` and render `NavigationRail` in landscape, `NavigationBar` in portrait, with a single destinations list. The `IndexedStack` and the screens are unchanged.
 

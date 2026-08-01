@@ -56,11 +56,12 @@ On confirmation, using the chosen version `NEW` (`x.y.z` form) and the session d
 1. In `docs/release/CHANGELOG.md`: rename `## [Unreleased]` content into a new block `## [NEW] - <YYYY-MM-DD>` (keep the category order Added/Changed/Fixed/Removed/Security), and insert a fresh empty `## [Unreleased]` above it. The block uses the `x.y.z` form — **no `+N`** in the changelog.
 2. Bump the **canonical** version: `pubspec.yaml` `version` → `NEW+<N+1>`. Keep the `x.y.z` part = `NEW` **and increment the Android build number** `N` → `N+1` (Android requires a monotonically increasing build number — `@rules/versioning.md`).
 3. Sync the **mirror**: `lib/core/config.dart` `appVersion` → `NEW` (the `x.y.z` part only, **no `+N`**; must equal the `x.y.z` part of `pubspec.yaml` `version`).
-4. Do **not** touch `docs/specs/`, the README, or the app `CLAUDE.md` origin (that records the framework version, not the app version).
+4. Update the README **title line** to the new version: `# [APP_NAME] — v[NEW]` (`x.y.z` form, **no `+N`**) — a **targeted edit** of that single line, never a full README regeneration (`@rules/readme.md §When to refresh`).
+5. Do **not** touch `docs/specs/`, the rest of the README (only the title line above moves), or the app `CLAUDE.md` origin (that records the framework version, not the app version).
 
 ## Step 5 — Verify + hand off
 
-1. Apply `@rules/verification.md` version consistency: the top released version == the `x.y.z` part of `pubspec.yaml` `version` == `config.dart appVersion`; the `+N` build number was incremented; `[Unreleased]` reset empty.
+1. Apply `@rules/verification.md` version consistency: the top released version == the `x.y.z` part of `pubspec.yaml` `version` == `config.dart appVersion`; the `+N` build number was incremented; the README title line shows `v[NEW]`; `[Unreleased]` reset empty.
 2. Output the cut version block verbatim in a fenced markdown snippet — ready to paste into a GitHub / Play Store release note.
 3. Remind the user that committing and tagging are theirs to do (this skill never commits): e.g. `git commit -am "release: vNEW"` then `git tag vNEW`.
 

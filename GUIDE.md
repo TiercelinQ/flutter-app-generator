@@ -176,7 +176,7 @@ dart run build_runner build --delete-conflicting-outputs   # .g.dart
 flutter analyze              # 0 issue
 dart run custom_lint         # lints Riverpod
 flutter test                 # si tests existants uniquement
-flutter build apk            # smoke de compilation (debug) ; --release / appbundle seulement si APK release signé / AAB choisi (phase 1 Q9)
+flutter build apk            # smoke de compilation (debug) ; --release / appbundle seulement si APK release signé / AAB choisi (phase 1)
 ```
 
 `/flutter-run-tests` exécute cette échelle ; `/flutter-fix-issue` y renvoie pour confirmer une correction.
@@ -269,4 +269,4 @@ Chaque app générée porte une version SemVer et un changelog `docs/release/CHA
 - Les fichiers `.g.dart` ne sont jamais livrés — générés par `dart run build_runner build`.
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/flutter-add-feature` (diff de contrat validé avant écriture) ou le protocole de déclaration d'écart.
 - `/flutter-load-project`, `/flutter-generate-readme`, `/flutter-add-feature`, `/flutter-trace-feature`, `/flutter-fix-issue`, `/flutter-refactor-code`, `/flutter-migrate-design`, `/flutter-release`, `/flutter-run-tests` s'invoquent depuis la racine du projet cible.
-- Livrable : installation sur le téléphone, méthode choisie en phase 1 (Q9) — USB direct par défaut (`flutter run` / `flutter install`, sans signature ni "sources inconnues") ; fichier APK debug ; APK release signé (sideload) ou AAB Play Store si sélectionné. Signature/keystore opt-in (livrés seulement pour release/AAB). Détail : `rules/config.md §Installation methods`.
+- Livrable : installation sur le téléphone, méthode choisie en phase 1 — USB direct par défaut (`flutter run` / `flutter install`, sans signature ni "sources inconnues") ; fichier APK debug ; APK release signé (sideload) ou AAB Play Store si sélectionné. Signature/keystore opt-in (livrés seulement pour release/AAB). Détail : `rules/config.md §Installation methods`.

@@ -38,9 +38,11 @@ class RecordNotFoundException implements Exception {
   final String message;
   const RecordNotFoundException(this.message);
 }
-class DatabaseException implements Exception {
+// "App" prefix required: package:sqflite already exports its own DatabaseException,
+// and the repositories import both files — an unprefixed name is ambiguous for the analyzer.
+class AppDatabaseException implements Exception {
   final String message;
-  const DatabaseException(this.message);
+  const AppDatabaseException(this.message);
 }
 
 // lib/application/record_controller.dart
@@ -53,7 +55,7 @@ Future<void> save(Record record) async {
   } on RecordNotFoundException catch (e) {
     ref.read(toastControllerProvider.notifier)
        .show(ToastData(ToastType.danger, e.message));
-  } on DatabaseException catch (e) {
+  } on AppDatabaseException catch (e) {
     ref.read(toastControllerProvider.notifier)
        .show(ToastData(ToastType.danger, t.databaseError, description: e.message));
   }

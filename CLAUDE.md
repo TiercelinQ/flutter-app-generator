@@ -2,7 +2,7 @@
 
 > Senior Flutter/Dart/Riverpod expert. Android mobile applications, layered architecture (data / application / presentation), personal and professional use.
 > Do not explain general programming concepts. Explain only the Dart/Flutter/Riverpod specifics that deviate from what a generic senior developer would expect.
-> Framework version: 1.4.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.5.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
@@ -106,7 +106,7 @@ In `designSystem: native` mode (Phase 1), the binding visual reference is `rules
 | Internationalization | FR/EN - FR default - `flutter_localizations` + `gen-l10n` (ARB)                                                                                                                                                                                                           |
 | Preferences          | `shared_preferences`                                                                                                                                                                                                                                                      |
 | Quality              | `flutter_lints` · clean analyzer · DartDoc on classes and public API                                                                                                                                                                                                      |
-| Deliverable          | On-device install, method chosen in Phase 1 (Q9): USB direct by default (no signing); Debug APK file; Signed release APK (sideload) or Play Store AAB if selected — see `rules/config.md`                                                                                 |
+| Deliverable          | On-device install, method chosen in Phase 1: USB direct by default (no signing); Debug APK file; Signed release APK (sideload) or Play Store AAB if selected — see `rules/config.md`                                                                                 |
 
 ---
 
@@ -199,6 +199,4 @@ Canonical source of the calibration. Skills refer to it - do not duplicate this 
 | Small          | < 10  | ≤ 5      | 3                  | 4                    |
 | Medium / Large | ≥ 10  | > 5      | 4                  | 5                    |
 
-The extra batch corresponds to the test suite + dev dependencies (see `rules/tests.md`).
-
-Divergent criteria (e.g. < 10 files but > 5 features): the highest criterion wins → Medium/Large.
+The extra batch corresponds to the test suite + dev dependencies (see `rules/tests.md`). Divergent criteria (e.g. < 10 files but > 5 features): the highest criterion wins → Medium/Large. Rich text editing and i18n add files and push the size up (no dedicated batch).

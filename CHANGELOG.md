@@ -4,6 +4,22 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [1.5.0] - 2026-08-01
+### Added
+- Phase 5 offers `/flutter-save-session` between batches when the session is running long or the context is heavily loaded (safety net before saturation; automatic chaining stays the default).
+- Phase 2 Step 1 constrains the application name: space-free candidates, a free-typed name is normalized into the technical identifier (`appName`); the display name (launcher label, README) may keep spaces and both are recorded when they differ.
+- `/flutter-release` now updates the README title line (`# [APP_NAME] — v[NEW]`, `x.y.z` form) as a targeted edit of that single line; the version-bump trigger is documented in `rules/readme.md`.
+- The app-template `.claude/settings.json` deny anchoring is documented as deliberate in Phase 5 ("Deny anchoring" note — no deny may match `docs/release/CHANGELOG.md`).
+
+### Changed
+- The seed script `tool/seed.dart` ships inside the last code batch — no dedicated seed batch; the announced batch total now always matches the frozen calibration.
+- The business exception example is renamed `AppDatabaseException` (avoids the analyzer-ambiguous import with sqflite's own `DatabaseException`).
+- Downstream Phase 1 question numbers removed: conditions now read "in Phase 1"; the numbers stay in `p1-scoping` only.
+- The CALIBRATION closing paragraph is harmonized across the 5 generators (rejoined into one paragraph; "rich text editing and i18n push the size up").
+
+### Fixed
+- The Phase 5 batch-split line says "frozen in Phase 2" (was "Phase 1"), matching the canonical calibration freeze.
+
 ## [1.4.0] - 2026-07-26
 ### Added
 - Phase 5 now writes the delivery baseline session file `docs/sessions/SESSION_<App>_S0.md` automatically at the end of the last batch (`/flutter-save-session` template, `N = 0`, overwritten if Phase 5 is replayed). Manual `/flutter-save-session` saves keep numbering from `S1`. The delivery summary links it.
