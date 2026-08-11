@@ -7,12 +7,15 @@ model: sonnet
 # /flutter-p5-development — Batch development
 
 ## Role
+
 Senior Riverpod developer — build the contracted app to a clean, buildable state.
 
 ## Goal
+
 Deliver the application in batches, each one analyzer-clean and contract-compliant, ending with build/install instructions.
 
 ## Deliverable
+
 The full project source on disk + `README.md` + verified build.
 
 ---
@@ -24,6 +27,7 @@ The full project source on disk + `README.md` + verified build.
 At start, read and fully apply: `@rules/architecture.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests) · `@rules/versioning.md` · `@rules/verification.md` (not auto-imported). For UI, read the reference for the design system mode recorded in `docs/specs/04-architect.md`: `design-system.md` + `layout.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` + `layout.md` (structural parts) if `native`. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
+
 - Analyzer clean · `flutter_lints` · Dart 3 strict · DartDoc on classes and public API.
 - Error handling on all critical operations.
 - Zero hardcoded visual value in widgets — `framework`: everything in `tokens.dart` / `app_theme.dart`; `native`: colors via `Theme.of(context).colorScheme`, spacing/sizes via `AppTokens`, no raw hex except `seedColor` (`@rules/native-design.md`).
@@ -64,7 +68,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   Then the steps for the **chosen install method** (`@rules/config.md §Installation methods`), USB direct by default:
   - **USB direct / Debug APK file** (default, no signing): `flutter run` / `flutter install`, or `flutter build apk --debug` + transfer. **Do not** deliver a keystore.
   - **Signed release APK / Play Store AAB** (only if selected): deliver the commented keystore (`keytool`), `android/key.properties`, and the `signingConfigs` block in `android/app/build.gradle`, plus `flutter build apk --release` / `flutter build appbundle --release`.
-  The README documents all four methods regardless; highlight the chosen one.
+    The README documents all four methods regardless; highlight the chosen one.
 - Uninstall steps for the chosen method (`@rules/config.md §Installation methods → Uninstall`): clean removal (app + private data), both cases documented (dev/sideload A/B/C vs Play Store D), the one matching the chosen install method highlighted.
 - **`.gitignore`** — `flutter create` **already generated** one; **append** the framework block to it, do **not** overwrite it (template in `@rules/config.md §.gitignore`). The appended block adds the Android signing/data secrets `flutter create` leaves out (`*.jks`, `key.properties`, `*.db`) plus the Claude Code repo-hygiene socle (`.claude/settings.local.json` + `.claude/agent-memory/`, `tasks/`, the private `docs/specs/`), while **never** ignoring `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `test/`, or `tool/`. Do not duplicate what `flutter create` already ignores (`build/`, `.dart_tool/`, …).
 - **`docs/release/CHANGELOG.md`** written at the project root (create `docs/release/`), seeded per `@rules/versioning.md` — **in English**, Keep a Changelog shape: the preamble, an empty `## [Unreleased]`, and the initial `## [1.0.0] - <YYYY-MM-DD>` block with `### Added` / `- Initial release.`. The changelog `1.0.0` (no `+N`) matches the `x.y.z` part of the app version in `pubspec.yaml` (`version: 1.0.0+1`) / `config.dart appVersion`. Later releases are cut with `/flutter-release`.
@@ -75,35 +79,65 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   # [nom-app]
 
   ## Origin
+
   Framework: flutter v1.5.0
 
   ## Business context
+
   [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
 
   ## Deviations from the framework
+
   - None
 
   ## Maintenance
+
   - Load the project first: `/flutter-load-project`
   - Change it: `/flutter-add-feature` · `/flutter-fix-issue` · `/flutter-refactor-code` (each records the change under `[Unreleased]` in `docs/release/CHANGELOG.md`; the version does not move)
   - Verify: `/flutter-run-tests`
   - Publish a version: `/flutter-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
+
   `[nom-app]` = the app name (`appName`). The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.5.0) — not the app's own version (which starts at 1.0.0 in `pubspec.yaml` `version: 1.0.0+1` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json
   {
     "permissions": {
-      "allow": ["Bash(flutter:*)", "Bash(dart:*)", "Bash(keytool:*)", "Read", "Write", "Edit"],
-      "deny": ["Read(**/.env)", "Read(**/.env.*)", "Read(**/secrets/**)", "Write(**/.env)", "Write(**/.env.*)", "Write(**/secrets/**)", "Edit(**/.env)", "Edit(**/.env.*)", "Edit(**/secrets/**)", "Write(**/*.g.dart)", "Write(**/.dart_tool/**)", "Write(**/build/**)"]
+      "allow": [
+        "Bash(flutter:*)",
+        "Bash(dart:*)",
+        "Bash(keytool:*)",
+        "Read",
+        "Write",
+        "Edit"
+      ],
+      "deny": [
+        "Read(**/.env)",
+        "Read(**/.env.*)",
+        "Read(**/secrets/**)",
+        "Write(**/.env)",
+        "Write(**/.env.*)",
+        "Write(**/secrets/**)",
+        "Edit(**/.env)",
+        "Edit(**/.env.*)",
+        "Edit(**/secrets/**)",
+        "Write(**/*.g.dart)",
+        "Write(**/.dart_tool/**)",
+        "Write(**/build/**)"
+      ]
     },
     "hooks": {
-      "Stop": [{ "hooks": [{ "type": "command", "command": "flutter analyze" }] }]
+      "Stop": [
+        { "hooks": [{ "type": "command", "command": "flutter analyze" }] }
+      ]
     }
   }
   ```
+
   The `Stop` hook runs the analyzer at the end of each turn. Note in the README that the user can tune or remove it. **`flutter analyze` is slower, so to skip it on doc-only turns** (make it conditional), ship a tiny guard as `tool/stop_analyze.dart` and point the hook at `dart run tool/stop_analyze.dart` (a bare inline shell guard is not portable across cmd/PowerShell/bash — use the script). The guard: `git status --porcelain`, run `flutter analyze` **only** when a `.dart` path is present, and **degrade to always-analyze** if git is unavailable:
+
   ```dart
   // tool/stop_analyze.dart — Stop-hook guard: analyze only when a .dart source file has uncommitted changes.
   import 'dart:io';
@@ -120,12 +154,14 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   ```
 
   **Deny anchoring (deliberate):** no deny pattern may ever match `docs/release/CHANGELOG.md` (written at delivery and by the maintenance/release skills). A build-output deny whose folder name could collide with it (e.g. `release/`) is **anchored to the project root** — `Write(release/**)`, never the unanchored `Write(**/release/**)`. Keep this anchoring when adding deny patterns.
+
 - **`docs/sessions/SESSION_[app_name]_S0.md`** written at the project root (create `docs/sessions/`) — the **delivery baseline** session, produced automatically here, no user action. Apply the `/flutter-save-session` template as-is (that skill stays the single source of the format) with `[N]` **forced to `0`**: `Completed phase: 5 — Development`, `Next phase: — (delivered — maintenance via /flutter-load-project)`, every delivered batch checked, locked decisions and open points filled. **Overwrite** it if it already exists (Phase 5 replayed). `S0` is reserved for this baseline; manual `/flutter-save-session` saves keep numbering from `1`.
 - Confirm `docs/specs/` is present and consistent with the delivered code.
 
 ## Seed script — only if DB ≠ none (Phase 1)
 
 If a database was selected, deliver a standalone seed script `tool/seed.dart` that inserts a coherent demo dataset:
+
 - Uses the repositories / `app_database` (`lib/data/`) — never raw SQL outside the data layer.
 - Coherent, FK-respecting data (~5-15 rows per entity), realistic values in the user's language, parents before children.
 - Idempotent: insert only if the target tables are empty (count check first); re-running must not duplicate rows.
@@ -139,7 +175,7 @@ Add a final dedicated batch: announce `Batch [final]/[total] — test/ + dev dep
 
 ## Final delivery summary
 
-Once the last batch (plus the tests batch if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). **Valid link syntax (mandatory)**: a Markdown link destination cannot contain spaces unless wrapped in angle brackets. When the path contains spaces (typical of absolute Windows paths), wrap the destination in `<…>` and use forward slashes, e.g. `[README.md](<D:/Documents/00 Mes Documents/.../markdown-reader/README.md>)`. Without spaces, a plain relative path is fine. List:
+Once the last batch (plus the tests batch if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). **Valid link syntax (mandatory)**: a Markdown link destination cannot contain spaces unless wrapped in angle brackets. When the path contains spaces (typical of absolute Windows paths), wrap the destination in `<…>` and use forward slashes, e.g. `[README.md](<E:/Informatique/1-projects/.../my-app/README.md>)`. Without spaces, a plain relative path is fine. List:
 
 - **Project folder** — the project root (clickable).
 - **README.md** — how to run, stack, tree, conventions (clickable).
@@ -151,6 +187,7 @@ Once the last batch (plus the tests batch if any) is delivered, close Phase 5 wi
   flutter pub get
   dart run build_runner build --delete-conflicting-outputs
   ```
+
   then the install method chosen in Phase 1 (USB direct by default: `flutter run` or `flutter install`). Other methods: `@rules/config.md §Installation methods`. (+ `dart run tool/seed.dart` if a DB was selected; `flutter test` if tests enabled.)
 
 - **Maintenance & release** — after delivery: `/flutter-load-project` first, then `/flutter-add-feature` · `/flutter-fix-issue` · `/flutter-refactor-code` to change it, `/flutter-run-tests` to verify, and `/flutter-release` to publish a version (it turns the accumulated `[Unreleased]` changelog into a dated version and raises the number). The same reminder is recorded in the generated `CLAUDE.md`.
