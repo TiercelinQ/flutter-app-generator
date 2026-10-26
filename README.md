@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready Flutter/And
 
 Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/flutter-add-feature` (add a feature, contract-compliant — explicit contract-diff validation before writing), `/flutter-trace-feature` (trace behavior), `/flutter-fix-issue` (root-cause debugging with a decision tree), `/flutter-refactor-code` (validated, behavior-preserving), `/flutter-migrate-design` (convert a v1.x framework-mode app to design system v2.0), `/flutter-release` (cut a SemVer release from the accumulated changelog), `/flutter-run-tests` (executable verification). Plus `/flutter-load-project` and `/flutter-generate-readme` to load/document existing apps.
+**Maintenance commands**: `/flutter-add-feature` (add a feature, contract-compliant — explicit contract-diff validation before writing), `/flutter-trace-feature` (trace behavior), `/flutter-fix-issue` (root-cause debugging with a decision tree), `/flutter-refactor-code` (validated, behavior-preserving), `/flutter-migrate-design` (convert a v1.x framework-mode app to design system v2.1), `/flutter-release` (cut a SemVer release from the accumulated changelog), `/flutter-run-tests` (executable verification). Plus `/flutter-load-project` and `/flutter-generate-readme` to load/document existing apps.
 
 Every generated app enforces a strict layered architecture, non-negotiable security rules, and one of two visual design systems chosen in Phase 1: the **framework** design system (default, opinionated stroke-based skin) or **native Material 3** (`ColorScheme.fromSeed`, native components) — a Flutter-only option.
 
@@ -87,7 +87,7 @@ Then in Claude Code:
 | `/flutter-trace-feature`              | Trace a feature across the layers                  |
 | `/flutter-fix-issue`                  | Fix a bug - decision tree, root cause              |
 | `/flutter-refactor-code`             | Refactor under explicit validation only            |
-| `/flutter-migrate-design`            | Convert a v1.x app to design system v2.0           |
+| `/flutter-migrate-design`            | Convert a v1.x app to design system v2.1           |
 | `/flutter-release`                   | Cut a SemVer release from the accumulated changelog|
 | `/flutter-run-tests`                 | Executable verification (analyze, lint, tests)     |
 | `/flutter-load-project`       | Load an existing project from its specs/README     |
@@ -115,14 +115,14 @@ my_app/
     ├── main.dart                  # ProviderScope, MaterialApp, themeMode, root ToastOverlay
     ├── core/                      # config.dart · strings.dart (if i18n off) · utils/helpers.dart
     ├── data/                      # exceptions.dart · database/ · models/ · repositories/
-    ├── application/               # theme_controller · toast_controller · [entity]_controller
+    ├── application/               # theme_controller · toast_controller · active_destination · shell_insets · [entity]_controller
     └── presentation/
-        ├── theme/                 # tokens.dart · app_theme.dart (ThemeExtension AppColors)
+        ├── theme/                 # tokens.dart (AppTokens · ThemeExtension AppColors) · app_text_theme · button_styles · app_theme
         ├── screens/               # app_shell.dart · [entity]_screen.dart
-        └── widgets/               # app_app_bar · toast_overlay · app_dialog · app_button…
+        └── widgets/               # app_app_bar · toast_host · toast_overlay · toast_card · app_dialog · app_button · app_panel · app_selectable_tile…
 ```
 
-> Tree shown for **framework** mode. In **native** mode `presentation/` drops `toast_overlay`/`app_dialog`/`app_button` and `application/` drops `toast_controller`; a `presentation/messenger.dart` (global `ScaffoldMessengerKey`) drives native `SnackBar`/`MaterialBanner`/`AlertDialog`, and `theme/` holds `AppTokens` + a single `seedColor`.
+> Tree shown for **framework** mode. In **native** mode `presentation/` drops `toast_host`/`toast_overlay`/`toast_card`/`app_dialog`/`app_button`/`app_panel` and the theme files `app_text_theme`/`button_styles` and `application/` drops `toast_controller`; a `presentation/messenger.dart` (global `ScaffoldMessengerKey`) drives native `SnackBar`/`MaterialBanner`/`AlertDialog`, and `theme/` holds `AppTokens` + a single `seedColor`.
 
 ## Versioning & changelog
 
@@ -134,13 +134,14 @@ Every generated app carries a SemVer version and a changelog at `docs/release/CH
 
 Chosen in Phase 1. Two modes; both keep the same structural layout (AppShell, AppBar, NavigationBar) and architecture — only the skin and feedback differ.
 
-### Framework mode (default) — `.claude/design-system.md` (v2.0)
+### Framework mode (default) — `.claude/design-system.md` (v2.1)
 
-- **Depth by stroke** - borders express hierarchy and elevation, `elevation: 0`, zero shadow, zero gradient; soft radius 5
+- **Depth by stroke and surface ladder** - borders and four fill levels (canvas, chrome, panel, floating) express hierarchy and elevation, `elevation: 0`, zero shadow, zero gradient; soft radius 5
 - **Token-driven theme** - every color, size, duration lives in `tokens.dart`; light/dark are two complete `ThemeData` built from tokens, toggled via `themeMode`
 - **System font** typography (Android native face, no pinned family)
 - **Color palette** - one mandatory accent (+ up to 4 optional role overrides); accent-tinted neutrals, accent stops, and per-project semantic colors all derived from it (info = accent). Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette
 - **Lucide icons** (`lucide_icons_flutter`) and one signature gesture: the sliding TabBar underline indicator
+- **Accessibility** - WCAG 2.1 AA checked on every text and control pair (accent darkened until white text and text on the background reach 4.5:1), focus ring drawn inside the control, no state carried by color alone, a visible alternative to every swipe, TalkBack live region for danger toasts, reduced motion honored
 - **Custom overlay toasts only** - no native `SnackBar`, no raw `AlertDialog`, no inline banner
 
 ### Native mode (Flutter only) — `.claude/rules/native-design.md`

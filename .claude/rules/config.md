@@ -114,7 +114,7 @@ kotlin.incremental=false
 flutter_launcher_icons:
   android: true
   image_path: assets/icon/icon.png
-  adaptive_icon_background: "#FDFEFF"   # token: bg (default palette light value — a custom palette changes it)
+  adaptive_icon_background: "#FFFFFF"   # token: bg (default palette light value — a custom palette changes it)
   adaptive_icon_foreground: assets/icon/icon.png
 ```
 

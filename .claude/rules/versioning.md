@@ -50,7 +50,7 @@ Operations **accumulate** entries under `[Unreleased]` — they do **not** bump 
 | `add-feature` | `Added` (+ `Changed` if it alters existing behavior) | MINOR |
 | `fix-issue` | `Fixed` | PATCH |
 | `refactor-code` | `Changed` (internal) | PATCH |
-| `migrate-design` | `Changed` (UI migrated to design system v2.0) | MINOR |
+| `migrate-design` | `Changed` (UI migrated to design system v2.1) | MINOR |
 | breaking change (any op) | `**BREAKING:**` marker (`Changed`/`Removed`) | MAJOR |
 
 > `migrate-design` is **framework-mode only** (native-mode apps are not concerned — `@rules/native-design.md`). Versioning itself is **mode-agnostic**: both `framework` and `native` apps keep the same changelog and the same `pubspec.yaml` version source.

@@ -30,7 +30,7 @@ Critical reminders:
 
 - Analyzer clean · `flutter_lints` · Dart 3 strict · DartDoc on classes and public API.
 - Error handling on all critical operations.
-- Zero hardcoded visual value in widgets — `framework`: everything in `tokens.dart` / `app_theme.dart`; `native`: colors via `Theme.of(context).colorScheme`, spacing/sizes via `AppTokens`, no raw hex except `seedColor` (`@rules/native-design.md`).
+- Zero hardcoded visual value in widgets — `framework`: everything in `tokens.dart` / `app_theme.dart` (the only literal color is `Colors.transparent`); `main.dart` reads `SharedPreferences` before the first frame (`sharedPreferencesProvider.overrideWithValue`), sets `themeAnimationDuration: Duration.zero` and mounts `ToastHost` in `MaterialApp.builder` (`design-system.md §11, §13`); `native`: colors via `Theme.of(context).colorScheme`, spacing/sizes via `AppTokens`, no raw hex except `seedColor` (`@rules/native-design.md`).
 - SQL 100% parameterized.
 - Riverpod codegen — `.g.dart` files never delivered, build_runner command in the instructions.
 - No library that was not validated in Phase 1.
@@ -80,7 +80,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
   ## Origin
 
-  Framework: flutter v1.5.0
+  Framework: flutter v1.6.0
 
   ## Business context
 
@@ -98,7 +98,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   - Publish a version: `/flutter-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
 
-  `[nom-app]` = the app name (`appName`). The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.5.0) — not the app's own version (which starts at 1.0.0 in `pubspec.yaml` `version: 1.0.0+1` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+  `[nom-app]` = the app name (`appName`). The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.6.0) — not the app's own version (which starts at 1.0.0 in `pubspec.yaml` `version: 1.0.0+1` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 

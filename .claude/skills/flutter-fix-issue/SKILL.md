@@ -47,7 +47,7 @@ First read the **design system mode** in `docs/specs/04-architect.md` — the co
 
 Read the design reference for the app's mode (`docs/specs/04-architect.md`) on demand if the fix touches UI: `design-system.md` / `layout.md` if `framework`; `@rules/native-design.md` / `layout.md` if `native` (no longer auto-imported).
 
-> **Legacy design system**: if the app is on design system v1.x (README reference — see `/flutter-load-project` step 5), fix within the app's own v1.x conventions; do not introduce v2.0 visuals into a v1.x app. The upgrade path is `/flutter-migrate-design`, on request (framework mode only — native-mode apps are not concerned).
+> **Legacy design system**: if the app is on design system v1.x or v2.0 (README reference — see `/flutter-load-project` step 5), fix within the app's own conventions; do not introduce v2.1 visuals into a v1.x or v2.0 app. The upgrade path for a v1.x app is `/flutter-migrate-design`, on request (none is provided for v2.0; framework mode only — native-mode apps are not concerned).
 
 1. Get the real error (command output, stack trace, or the user's repro). If you cannot reproduce, ask for the exact message — do not guess.
 2. Classify with the tree above; read both the failing site and the declaration it depends on.

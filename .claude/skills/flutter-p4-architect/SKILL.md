@@ -23,15 +23,16 @@ At start: read `layout.md` (no longer auto-imported), `@rules/architecture.md` (
 
 Present (in the user's language, as plain Markdown — never inside a code block):
 
-1. **Complete project tree** (model: `@rules/architecture.md`) with the role of each file.
+1. **Complete project tree** (model: `@rules/architecture.md`) with the role of each file. In `framework` mode the design-system files are always part of it: `presentation/theme/app_text_theme.dart`, `button_styles.dart`, `presentation/widgets/toast_host.dart`, `toast_card.dart`, `app_panel.dart`, `app_selectable_tile.dart`, `application/active_destination.dart`, `shell_insets.dart`.
 2. **Providers table**: provider → controller → repository → consuming screens.
 3. **SQLite schema** (if DB): tables, columns, types, version, planned migrations.
 4. **Theme mapping** — `framework` mode: tokens → theme table (`app_theme.dart` elements and the tokens they consume):
 
 | design-system.md token | Light value | Dark value | Target theme element |
 | ---------------------- | ----------- | ---------- | -------------------- |
-| `bg`                   | #FDFEFF     | #181C20    | scaffoldBackgroundColor, appBarTheme |
-| `primary600`           | #4682B4     | #4682B4    | filledButtonTheme, navigationBarTheme (selected), tabBarTheme (underline indicator) |
+| `bg`                   | #FFFFFF     | #111519    | scaffoldBackgroundColor |
+| `bgSubtle`             | #F1F4F7     | #1A2025    | appBarTheme, navigationBarTheme, tabBarTheme (chrome, surface ladder N1) |
+| `primary600`           | #3D729E     | #3D729E    | filledButtonTheme, navigationBarTheme (selected), tabBarTheme (underline indicator) |
 | …                      | …           | …          | …                    |
 
    The example rows use the **default composition** (bottom NavigationBar). The theme elements and the shell widgets always follow **the retained composition from `docs/specs/03-surfaces.md`** — another pattern (`layout.md` §12) replaces them with its own (`drawerTheme`, `tabBarTheme`, `navigationRailTheme`).

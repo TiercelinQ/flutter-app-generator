@@ -13,8 +13,8 @@ This mode is **Flutter only**. The other generators (electron, python) keep thei
 ## 2. Theme
 
 - `ThemeData(useMaterial3: true, colorScheme: ColorScheme.fromSeed(seedColor: <seed>, brightness: …))` — one `ColorScheme` per brightness (light + dark), both derived from the **single seed** chosen in Phase 1.
-- `AppTheme.light` / `AppTheme.dark` in `app_theme.dart`, toggled by `themeMode` on `MaterialApp` (`themeControllerProvider`, persisted) — same mechanism as framework mode.
-- **No `AppColors` `ThemeExtension`, no `LightColors`/`DarkColors`.** Colors are read from `Theme.of(context).colorScheme` (`primary`, `surface`, `error`, `onSurface`, `outline`…).
+- `AppTheme.light` / `AppTheme.dark` in `app_theme.dart`, toggled by `themeMode` on `MaterialApp` (`themeModeControllerProvider`, persisted) — same mechanism as framework mode.
+- **No `AppColors` `ThemeExtension` (so no `AppColors.light` / `AppColors.dark`).** Colors are read from `Theme.of(context).colorScheme` (`primary`, `surface`, `error`, `onSurface`, `outline`…).
 - No framework-skin override: Material default shapes, elevation, ripples, and `TextTheme` apply. Do **not** force `elevation: 0` or the framework radius/border model.
 
 ## 3. Seed color

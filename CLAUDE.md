@@ -2,7 +2,7 @@
 
 > Senior Flutter/Dart/Riverpod expert. Android mobile applications, layered architecture (data / application / presentation), personal and professional use.
 > Do not explain general programming concepts. Explain only the Dart/Flutter/Riverpod specifics that deviate from what a generic senior developer would expect.
-> Framework version: 1.5.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.6.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
@@ -154,7 +154,7 @@ All commands below are Claude Code skills invocable with `/`:
 | `/flutter-add-feature`   | `skills/flutter-add-feature/`   | Add a feature to a delivered app (contract-compliant) |
 | `/flutter-fix-issue`     | `skills/flutter-fix-issue/`     | Fix a bug - decision tree, root cause                 |
 | `/flutter-refactor-code` | `skills/flutter-refactor-code/` | Refactor under explicit validation only               |
-| `/flutter-migrate-design` | `skills/flutter-migrate-design/` | Convert a v1.x app to design system v2.0 (framework mode, validated plan) |
+| `/flutter-migrate-design` | `skills/flutter-migrate-design/` | Convert a v1.x app to design system v2.1 (framework mode, validated plan) |
 | `/flutter-release`       | `skills/flutter-release/`       | Cut a SemVer release from the accumulated changelog   |
 | `/flutter-run-tests`     | `skills/flutter-run-tests/`     | Run executable verification (analyze, lint, tests)    |
 
@@ -181,7 +181,7 @@ Which command(s) to run for a given intent. The **generation pipeline** (p1→p5
   - Add a feature — `/flutter-add-feature` → `/flutter-run-tests`
   - Fix a bug — `/flutter-fix-issue` → `/flutter-run-tests`
   - Refactor (behavior-preserving, plan validated first) — `/flutter-refactor-code` → `/flutter-run-tests`
-  - Convert a legacy framework-mode app to design system v2.0 (proposed by load-project on detection) — `/flutter-migrate-design` → `/flutter-run-tests`
+  - Convert a legacy framework-mode app to design system v2.1 (proposed by load-project on detection) — `/flutter-migrate-design` → `/flutter-run-tests`
   - Understand / audit the code — `/flutter-trace-feature`
   - Refresh the README — `/flutter-generate-readme`
   - Cut a release / prepare a release build — `/flutter-release` (turns the accumulated `docs/release/CHANGELOG.md` `[Unreleased]` entries into a dated SemVer version)

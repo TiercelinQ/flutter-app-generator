@@ -37,7 +37,7 @@ claude-flutter-framework/
     │   ├── flutter-trace-feature/   # Tracer une fonctionnalité presentation→application→data
     │   ├── flutter-fix-issue/       # Corriger un bug — arbre de décision, cause racine
     │   ├── flutter-refactor-code/   # Restructurer sous validation explicite uniquement
-    │   ├── flutter-migrate-design/  # Convertir une app v1.x vers le design system v2.0 (mode framework)
+    │   ├── flutter-migrate-design/  # Convertir une app v1.x vers le design system v2.1 (mode framework)
     │   ├── flutter-release/         # Figer une version SemVer depuis le changelog cumulé
     │   ├── flutter-run-tests/       # Vérification exécutable (analyze, custom_lint, tests)
     │   ├── flutter-load-project/    # Chargement d'un projet existant
@@ -160,7 +160,7 @@ Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le c
 | Comprendre / tracer le code     | `/flutter-trace-feature`     |
 | Corriger un bug                 | `/flutter-fix-issue`         |
 | Restructurer (sous validation)  | `/flutter-refactor-code`    |
-| Convertir une app v1.x vers le design system v2.0 | `/flutter-migrate-design` |
+| Convertir une app v1.x vers le design system v2.1 | `/flutter-migrate-design` |
 | Figer une version SemVer (changelog cumulé) | `/flutter-release` |
 | Vérifier le build / lancer les checks | `/flutter-run-tests`  |
 
@@ -217,7 +217,7 @@ Prérequis : la mémoire auto doit être activée (`/config → Memory → Enabl
 | `/flutter-trace-feature`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
 | `/flutter-fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/flutter-refactor-code`             | Sonnet | Restructurer sous validation                         |
-| `/flutter-migrate-design`            | Sonnet | Convertir une app v1.x vers le design system v2.0    |
+| `/flutter-migrate-design`            | Sonnet | Convertir une app v1.x vers le design system v2.1    |
 | `/flutter-release`                   | Sonnet | Figer une version SemVer depuis le changelog cumulé  |
 | `/flutter-run-tests`                 | Sonnet | Vérification exécutable                               |
 | `/flutter-load-project`       | Sonnet | Charger un projet existant                           |
@@ -244,14 +244,14 @@ mon_app/
     ├── main.dart                  # ProviderScope, MaterialApp, themeMode, ToastOverlay
     ├── core/                      # config.dart, strings.dart (si i18n off), utils/helpers.dart
     ├── data/                      # exceptions.dart, database/, models/, repositories/
-    ├── application/               # theme_controller, toast_controller, [entite]_controller
+    ├── application/               # theme_controller, toast_controller, active_destination, shell_insets, [entite]_controller
     └── presentation/
-        ├── theme/                 # tokens.dart, app_theme.dart
+        ├── theme/                 # tokens.dart, app_text_theme, button_styles, app_theme
         ├── screens/               # app_shell.dart, [entite]_screen.dart
-        └── widgets/               # app_app_bar, toast_overlay, app_dialog, app_button…
+        └── widgets/               # app_app_bar, toast_host, toast_overlay, toast_card, app_dialog, app_button, app_panel, app_selectable_tile…
 ```
 
-> Arbre en mode **framework**. En mode **natif** : `presentation/` sans `toast_overlay`/`app_dialog`/`app_button`, `application/` sans `toast_controller` ; ajout de `presentation/messenger.dart` (clé globale `ScaffoldMessengerKey` → `SnackBar`/`MaterialBanner`/`AlertDialog`) ; `theme/` = `AppTokens` + une `seedColor` (`ColorScheme.fromSeed`).
+> Arbre en mode **framework**. En mode **natif** : `presentation/` sans `toast_host`/`toast_overlay`/`toast_card`/`app_dialog`/`app_button`/`app_panel`, thème sans `app_text_theme`/`button_styles`, `application/` sans `toast_controller` ; ajout de `presentation/messenger.dart` (clé globale `ScaffoldMessengerKey` → `SnackBar`/`MaterialBanner`/`AlertDialog`) ; `theme/` = `AppTokens` + une `seedColor` (`ColorScheme.fromSeed`).
 
 ### Versioning & changelog
 

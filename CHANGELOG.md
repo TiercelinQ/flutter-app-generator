@@ -4,6 +4,19 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [1.6.0] - 2026-10-26
+### Added
+- Theme and shell files in the generated tree (framework mode): `app_text_theme.dart`, `button_styles.dart`, `toast_host.dart`, `toast_card.dart`, `app_panel.dart`, `app_selectable_tile.dart`, `application/active_destination.dart`, `application/shell_insets.dart`.
+- `design-system.md` section 14 lists what was not run on a device; `layout.md` section 13 is the device validation list.
+- `flutter-p1-scoping` announces the AA darkening of the accent and derives `bgPanel` and `dangerFill`; the contrast check includes the focus ring on filled buttons.
+
+### Changed
+- Design system v2.1 and layout v3.2 replace v2.0 and v3.1 (framework mode): one `AppColors` `ThemeExtension` with `AppColors.light` and `AppColors.dark` replaces `LightColors` and `DarkColors`; surface ladder with recomputed neutrals; `primary600` darkened until white text, text on `bg` and text on `primary50` reach 4.5:1 (default `#4682B4` becomes `#3D729E`); control edge and pointer hover on `borderStrong`; 2-wide `primary` leading selection bar; focus ring drawn inside the control (`text` on filled buttons); `WidgetStateProperty`, `*ThemeData` types and `Color.withValues(alpha:)`.
+- Every swipe action has a visible alternative (`flutter-p3-surfaces`); the danger toast is a `Semantics` live region; dialogs open with focus on Cancel.
+- `rules/theme.md` rewritten; `rules/architecture.md`, `rules/config.md` (adaptive icon background `#FFFFFF`), `rules/native-design.md` (wording only), `rules/verification.md`, `rules/versioning.md` aligned. Native mode is otherwise unchanged.
+- `flutter-p4-architect`, `flutter-migrate-design` (target v2.1) updated; `flutter-load-project` recognizes v2.1, v2.0 and v1.x.
+- An app generated on v2.0 is maintained in its own v2.0 conventions: no v2.0 to v2.1 migration path is provided.
+
 ## [1.5.0] - 2026-08-01
 ### Added
 - Phase 5 offers `/flutter-save-session` between batches when the session is running long or the context is heavily loaded (safety net before saturation; automatic chaining stays the default).

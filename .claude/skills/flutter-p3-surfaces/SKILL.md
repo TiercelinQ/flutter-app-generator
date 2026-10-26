@@ -77,7 +77,7 @@ Layout customization:
 
 1. Navigation items of the retained pattern: [proposal — destinations (M1/M4), drawer sections (M2), or tabs (M3)] — modify?
 2. Secondary panel: endDrawer / BottomSheet / Dialog only / None? (`layout.md §7` — with M2, the navigation drawer is on the left and the secondary panel stays the right `endDrawer`; both can coexist)
-3. Actions on list items: swipe (delete with confirmation) / context menu / visible buttons?
+3. Actions on list items: visible overflow button (always provided) / swipe shortcut on top (delete with confirmation; never the only path, `layout.md §8`) / both?
 4. Pull-to-refresh on lists: Yes / No?
 
 ## 5. Synthesis
