@@ -2,6 +2,7 @@
 name: flutter-app
 description: Start menu of the Flutter/Android app generator — new app, resume an existing session, load a delivered project, or maintain one. Invoke at the beginning of a conversation or at any time via /flutter-app.
 model: haiku
+effort: low
 ---
 
 # /flutter-app — Start / resume / maintenance menu
@@ -44,6 +45,8 @@ Project root to maintain? (folder path, e.g. C:\projects\MyApp)
 - add a feature → `/flutter-add-feature`
 - fix a bug → `/flutter-fix-issue`
 - restructure existing code → `/flutter-refactor-code`
+- convert a legacy app to design system v2.1 → `/flutter-migrate-design`
+- refresh the README → `/flutter-generate-readme`
 - cut a release / bump the version → `/flutter-release`
 - verify the build / run checks → `/flutter-run-tests`
 

@@ -2,6 +2,7 @@
 name: flutter-generate-readme
 description: Analyze the specs and source of an existing Flutter project and generate its README.md (objective, features, stack, tree, providers, SQLite schema, conventions, installation). Invoke from the target project root.
 model: sonnet
+effort: low
 ---
 
 # /flutter-generate-readme — Generate the README.md

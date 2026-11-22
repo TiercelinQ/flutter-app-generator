@@ -2,6 +2,7 @@
 name: flutter-show-contract
 description: Show the complete validated architectural contract (Phase 4) — tree with the role of each file, providers, and SQLite schema. Reads docs/specs/04-architect.md.
 model: haiku
+effort: low
 ---
 
 # /flutter-show-contract — Validated architectural contract

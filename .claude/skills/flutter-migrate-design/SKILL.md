@@ -2,6 +2,7 @@
 name: flutter-migrate-design
 description: Convert a Flutter app generated with the framework design system v1.x to v2.1 — tokens (accent-tinted neutrals, surface ladder, AA-darkened accent, derived semantics), icons (font_awesome_flutter → lucide_icons_flutter), radius, TabBar underline indicator, accessibility behaviors — without changing any behavior. Framework mode only (native-mode apps are not concerned). Proposed by /flutter-load-project when a legacy app is detected; runs only on explicit validation.
 model: sonnet
+effort: medium
 ---
 
 # /flutter-migrate-design — Convert a v1.x app to design system v2.1
@@ -21,7 +22,7 @@ The converted files on disk (`tokens.dart`, `app_theme.dart`, icon usages, depen
 
 The project is loaded (`/flutter-load-project`), in **framework mode**, and detected on design system **v1.x** (README reference; markers: `font_awesome_flutter` in `pubspec.yaml`, `radius = 0` in `tokens.dart`). Native-mode apps are out of scope — say so and stop. If the app is already on v2.0 or v2.1, say so and stop: a v2.0 app is maintained in its own v2.0 conventions, and no v2.0 to v2.1 path is provided.
 
-**Load context**: `design-system.md` (v2.1) + `layout.md` (v3.2) + `@rules/theme.md` + `@rules/config.md` + `@rules/verification.md`, and the app's `docs/specs/01-scoping.md` (original palette choice) + `docs/specs/04-architect.md` (locked contract).
+**Load context**: `design-system.md` (v2.1) + `layout.md` (v3.2) + `@rules/theme.md` + `@rules/config.md` + `@rules/architecture.md` (cleanup protocol) + `@rules/verification.md`, and the app's `docs/specs/01-scoping.md` (original palette choice) + `docs/specs/04-architect.md` (locked contract).
 
 ## Step 1 — Inventory (read-only)
 

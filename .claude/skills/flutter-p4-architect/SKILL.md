@@ -1,7 +1,8 @@
 ---
 name: flutter-p4-architect
 description: Phase 4 of the Flutter/Android app generation cycle — complete architectural contract (tree, role of each file, providers, SQLite schema, tokens → theme table), written to the contract spec and locked after validation.
-model: sonnet
+model: opus
+effort: high
 ---
 
 # /flutter-p4-architect — Architectural contract

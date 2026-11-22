@@ -4,6 +4,20 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [2.0.0] - 2026-11-22
+### Added
+- `.claude/scripts/` with three dependency-free Node scripts: `bump-release.mjs` (`+N` build number incremented), `run-verification.mjs` and `static-checks.mjs` (design system mode read from the specs). Tested on fixtures only, not on a generated project. The commands that could call them are unchanged.
+
+### Changed
+- **Major version.** Every skill now carries an `effort` field and a rebalanced `model` (`opus` for `p1-scoping`, `p2-featuring`, `p4-architect`, `fix-issue` and `refactor-code`, `haiku` for `release` and `run-tests`), which changes the cost profile of every command. Values come from the 2026-11-22 cost and quality audit and the Claude Code skill frontmatter documentation.
+- `flutter-show-state` names its sources (the latest `docs/sessions/SESSION_*_S*.md`, then `docs/release/CHANGELOG.md`) instead of risking an invented state.
+- `flutter-p5-development` loads `@rules/readme.md` and writes the delivered `README.md` in English; it reads the design system files only before the batch that produces UI, and only the sections that batch needs.
+- `flutter-p3-surfaces` detail questions are written as distinct options with the recommended one first.
+- `flutter-migrate-design` loads `@rules/architecture.md` for the cleanup protocol; `flutter-fix-issue` no longer cites the nonexistent `/phase5`.
+- `flutter-save-memory` asks the memory category with `AskUserQuestion` instead of a typed A-D choice.
+- `flutter-app` maintenance menu routes `/flutter-migrate-design` and `/flutter-generate-readme`.
+- `rules/verification.md` lists the skills that load it (all 8 of them, not 4).
+
 ## [1.6.0] - 2026-10-26
 ### Added
 - Theme and shell files in the generated tree (framework mode): `app_text_theme.dart`, `button_styles.dart`, `toast_host.dart`, `toast_card.dart`, `app_panel.dart`, `app_selectable_tile.dart`, `application/active_destination.dart`, `application/shell_insets.dart`.
