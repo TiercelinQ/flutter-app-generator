@@ -21,7 +21,7 @@ The converted files on disk (`tokens.dart`, `app_theme.dart`, icon usages, depen
 
 The project is loaded (`/flutter-load-project`), in **framework mode**, and detected on design system **v1.x** (README reference; markers: `font_awesome_flutter` in `pubspec.yaml`, `radius = 0` in `tokens.dart`). Native-mode apps are out of scope — say so and stop. If the app is already on v2.0 or v2.1, say so and stop: a v2.0 app is maintained in its own v2.0 conventions, and no v2.0 to v2.1 path is provided.
 
-**Load context**: `design-system.md` (v2.1) + `layout.md` (v3.2) + `@rules/theme.md` + `@rules/config.md` + `@rules/verification.md`, and the app's `docs/specs/01-scoping.md` (original palette choice) + `docs/specs/04-architect.md` (locked contract).
+**Load context**: `design-system.md` (v2.1) + `layout.md` (v3.2) + `@rules/theme.md` + `@rules/config.md` + `@rules/architecture.md` (cleanup protocol) + `@rules/verification.md`, and the app's `docs/specs/01-scoping.md` (original palette choice) + `docs/specs/04-architect.md` (locked contract).
 
 ## Step 1 — Inventory (read-only)
 

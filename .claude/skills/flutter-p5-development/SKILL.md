@@ -24,7 +24,7 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-At start, read and fully apply: `@rules/architecture.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests) · `@rules/versioning.md` · `@rules/verification.md` (not auto-imported). For UI, read the reference for the design system mode recorded in `docs/specs/04-architect.md`: `design-system.md` + `layout.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` + `layout.md` (structural parts) if `native`. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+At start, read and fully apply: `@rules/architecture.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests) · `@rules/versioning.md` · `@rules/readme.md` · `@rules/verification.md` (not auto-imported). For UI, read the reference for the design system mode recorded in `docs/specs/04-architect.md`: `design-system.md` + `layout.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` + `layout.md` (structural parts) if `native`. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 
@@ -72,7 +72,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 - Uninstall steps for the chosen method (`@rules/config.md §Installation methods → Uninstall`): clean removal (app + private data), both cases documented (dev/sideload A/B/C vs Play Store D), the one matching the chosen install method highlighted.
 - **`.gitignore`** — `flutter create` **already generated** one; **append** the framework block to it, do **not** overwrite it (template in `@rules/config.md §.gitignore`). The appended block adds the Android signing/data secrets `flutter create` leaves out (`*.jks`, `key.properties`, `*.db`) plus the Claude Code repo-hygiene socle (`.claude/settings.local.json` + `.claude/agent-memory/`, `tasks/`, the private `docs/specs/`), while **never** ignoring `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `test/`, or `tool/`. Do not duplicate what `flutter create` already ignores (`build/`, `.dart_tool/`, …).
 - **`docs/release/CHANGELOG.md`** written at the project root (create `docs/release/`), seeded per `@rules/versioning.md` — **in English**, Keep a Changelog shape: the preamble, an empty `## [Unreleased]`, and the initial `## [1.0.0] - <YYYY-MM-DD>` block with `### Added` / `- Initial release.`. The changelog `1.0.0` (no `+N`) matches the `x.y.z` part of the app version in `pubspec.yaml` (`version: 1.0.0+1`) / `config.dart appVersion`. Later releases are cut with `/flutter-release`.
-- `README.md` written automatically at the project root: objective, stack, tree, providers, DB schema, conventions, build/installation, uninstall.
+- `README.md` written automatically at the project root, in English (`@rules/readme.md`): objective, stack, tree, providers, DB schema, conventions, build/installation, uninstall.
 - **`CLAUDE.md`** written at the generated project root (in the user's language), recording the app's identity for future sessions:
 
   ```markdown

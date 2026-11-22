@@ -44,6 +44,8 @@ Project root to maintain? (folder path, e.g. C:\projects\MyApp)
 - add a feature → `/flutter-add-feature`
 - fix a bug → `/flutter-fix-issue`
 - restructure existing code → `/flutter-refactor-code`
+- convert a legacy app to design system v2.1 → `/flutter-migrate-design`
+- refresh the README → `/flutter-generate-readme`
 - cut a release / bump the version → `/flutter-release`
 - verify the build / run checks → `/flutter-run-tests`
 

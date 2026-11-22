@@ -67,4 +67,4 @@ Read the design reference for the app's mode (`docs/specs/04-architect.md`) on d
 
 ## When the user asks something adjacent
 - **"Just make the error go away"** → the error is a symptom; explain you are fixing the cause so it does not resurface. If they truly want a temporary silence, do it explicitly with a justified `// ignore:` and flag it as debt.
-- **"It's slow / janky"** → not a crash; this is an optimization (const, rebuilds, list lazy-loading) — handle as a `/phase5` finalization or `/flutter-refactor-code` item, on request.
+- **"It's slow / janky"** → not a crash; this is an optimization (const, rebuilds, list lazy-loading) — handle as a finalization or `/flutter-refactor-code` item, on request.
