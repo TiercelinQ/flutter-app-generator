@@ -81,7 +81,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
   ## Origin
 
-  Framework: flutter v1.6.0
+  Framework: flutter v2.0.0
 
   ## Business context
 
