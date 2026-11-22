@@ -73,12 +73,12 @@ Compose the proposal from the retained pattern + the answers, adjusted to the va
 
 Conditioned on the retained pattern. Same rules as above: recommended option marked, clickable options, ≤ 4 options each, **Other** for the rest, split into ≤ 4-question calls. Ask in the user's language, showing only the questions the retained pattern and the feature context make relevant:
 
-Layout customization:
+Layout customization. Each question is asked as distinct clickable options, the recommended one first, inferred from the retained pattern and the feature context:
 
-1. Navigation items of the retained pattern: [proposal — destinations (M1/M4), drawer sections (M2), or tabs (M3)] — modify?
-2. Secondary panel: endDrawer / BottomSheet / Dialog only / None? (`layout.md §7` — with M2, the navigation drawer is on the left and the secondary panel stays the right `endDrawer`; both can coexist)
-3. Actions on list items: visible overflow button (always provided) / swipe shortcut on top (delete with confirmation; never the only path, `layout.md §8`) / both?
-4. Pull-to-refresh on lists: Yes / No?
+1. Navigation items of the retained pattern: [proposal — destinations (M1/M4), drawer sections (M2), or tabs (M3)]. Options: `Keep the proposal` · `Modify`.
+2. Secondary panel. Options: `endDrawer` · `BottomSheet` · `Dialog only` · `None` (`layout.md §7` — with M2, the navigation drawer is on the left and the secondary panel stays the right `endDrawer`; both can coexist).
+3. Actions on list items. Options: `Visible overflow button` (always provided) · `Swipe shortcut on top` (delete with confirmation; never the only path, `layout.md §8`) · `Both`.
+4. Pull-to-refresh on lists. Options: `Yes` · `No`.
 
 ## 5. Synthesis
 

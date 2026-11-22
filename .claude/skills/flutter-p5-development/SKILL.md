@@ -24,7 +24,7 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-At start, read and fully apply: `@rules/architecture.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests) · `@rules/versioning.md` · `@rules/readme.md` · `@rules/verification.md` (not auto-imported). For UI, read the reference for the design system mode recorded in `docs/specs/04-architect.md`: `design-system.md` + `layout.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` + `layout.md` (structural parts) if `native`. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+At start, read and fully apply: `@rules/architecture.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests) · `@rules/versioning.md` · `@rules/readme.md` · `@rules/verification.md` (not auto-imported). For UI, read the reference for the design system mode recorded in `docs/specs/04-architect.md`: `design-system.md` + `layout.md` + `@rules/theme.md` if `framework`; `@rules/native-design.md` + `layout.md` (structural parts) if `native`. Read them only before the batch that produces UI, and only the sections that batch needs (palette, components of the batch in progress), never in full. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 
