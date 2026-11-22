@@ -2,6 +2,7 @@
 name: flutter-app
 description: Start menu of the Flutter/Android app generator — new app, resume an existing session, load a delivered project, or maintain one. Invoke at the beginning of a conversation or at any time via /flutter-app.
 model: haiku
+effort: low
 ---
 
 # /flutter-app — Start / resume / maintenance menu

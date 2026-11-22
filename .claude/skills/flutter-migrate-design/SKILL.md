@@ -2,6 +2,7 @@
 name: flutter-migrate-design
 description: Convert a Flutter app generated with the framework design system v1.x to v2.1 — tokens (accent-tinted neutrals, surface ladder, AA-darkened accent, derived semantics), icons (font_awesome_flutter → lucide_icons_flutter), radius, TabBar underline indicator, accessibility behaviors — without changing any behavior. Framework mode only (native-mode apps are not concerned). Proposed by /flutter-load-project when a legacy app is detected; runs only on explicit validation.
 model: sonnet
+effort: medium
 ---
 
 # /flutter-migrate-design — Convert a v1.x app to design system v2.1

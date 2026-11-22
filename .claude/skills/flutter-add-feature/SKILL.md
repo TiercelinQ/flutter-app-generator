@@ -2,6 +2,7 @@
 name: flutter-add-feature
 description: Add a feature, field, entity, or change to a Flutter app already delivered by this framework. Use when the user asks to add or modify functionality on an existing project, respecting the locked architectural contract and the security rules.
 model: sonnet
+effort: high
 ---
 
 # /flutter-add-feature — Add a feature to a delivered app

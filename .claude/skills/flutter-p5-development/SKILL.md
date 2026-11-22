@@ -2,6 +2,7 @@
 name: flutter-p5-development
 description: Phase 5 of the Flutter/Android app generation cycle — development and batch delivery, files written directly to disk, executable verification, final README and install instructions (method chosen in Phase 1).
 model: sonnet
+effort: medium
 ---
 
 # /flutter-p5-development — Batch development
